@@ -2,7 +2,11 @@
 // for more guidance on F# programming.
 
 #load "Library1.fs"
-open Hqub.Mellody.AI
+open Hqub.Mellody.Core
+
+let ai = AI()
+
+printf "%A" ai.X
 
 // Define your library scripting code here
 
