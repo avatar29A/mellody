@@ -11,9 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hqub.Mellody.Client", "src\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{664A3ECD-9008-40BF-9854-0F8F60959B98}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Hqub.Mellody.AI", "Hqub.Mellody.AI\Hqub.Mellody.AI.fsproj", "{0A953174-7DA2-444A-9036-BA5ADE2DBAF9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hqub.Mellody.Core", "Hqub.Mellody.Core\Hqub.Mellody.Core.csproj", "{08B559A0-A10A-4B5A-8ACE-0D4E2DDACB1F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9CB938B2-0D9F-4A35-9E85-5BDBD622689C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,21 +23,11 @@ Global
 		{EFB2E6D0-6A25-4198-B068-37D7AD80F989}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFB2E6D0-6A25-4198-B068-37D7AD80F989}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFB2E6D0-6A25-4198-B068-37D7AD80F989}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0A953174-7DA2-444A-9036-BA5ADE2DBAF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0A953174-7DA2-444A-9036-BA5ADE2DBAF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0A953174-7DA2-444A-9036-BA5ADE2DBAF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0A953174-7DA2-444A-9036-BA5ADE2DBAF9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{08B559A0-A10A-4B5A-8ACE-0D4E2DDACB1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{08B559A0-A10A-4B5A-8ACE-0D4E2DDACB1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{08B559A0-A10A-4B5A-8ACE-0D4E2DDACB1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{08B559A0-A10A-4B5A-8ACE-0D4E2DDACB1F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{EFB2E6D0-6A25-4198-B068-37D7AD80F989} = {0C556D2B-8D40-45A9-B952-A04D439C8723}
-		{0A953174-7DA2-444A-9036-BA5ADE2DBAF9} = {D60D5975-B6EE-4A4B-AB86-F84BF41058FA}
-		{08B559A0-A10A-4B5A-8ACE-0D4E2DDACB1F} = {D60D5975-B6EE-4A4B-AB86-F84BF41058FA}
 	EndGlobalSection
 EndGlobal
