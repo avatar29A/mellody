@@ -1,0 +1,4 @@
+[submodule "src/vkapi"]
+	path = src/vkapi
+	url = https://boris_glebov@bitbucket.org/boris_glebov/vkapi.git
+	branch = master
