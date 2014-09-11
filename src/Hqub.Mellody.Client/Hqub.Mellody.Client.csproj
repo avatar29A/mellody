@@ -88,6 +88,16 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Hqub.Mellody.Core\Hqub.Mellody.Core.csproj">
+      <Project>{08b559a0-a10a-4b5a-8ace-0d4e2ddacb1f}</Project>
+      <Name>Hqub.Mellody.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\vkapi\Hqub.Mellowave.Vkontakte.API\Hqub.Mellowave.Vkontakte.API.csproj">
+      <Project>{2731a412-d568-4c1c-b407-406dfe69ef4d}</Project>
+      <Name>Hqub.Mellowave.Vkontakte.API</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
