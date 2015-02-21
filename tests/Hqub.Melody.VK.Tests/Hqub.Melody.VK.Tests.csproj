@@ -50,8 +50,24 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="BootstrapUnitTest.cs" />
+    <Compile Include="ExpressionParseUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VkontaktApiUnitTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Hqub.Mellody.Core\Hqub.Mellody.Core.csproj">
+      <Project>{08b559a0-a10a-4b5a-8ace-0d4e2ddacb1f}</Project>
+      <Name>Hqub.Mellody.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\VKAuth\fetch_token.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\VKAuth\vk_auth.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

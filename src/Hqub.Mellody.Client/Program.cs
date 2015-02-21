@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 using Hqub.Mellowave.Vkontakte.API.LongPoll;
+using Irony.Parsing;
 
 namespace Hqub.Mellody.Client
 {
@@ -12,16 +13,30 @@ namespace Hqub.Mellody.Client
     {
         public static void Main(string[] args)
         {
+            TestGrammar();
 //            GetMyAudioRecords();
 //            SearchScorpions();
 //            GetLongPollServer();
-            StartLongPollServer();
+//            SearchScorpions();
+//            StartLongPollServer();
 //            SendMessage(6666100, "Лови подборку", "audio9203645_80885922,audio4343194_89404022,audio3830978_72952673,audio-21504294_90590072,audio8236081_34095877,audio808376_123428,audio2519124_91781028,audio1761644_71747984,audio4314080_103754952,audio-21186282_88371893,audio18877023_90175747,audio38682_81635782,audio104349233_107043600,audio43280774_84872021");
 //            GetDialogs();
 //            GetMessages();
 
 
             Console.ReadKey();
+        }
+
+        public static void TestGrammar()
+        {
+            var grammar = new Core.Grammar.MellodyControlGrammar();
+            LanguageData language = new LanguageData(grammar);
+
+            Parser parser = new Parser(language);
+
+            ParseTree parseTree = parser.Parse("искать band \"Король и Шут\"");
+            
+            ParseTreeNode root = parseTree.Root;
         }
 
         public static void GetDialogs()
@@ -121,6 +136,9 @@ namespace Hqub.Mellody.Client
             {
                 string track_id = string.Format("{0}_{1}", track.OwnerId, track.Id);
                 Console.WriteLine("{0}. {1} - {2} ({3})", ++counter, track.Artist, track.Title, track_id);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine(track.Url);
+                Console.ResetColor();
             }
         }
 
