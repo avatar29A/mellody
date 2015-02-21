@@ -10,8 +10,8 @@ namespace Hqub.Mellody.Core.Grammar
 
             var playArtist = new NonTerminal("playArtist");
             var playTrack = new NonTerminal("playTrack");
+
             var playAlbum = new NonTerminal("playAlbum");
-            var playAlbum2 = new NonTerminal("playAlbum2");
 
             var downloadTrack = new NonTerminal("downloadTrack");
             var downloadAlbum = new NonTerminal("downloadAlbum");
@@ -21,40 +21,45 @@ namespace Hqub.Mellody.Core.Grammar
             var album = new NonTerminal("album");
             var artist = new NonTerminal("artist");
 
+            var artistArgumentList = new NonTerminal("artistArgumentList");
+            var trackArgumentList = new NonTerminal("trackArgumentList");
+            var albumArgumentList = new NonTerminal("albumArgumentList");
+            
+
             var listenCommand = new NonTerminal("listenCommand");
             var downloadCommand = new NonTerminal("downloadCommand");
 
             var trackName = new StringLiteral("TrackName", "\"", StringOptions.AllowsAllEscapes);
             var albumName = new StringLiteral("AlbumName", "\"", StringOptions.AllowsAllEscapes);
-            var fullAlbumName = new StringLiteral("FullAlbumName", "\"", StringOptions.AllowsAllEscapes);
-
             var artistName = new StringLiteral("ArtistName", "\"", StringOptions.AllowsAllEscapes);
-
 
             Root = program;
 
-            Root.Rule = playArtist | playTrack | downloadTrack | playAlbum | playAlbum2 | downloadAlbum | downloadAlbum2;
+            Root.Rule = playArtist | playTrack | playAlbum;
 
-            track.Rule = ToTerm("трэк") | "трек" | "track" | "song" | "песню" | "запись";
+            track.Rule = ToTerm("трэк") | "трэки"| "трек" | "треки" | "track" | "tracks" | "songs" | "song" | "песню" | "песни" | "запись";
             album.Rule = ToTerm("альбом") | "album" | "release" | "пластинку" | "касету" | "диск";
-            artist.Rule = ToTerm("артист") | "артиста" | "исполнителя" | "музыканта" | "певца" | "коллектив" |
-                          "ансамбль" | "группу" | "виа" | "group" | "groups" | "band";
+            artist.Rule = ToTerm("артист") | "артиста" | "артистов" | "исполнителя" | "исполнителей" | "музыканта" | "певца" | "коллектив" |
+                          "ансамбль" | "группу" | "группы" | "виа" | "group" | "groups" | "band" | "bands";
 
-            listenCommand.Rule = ToTerm("слушать") | "искать" | "найти" | "прослушать" | "включить" | "проиграть";
+            listenCommand.Rule = ToTerm("слушать") | "искать" | "найти" | "прослушать" | "включить" | "проиграть" |
+                                 "играть" | "listen" | "play" | "search" | "find" | "run";
+
             downloadCommand.Rule = ToTerm("скачать") | "загрузить" | "download";
 
-            playArtist.Rule = listenCommand + artist + artistName;
+            playArtist.Rule = listenCommand + artist + artistArgumentList;
+            artistArgumentList.Rule = MakePlusRule(artistArgumentList, null, artistName);
 
-            playTrack.Rule = listenCommand + track + trackName;
-            downloadTrack.Rule = downloadCommand + track + trackName;
 
-            playAlbum.Rule = listenCommand + album + artistName + albumName;
-            playAlbum2.Rule = listenCommand + album + fullAlbumName;
+            playTrack.Rule = listenCommand + track + trackArgumentList;
+            trackArgumentList.Rule = MakePlusRule(trackArgumentList, null, trackName);
+      
 
-            downloadAlbum.Rule = downloadCommand + album + artistName + albumName;
-            downloadAlbum2.Rule = downloadCommand + album + fullAlbumName;
-            
-            MarkPunctuation(track, album);
+            playAlbum.Rule = listenCommand + album + albumArgumentList;
+            albumArgumentList.Rule = MakePlusRule(albumArgumentList, null, albumName);
+
+
+            MarkPunctuation(artist, track, album, listenCommand, downloadCommand, ToTerm(","));
         }
     }
 }

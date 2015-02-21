@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
+using Hqub.Mellody.Core.Commands;
 using Hqub.Mellowave.Vkontakte.API.LongPoll;
 using Irony.Parsing;
 
@@ -29,14 +30,10 @@ namespace Hqub.Mellody.Client
 
         public static void TestGrammar()
         {
-            var grammar = new Core.Grammar.MellodyControlGrammar();
-            LanguageData language = new LanguageData(grammar);
+            var fabrica = new CommandFabrica();
+            var command = fabrica.Create("Слушать альбом \"Корол и Шут - Как в старой сказе\" \"Кукрыниксы - Шаман\"");
 
-            Parser parser = new Parser(language);
-
-            ParseTree parseTree = parser.Parse("искать band \"Король и Шут\"");
-            
-            ParseTreeNode root = parseTree.Root;
+            Console.WriteLine(command);
         }
 
         public static void GetDialogs()
@@ -73,7 +70,11 @@ namespace Hqub.Mellody.Client
             var api = Mellowave.Vkontakte.API.Factories.ApiFactory.Instance(token);
 
             var longPollServer = LongPollServer.Connect(api);
-            longPollServer.ReceiveData += Console.WriteLine;
+//            longPollServer.ReceiveData += Console.WriteLine;
+            longPollServer.ReceiveMessage += (messageId, fromId, timestamp, subject, text) =>
+            {
+                Console.WriteLine("[{0}]\n{1}\n", fromId, text);
+            };
         }
 
         public static void GetMessages()
