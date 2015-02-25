@@ -7,7 +7,7 @@ using Irony.Parsing;
 
 namespace Hqub.Mellody.Core.Commands
 {
-    public class CommandFabrica
+    public class CommandFactory
     {
         public ICommand Create(string code)
         {

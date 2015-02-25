@@ -31,7 +31,7 @@ namespace Hqub.Melody.VK.Tests
             parseTree = parser.Parse("Найти группу \"Король и Шут\"");
             Assert.IsNotNull(parseTree.Root);
 
-            var fabrica = new CommandFabrica();
+            var fabrica = new CommandFactory();
             var command = fabrica.Create("Слушать исполнителей \"Король и Шут\" \"Кукрыниксы\"");
 
             Assert.AreNotEqual(command.Name, "HelpCommand");
@@ -56,7 +56,7 @@ namespace Hqub.Melody.VK.Tests
 
             Assert.IsNotNull(parseTree.Root);
 
-            var fabrica = new CommandFabrica();
+            var fabrica = new CommandFactory();
             var command = fabrica.Create("Слушать трэки \"Король и Шут - Прыгну со скалы\" \"Кукрыниксы - Падение\"");
 
             Assert.AreNotEqual(command.Name, "HelpCommand");
@@ -74,7 +74,7 @@ namespace Hqub.Melody.VK.Tests
 
             Assert.IsNotNull(parseTree.Root);
 
-            var fabrica = new CommandFabrica();
+            var fabrica = new CommandFactory();
             var command = fabrica.Create("Слушать альбом \"Король и Шут - Как в старой сказке\" \"Кукрыниксы - Шаман\"");
 
             Assert.AreNotEqual(command.Name, "HelpCommand");

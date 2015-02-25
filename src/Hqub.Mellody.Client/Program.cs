@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
+using Hqub.Mellody.Core;
 using Hqub.Mellody.Core.Commands;
 using Hqub.Mellowave.Vkontakte.API.LongPoll;
 using Irony.Parsing;
@@ -14,7 +15,10 @@ namespace Hqub.Mellody.Client
     {
         public static void Main(string[] args)
         {
-            TestGrammar();
+            AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionTrapper;
+
+            MellodyBotStart();
+//            TestGrammar();
 //            GetMyAudioRecords();
 //            SearchScorpions();
 //            GetLongPollServer();
@@ -28,9 +32,23 @@ namespace Hqub.Mellody.Client
             Console.ReadKey();
         }
 
+        private static void UnhandledExceptionTrapper(object sender, UnhandledExceptionEventArgs e)
+        {
+            
+        }
+
+        public static void MellodyBotStart()
+        {
+            var token = GetToken();
+
+            var api = Mellowave.Vkontakte.API.Factories.ApiFactory.Instance(token);
+            var bot = new MellodyBot(api);
+            bot.Live();
+        }
+
         public static void TestGrammar()
         {
-            var fabrica = new CommandFabrica();
+            var fabrica = new CommandFactory();
             var command = fabrica.Create("Слушать альбом \"Корол и Шут - Как в старой сказе\" \"Кукрыниксы - Шаман\"");
 
             Console.WriteLine(command);
