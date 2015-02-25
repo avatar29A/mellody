@@ -14,6 +14,8 @@ namespace Hqub.Mellody.Core
 {
     public class MellodyBot : IDisposable
     {
+        const int MaxCountTrackOnDisk = 9;
+
         private readonly ApiFactory _vk;
         private readonly CommandFactory _mellodyTranslator;
         private LongPollServer _vkTunnel;
@@ -114,27 +116,49 @@ namespace Hqub.Mellody.Core
             var audio = _vk.GetAudioProduct();
             foreach (var entity in command.Entities)
             {
-                var recordings = await Helpers.MusicBrainzHelper.GetAlbumTracks(entity.Artist, entity.Album);
-                foreach (var recording in recordings)
+                var albumDTO = await Helpers.MusicBrainzHelper.GetAlbumTracks(entity.Artist, entity.Album);
+                var recordings = albumDTO.Tracks;
+
+                var amountDiscs = GetAmountDiscs(recordings.Count);
+
+                message.AppendLine(albumDTO.ToString());
+
+                // Делим треки по дискам (в вк ограничение на 10 треков в сообщении)
+                for (int discI = 0; discI < amountDiscs; ++discI)
                 {
-                    var response = audio.Search(string.Format("{0}-{1}", entity.Artist, recording), count: 1);
-                    Thread.Sleep(1000);
-                    if (response.Tracks.Count == 0)
+                    var tracks =
+                        audio.SearchMany(
+                            recordings.Skip(discI*MaxCountTrackOnDisk)
+                                .Take(MaxCountTrackOnDisk)
+                                .Select(r => string.Format("{0}-{1}", entity.Artist, r))
+                                .ToList());
+
+                    attachment.AddRange(tracks.Select(t => string.Format("audio{0}_{1}", t.OwnerId, t.Id)));
+
+                    if (attachment.Count == 0)
                         continue;
 
-                    var track = response.Tracks[0];
-                    attachment.Add(string.Format("audio{0}_{1}", track.OwnerId, track.Id));
+                    message.AppendFormat("\nДиск {0}", discI + 1);
+                    SendMessage(userId, message.ToString(), string.Join(",", attachment));
+
+                    message.Clear();
+                    attachment.Clear();
                 }
-
-                if (attachment.Count == 0)
-                    continue;
-
-                message.AppendLine(string.Format("{0} - {1}", entity.Artist, entity.Album));
-                SendMessage(userId, message.ToString(), string.Join(",", attachment));
-
-                message.Clear();
-                attachment.Clear();
             }
+        }
+
+        /// <summary>
+        /// Получаем кол-во треков на одной стороне
+        /// </summary>
+        /// <returns></returns>
+        private int GetAmountDiscs(int trackAmount)
+        {
+            if (trackAmount <= MaxCountTrackOnDisk)
+                return MaxCountTrackOnDisk;
+
+            var sideCount = Math.Ceiling(trackAmount * 1.0 / MaxCountTrackOnDisk);
+
+            return (int)sideCount;
         }
 
         #endregion

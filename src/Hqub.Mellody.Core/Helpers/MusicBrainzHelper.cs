@@ -9,8 +9,9 @@ namespace Hqub.Mellody.Core.Helpers
 {
     public class MusicBrainzHelper
     {
-        public static async Task<List<string>> GetAlbumTracks(string artistName, string albumName)
+        public static async Task<AlbumTracksAndInfo> GetAlbumTracks(string artistName, string albumName)
         {
+
             var artist = (await Artist.SearchAsync(artistName)).First();
 
             var query = string.Format("aid=({0}) release=({1})", artist.Id, albumName);
@@ -21,14 +22,57 @@ namespace Hqub.Mellody.Core.Helpers
             var recordings = new List<string>();
             foreach (var medium in release.MediumList)
             {
-                foreach (var track in medium.Tracks)
-                {
-                    var recording = track.Recordring;
-                    recordings.Add(recording.Title);
-                }
+                recordings.AddRange(medium.Tracks.Select(track => track.Recordring).Select(recording => recording.Title));
             }
 
-            return recordings;
+            var albumDTO = new AlbumTracksAndInfo
+            {
+                Tracks = recordings,
+                Artist = artist.Name,
+                Album = release.Title,
+                Date = release.Date
+            };
+
+            return albumDTO;
+        }
+    }
+
+    public class AlbumTracksAndInfo
+    {
+        /// <summary>
+        /// Треки
+        /// </summary>
+        public List<string> Tracks { get; set; }
+
+        /// <summary>
+        /// Дата издания
+        /// </summary>
+        public string Date { get; set; }
+
+        /// <summary>
+        /// Название альбома
+        /// </summary>
+        public string Album { get; set; }
+
+        /// <summary>
+        /// Исполнитель
+        /// </summary>
+        public string Artist { get; set; }
+
+        public string Year
+        {
+            get
+            {
+                DateTime d;
+                return DateTime.TryParse(Date, out d) ? d.Year.ToString() : Date;
+            }
+        }
+
+        public override string ToString()
+        {
+
+
+            return string.Format("Группа: {0}\nАльбом: {1}\nКол-во треков: {2}\nГод выпуска: {3}\n", Artist, Album, Tracks.Count, Year);
         }
     }
 }
