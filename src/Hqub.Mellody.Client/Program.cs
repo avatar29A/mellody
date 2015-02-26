@@ -40,11 +40,41 @@ namespace Hqub.Mellody.Client
         public static void MellodyBotStart()
         {
             var token = GetToken();
+            Success(string.Format("Токен получен ({0})", token));
 
+            try
+            {
+                RunBot(token);
+                Success("Бот успешно запущен");
+            }
+            catch (Exception exception)
+            {
+                Error(exception.Message);
+                RunBot(token);
+            }
+        }
+
+        private static void RunBot(string token)
+        {
             var api = Mellowave.Vkontakte.API.Factories.ApiFactory.Instance(token);
             var bot = new MellodyBot(api);
             bot.Live();
         }
+
+        private static void Success(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("[{1}] {0}", message, DateTime.Now);
+            Console.ResetColor();
+        }
+
+        private static void Error(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("[{1}] {0}", message, DateTime.Now);
+            Console.ResetColor();
+        }
+        
 
         public static void TestGrammar()
         {

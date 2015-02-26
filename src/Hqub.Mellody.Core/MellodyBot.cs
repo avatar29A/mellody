@@ -9,12 +9,13 @@ using Hqub.Mellody.Core.Cache;
 using Hqub.Mellody.Core.Commands;
 using Hqub.Mellowave.Vkontakte.API.Factories;
 using Hqub.Mellowave.Vkontakte.API.LongPoll;
+using Hqub.Mellowave.Vkontakte.API.Model.Audio;
 
 namespace Hqub.Mellody.Core
 {
     public class MellodyBot : IDisposable
     {
-        const int MaxCountTrackOnDisk = 9;
+        const int MaxCountTrackOnDisk = 10;
 
         private readonly ApiFactory _vk;
         private readonly CommandFactory _mellodyTranslator;
@@ -56,7 +57,7 @@ namespace Hqub.Mellody.Core
                     SendPlayTrackCommand(fromId, (PlayTrackCommand) command);
                     break;
                 default:
-                    SendHelpCommand(fromId);
+//                    SendHelpCommand(fromId);
                     break;
             }
         }
@@ -113,7 +114,7 @@ namespace Hqub.Mellody.Core
             var message = new StringBuilder();
             var attachment = new List<string>();
 
-            var audio = _vk.GetAudioProduct();
+            
             foreach (var entity in command.Entities)
             {
                 var albumDTO = await Helpers.MusicBrainzHelper.GetAlbumTracks(entity.Artist, entity.Album);
@@ -123,17 +124,15 @@ namespace Hqub.Mellody.Core
 
                 message.AppendLine(albumDTO.ToString());
 
+                var tracks = GetTracksFromVk(albumDTO.Artist, recordings);
+
                 // Делим треки по дискам (в вк ограничение на 10 треков в сообщении)
                 for (int discI = 0; discI < amountDiscs; ++discI)
                 {
-                    var tracks =
-                        audio.SearchMany(
-                            recordings.Skip(discI*MaxCountTrackOnDisk)
-                                .Take(MaxCountTrackOnDisk)
-                                .Select(r => string.Format("{0}-{1}", entity.Artist, r))
-                                .ToList());
-
-                    attachment.AddRange(tracks.Select(t => string.Format("audio{0}_{1}", t.OwnerId, t.Id)));
+                    attachment.AddRange(
+                        tracks.Skip(discI*MaxCountTrackOnDisk)
+                            .Take(MaxCountTrackOnDisk)
+                            .Select(t => string.Format("audio{0}_{1}", t.OwnerId, t.Id)));
 
                     if (attachment.Count == 0)
                         continue;
@@ -145,6 +144,29 @@ namespace Hqub.Mellody.Core
                     attachment.Clear();
                 }
             }
+        }
+
+        private List<Audio> GetTracksFromVk(string artistName, List<string> recordings)
+        {
+            var audio = _vk.GetAudioProduct();
+            const int max = 3;
+
+            var tracks = new List<Audio>();
+            for (int i = 0; i < (int) Math.Ceiling(recordings.Count*1.0/max); i++)
+            {
+                tracks.AddRange(
+                    audio.SearchMany(
+                        recordings.Skip(i*max)
+                            .Take(max)
+                            .Select(r => string.Format("{0}-{1}", artistName, r))
+                            .ToList()));
+
+                //2 запроса в секунду
+                if (i%2 == 0)
+                    Thread.Sleep(1000);
+            }
+
+            return tracks;
         }
 
         /// <summary>
@@ -168,7 +190,7 @@ namespace Hqub.Mellody.Core
         {
             var message = _vk.GetMessageProduct();
 
-            message.Send(userId, message: string.Format("{0}\n[mellody]", text), attachment: attachment);
+            message.Send(userId, message: string.Format("{0}\n", text), attachment: attachment);
         }
 
         public void Dispose()
