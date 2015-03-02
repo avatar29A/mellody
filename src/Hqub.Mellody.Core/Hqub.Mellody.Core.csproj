@@ -53,6 +53,8 @@
     <Compile Include="Commands\Entity.cs" />
     <Compile Include="Commands\HelpCommand.cs" />
     <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\InfoAlbumCommand.cs" />
+    <Compile Include="Commands\InfoArtistCommand.cs" />
     <Compile Include="Commands\PlayAlbumCommand.cs" />
     <Compile Include="Commands\PlayArtistCommand.cs" />
     <Compile Include="Commands\PlayTrackCommand.cs" />
