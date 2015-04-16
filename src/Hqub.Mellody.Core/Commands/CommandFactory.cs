@@ -15,7 +15,7 @@ namespace Hqub.Mellody.Core.Commands
             var parseTree = parser.Parse(code);
 
             if(parseTree.Root == null)
-                return new HelpCommand();
+                return null;
 
             ICommand command;
             Analysing(parseTree.Root, out command);
@@ -35,13 +35,51 @@ namespace Hqub.Mellody.Core.Commands
                 case "playArtist":
                     command = CreatePlayArtistCommand(commandNode);
                     break;
+                case "infoArtist":
+                    command = CreateInfoArtistCommand(commandNode);
+                    break;
                 case "playAlbum":
                     command = CreatePlayAlbumCommand(commandNode);
                     break;
-                default:
+                case "infoAlbum":
+                    command = CreateInfoAlbumCommand(commandNode);
+                    break;
+                case "help":
                     command = new HelpCommand();
                     break;
+                default:
+                    command = null;
+                    break;
             }
+        }
+
+        private ICommand CreatePlayArtistCommand(ParseTreeNode node)
+        {
+            var command = new PlayArtistCommand();
+
+            return FillArtists(node, command);
+        }
+
+        private ICommand CreateInfoArtistCommand(ParseTreeNode node)
+        {
+            var command = new InfoArtistCommand();
+
+            return FillArtists(node, command);
+        }
+
+        private ICommand FillArtists(ParseTreeNode node, ICommand command)
+        {
+            var arguments = node.ChildNodes[0];
+
+            foreach (var argument in arguments.ChildNodes)
+            {
+                command.Entities.Add(new Entity
+                {
+                    Artist = argument.Token.ValueString,
+                });
+            }
+
+            return command;
         }
 
         private ICommand CreatePlayTrackCommand(ParseTreeNode node)
@@ -64,8 +102,21 @@ namespace Hqub.Mellody.Core.Commands
 
         private ICommand CreatePlayAlbumCommand(ParseTreeNode node)
         {
-            var arguments = node.ChildNodes[0];
             var command = new PlayAlbumCommand();
+
+            return FillAlbums(node, command);
+        }
+
+        private ICommand CreateInfoAlbumCommand(ParseTreeNode node)
+        {
+            var command = new InfoAlbumCommand();
+
+            return FillAlbums(node, command);
+        }
+
+        private ICommand FillAlbums(ParseTreeNode node, ICommand command)
+        {
+            var arguments = node.ChildNodes[0];
 
             foreach (var argument in arguments.ChildNodes)
             {
@@ -74,22 +125,6 @@ namespace Hqub.Mellody.Core.Commands
                 {
                     Artist = decomposeAlbumName.Item1,
                     Album = decomposeAlbumName.Item2
-                });
-            }
-
-            return command;
-        }
-
-        private ICommand CreatePlayArtistCommand(ParseTreeNode node)
-        {
-            var arguments = node.ChildNodes[0];
-            var command = new PlayArtistCommand();
-
-            foreach (var argument in arguments.ChildNodes)
-            {
-                command.Entities.Add(new Entity
-                {
-                    Artist = argument.Token.ValueString,
                 });
             }
 
@@ -111,7 +146,7 @@ namespace Hqub.Mellody.Core.Commands
         private Parser GetParser()
         {
             var grammar = new Mellody.Core.Grammar.MellodyControlGrammar();
-            LanguageData language = new LanguageData(grammar);
+            var language = new LanguageData(grammar);
 
             return new Parser(language);
         }

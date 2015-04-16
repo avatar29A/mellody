@@ -7,9 +7,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Hqub.Mellody.Core.Cache;
 using Hqub.Mellody.Core.Commands;
+using Hqub.Mellody.Core.Helpers;
 using Hqub.Mellowave.Vkontakte.API.Factories;
 using Hqub.Mellowave.Vkontakte.API.LongPoll;
 using Hqub.Mellowave.Vkontakte.API.Model.Audio;
+using Hqub.MusicBrainz.API.Entities;
 
 namespace Hqub.Mellody.Core
 {
@@ -46,9 +48,15 @@ namespace Hqub.Mellody.Core
                 return;
 
             var command = _mellodyTranslator.Create(text.Replace("&quot;", "\""));
+            if(command == null)
+                return;
+
             switch (command.Name)
             {
                 case "PlayArtistCommand":
+                    break;
+                case "InfoArtistCommand":
+                    SendInfoArtistCommand(fromId, (InfoArtistCommand) command);
                     break;
                 case "PlayAlbumCommand":
                     SendPlayAlbumCommand(fromId, (PlayAlbumCommand) command);
@@ -56,8 +64,11 @@ namespace Hqub.Mellody.Core
                 case "PlayTrackCommand":
                     SendPlayTrackCommand(fromId, (PlayTrackCommand) command);
                     break;
-                default:
-//                    SendHelpCommand(fromId);
+                case "InfoAlbumCommand":
+                    SendInfoAlbumCommand(fromId, (InfoAlbumCommand) command);
+                    break;
+                case "HelpCommand":
+                    SendHelpCommand(fromId); 
                     break;
             }
         }
@@ -72,18 +83,59 @@ namespace Hqub.Mellody.Core
 
             answer.AppendLine("Доступные команды:\n");
 
-            answer.AppendLine("1. Слушать треки");
-            answer.AppendLine("2. Слушать исполнителей");
-            answer.AppendLine("3. Слушать альбомы");
+            answer.AppendLine("[Команды для поиска песен]");
+            answer.AppendLine("1. трек \"Король и Шут - Кукла Колдуна\"");
+            answer.AppendLine("2. треки \"Король и Шут - Бедняжка\" \"Ozzy Osbourne - Dreamer\"");
+            answer.AppendLine("3. альбом \"Ария -  Ночь короче дня\"");
+            answer.AppendLine("4. группы \"Ария\" \"Кукрыниксы\"");
 
-            answer.AppendLine("\nПример запросов:\n");
+            answer.AppendLine();
 
-            answer.AppendLine("1. найти трек \"Король и Шут - Кукла Колдуна\"");
-            answer.AppendLine("2. слушать треки \"Король и Шут - Бедняжка\" \"Ozzy Osbourne - Dreamer\"");
-            answer.AppendLine("3. слушать альбом \"Ария -  Ночь короче дня\"");
-            answer.AppendLine("4. слушать группы \"Ария\" \"Кукрыниксы\"");
+            answer.AppendLine("[Команды для получения справки]");
+            answer.AppendLine("1. \"Король и Шут\" инфо");
+            answer.AppendLine("2. альбом \"Король и Шут - Камнем по голове\" инфо");
+
 
             SendMessage(userId, answer.ToString());
+        }
+
+        private async void SendInfoArtistCommand(int userId, InfoArtistCommand command)
+        {
+            var message = new StringBuilder();
+
+            foreach (var entity in command.Entities)
+            {
+                var artist = await MusicBrainzHelper.GetArtistInfo(entity.Artist);
+
+                message.AppendLine(artist.ToString());
+
+                SendMessage(userId, message.ToString());
+                message.Clear();
+            }
+        }
+
+        private async void SendInfoAlbumCommand(int fromId, InfoAlbumCommand command)
+        {
+            var message = new StringBuilder();
+
+            foreach (var entity in command.Entities)
+            {
+                var albumDTO = await Helpers.MusicBrainzHelper.GetAlbumTracks(entity.Artist, entity.Album);
+                var recordings = albumDTO.Tracks;
+
+                message.AppendLine(albumDTO.ToString());
+                message.AppendLine();
+
+                for (int i = 0; i < recordings.Count; i++)
+                {
+                    var recording = recordings[i];
+                    message.AppendFormat("{0}. {1} [{2}]\n", i + 1, recording.Title, TimeSpan.FromMilliseconds(recording.Length).ToString("m\\:ss"));
+                }
+
+                SendMessage(fromId, message.ToString());
+                message.Clear();
+            }
+
         }
 
         private void SendPlayTrackCommand(int userId, PlayTrackCommand command)
@@ -114,6 +166,7 @@ namespace Hqub.Mellody.Core
             var message = new StringBuilder();
             var attachment = new List<string>();
 
+            SendPrepareRequest(userId);
             
             foreach (var entity in command.Entities)
             {
@@ -146,7 +199,7 @@ namespace Hqub.Mellody.Core
             }
         }
 
-        private List<Audio> GetTracksFromVk(string artistName, List<string> recordings)
+        private List<Audio> GetTracksFromVk(string artistName, List<Recording> recordings)
         {
             var audio = _vk.GetAudioProduct();
             const int max = 3;
@@ -158,7 +211,7 @@ namespace Hqub.Mellody.Core
                     audio.SearchMany(
                         recordings.Skip(i*max)
                             .Take(max)
-                            .Select(r => string.Format("{0}-{1}", artistName, r))
+                            .Select(r => string.Format("{0}-{1}", artistName, r.Title))
                             .ToList()));
 
                 //2 запроса в секунду
@@ -167,6 +220,14 @@ namespace Hqub.Mellody.Core
             }
 
             return tracks;
+        }
+
+        /// <summary>
+        /// Сказать пользователю, что его запрос обрабатывается
+        /// </summary>
+        private void SendPrepareRequest(int userId)
+        {
+            SendMessage(userId, "Обрабатываю запрос. Пожалуйста ожидайте.");
         }
 
         /// <summary>
