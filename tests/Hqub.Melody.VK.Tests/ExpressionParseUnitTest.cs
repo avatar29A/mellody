@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Hqub.Mellody.Core.Commands;
+using Hqub.Mellody.Music.Commands;
 using Irony.Parsing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -14,7 +14,7 @@ namespace Hqub.Melody.VK.Tests
     {
         private Parser GetParser()
         {
-            var grammar = new Mellody.Core.Grammar.MellodyControlGrammar();
+            var grammar = new Mellody.Music.Grammar.MellodyControlGrammar();
             LanguageData language = new LanguageData(grammar);
 
             return new Parser(language);

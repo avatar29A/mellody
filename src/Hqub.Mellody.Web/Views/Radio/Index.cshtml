@@ -1,0 +1,102 @@
+﻿@using Hqub.Mellody.Web.Models
+
+@{
+    ViewBag.Title = "Mellody: Новый радио эфир";
+}
+
+@section header
+{
+   @Html.Partial("~/Views/Controls/Navigation.cshtml", new NavigationBarModel { Title = "Mellody.Music" })
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/app")
+
+    <script type="text/javascript">
+        InitlalizeRadioVM();
+    </script>
+}
+
+<div class="grid">
+    <div class="row">
+        <form data-bind="submit:addQuery">
+            <fieldset>
+                <legend>Creating music station</legend>
+                <div>
+                    <div class="input-control input-lg text" data-role="input-control">
+                        <input type="text" placeholder="type query" data-bind="value:itemToAdd, valueUpdate:'afterkeydown'" />
+                        <button class="btn-clear" tabindex="-1" type="button"></button>
+                    </div>
+                </div>
+                <div>
+                    <div class="input-control radio default-style" data-role="input-control">
+                        <label>
+                            <input type="radio"
+                                   data-bind="checked: typeQuery" 
+                                   name="queryType" 
+                                   checked="" 
+                                   value="Artist">
+                            <span class="check"></span>
+                            Artist
+                        </label>
+                    </div>
+                    <div class="input-control radio  default-style margin20 nbm ntm" data-role="input-control">
+                        <label>
+                            <input type="radio"
+                                   data-bind="checked: typeQuery"
+                                   name="queryType"
+                                   value="Query">
+                            <span class="check"></span>
+                            Query
+                        </label>
+                    </div>
+
+                    <div class="place-right clearfix">
+                        <button class="button primary" type="button" data-bind="click:checkQuery">
+                            <i class="icon-checkmark"></i>
+                            Check query
+                        </button>
+
+                        <button class="button success" type="submit">
+                            <i class="icon-plus-2"></i>
+                            Add query
+                        </button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>     
+    </div>
+    
+    <div class="row" data-bind="visible: mediaQueriesSupported().length">
+        <h2>Queries</h2>
+        <table class="table hovered border">
+            <tbody data-bind="foreach: mediaQueriesSupported">
+                <tr>
+                    <td><span data-bind="text: name"></span></td>
+                    <td><span data-bind="text: typeQuery"></span></td>
+                    <td>
+                        <div class="place-right clearfix margin15 nlm nbm ntm">
+                            <a href="#" data-bind="click: $root.copyQuery"><span class="icon-copy"></span></a>
+                            <a href="#" data-bind="click: $root.editQuery"><span class="icon-pencil"></span></a>
+                            <a href="#" data-bind="click: $root.removeQuery"><span class="icon-remove"></span></a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="place-right clearfix">
+            <button class="command-button success" data-bind="click: runStation">
+                <i class="icon-rocket"></i>
+                Run station
+                <small>enjoy your listening!</small>
+            </button>
+        </div>
+    </div>
+    
+
+</div>
+
+
+

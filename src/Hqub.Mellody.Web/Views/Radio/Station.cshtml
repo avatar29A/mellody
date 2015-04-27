@@ -1,0 +1,102 @@
+﻿@using Hqub.Mellody.Web.Models
+
+@{
+    ViewBag.Title = "Mellody: Новый радио эфир";
+}
+
+@section header
+{
+    @Html.Partial("~/Views/Controls/Navigation.cshtml", new NavigationBarModel { Title = "Mellody.Music" })
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/app")
+}
+
+<div class="grid">
+    <div class="row">
+        <div class="span10">
+            <h2>Iron Maiden + Ozzy Osbourne + Agata Cristi</h2>
+        </div>
+
+        <div class="clearfix">
+            <div class="place-right">
+                <button class="command-button success" onclick="location.href = '@Url.Action("Index", "Radio")'">
+                    <i class="icon-music on-left"></i>
+                    Create music channel
+                    <small>combine your like artist</small>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div id="player" class="offset2"></div>
+        <div class="row bg-gray span9"  style="margin-left: 160px; margin-top: -4px; margin-right: -10px;">
+            <a href="#" data-bind="click: player().play_pause, enable: is_busy == false">
+                <img src="@Url.Content("/Content/metro-ui/icons/white/pause_white.png")">
+            </a>
+        </div>
+
+        <script src="https://www.youtube.com/iframe_api"></script>
+
+        <script>
+            // 3. This function creates an <iframe> (and YouTube player)
+            //    after the API code downloads.
+            var player;
+            var ariaPlaylist = ['HIBRIA - Silent Revenge', 'HIBRIA - Shoot me Down', 'Offspring - Americana'];
+            var currentPlayIndex = 0;
+            function onYouTubeIframeAPIReady() {
+                player = new YT.Player('player', {
+                    height: '390',
+                    width: '700',
+                    loop: 0,
+                    playerVars: {
+                        controls: 0
+                    },
+                    events: {
+                        'onReady': onPlayerReady,
+                        'onStateChange': onPlayerStateChange
+                    }
+                });
+            }
+
+            // 4. The API will call this function when the video player is ready.
+            function onPlayerReady(event) {
+//                nextPlay();
+            }
+
+            function nextPlay() {
+                if (currentPlayIndex >= ariaPlaylist.length) {
+                    currentPlayIndex = 0;
+                    return;
+                }
+
+                player.loadPlaylist({ listType: 'search', list: [ariaPlaylist[currentPlayIndex]] });
+                player.playVideo();
+
+                ++currentPlayIndex;
+            }
+
+            // 5. The API calls this function when the player's state changes.
+            //    The function indicates that when playing a video (state=1),
+            //    the player should play for six seconds and then stop.
+            function onPlayerStateChange(event) {
+                console.log(event.data);
+
+                if (event.data == YT.PlayerState.ENDED) {
+                    //stopVideo();
+                    //nextPlay();
+                }
+            }
+            function stopVideo() {
+                player.stopVideo();
+            }
+        </script>
+    </div>
+
+    <div class="row">
+
+    </div>
+</div>

@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body class="metro">
+   
+    <div class="container">
+        
+        <header class="margin20 nrm nlm">
+            @RenderSection("header")
+        </header>
+        
+        <div class="clearfix">
+            @RenderBody()
+        </div>
+
+        
+        <footer>
+            <div >
+                <ul class="horizontal-menu compact">
+                    <li>© @DateTime.Now.Year <a href="http://h-qub.ru">h-qub.ru</a> company</li>
+@*                    <li><a href="#">Privacy</a></li>*@
+                </ul>
+            </div>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/metro-ui")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

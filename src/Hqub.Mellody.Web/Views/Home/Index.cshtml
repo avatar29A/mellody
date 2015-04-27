@@ -1,0 +1,98 @@
+﻿@{
+    ViewBag.Title = "Mellody. Ваш персональный музыкальный эксперт";
+}
+
+@section header
+{
+    <div class="clearfix">
+        <a class="place-left" href="#" title="">
+            <h1>Mellody Platform</h1>
+        </a>
+    </div>
+    
+<div class="row">
+    <nav class="horizontal-menu">
+        <ul>
+            <li><a href="@Url.Action("Index", "Music")">Music</a></li>
+            <li><a href="#">Cloud</a></li>
+            <li><a href="http://musicbrainz.org">Library</a></li>
+            <li><a href="#">Developers</a></li>
+        </ul>
+    </nav>
+</div>
+}
+
+<div class="grid">
+
+
+    <div class="row">
+        <div id="main-carousel" class="carousel" style="width: 100%; height: 400px;">
+            <div class="slide">
+                <img/>
+            </div>
+            
+            <a class="controls left"><i class="icon-arrow-left-3"></i></a>
+            <a class="controls right"><i class="icon-arrow-right-3"></i></a>
+            <div class="markers default">
+                <ul>
+                    <li class="">
+                        <a href="javascript:void(0)" data-num="0"></a>
+                    </li>
+                    <li class="active">
+                        <a href="javascript:void(0)" data-num="1"></a>
+                    </li>
+                    
+                    <li class="">
+                        <a href="javascript:void(0)" data-num="2"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+   
+    <div class="row">
+        <h1>Welcome!</h1>
+        
+        <div class="margin20 nlm nrm">
+            <p>
+                <b>Mellody Platform</b> - уникальный ресурс, который предоставит вам возможность создавать миксы из различных групп, жанров и отдельных песен.
+            </p>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="place-right">
+            <button class="command-button success" onclick="location.href = '@Url.Action("Index", "Radio")'">
+                <i class="icon-music on-left"></i>
+                Create music mix
+                <small>combine your like artist</small>
+            </button>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="span4">
+            <h2>Music</h2>
+            <p>sdf dsf dsf fds dfsfdfdf fdsfsd fdfdfdsfdsf fdsfdsf fdsfdsf sfdsfdsf</p>
+        </div>
+        
+        <div class="span4">
+            <h2>Cloud</h2>
+            <p>sdf dsf dsf fds dfsfdfdf fdsfsd fdfdfdsfdsf fdsfdsf fdsfdsf sfdsfdsf</p>
+        </div>
+        
+        <div class="span4">
+            <h2>Library</h2>
+            <p>
+                MusicBrainz is an open music encyclopedia that collects music metadata and makes it available to the public.
+
+                MusicBrainz aims to be:
+
+                The ultimate source of music information by allowing anyone to contribute and releasing the data under open licenses.
+                The universal lingua franca for music by providing a reliable and unambiguous form of music identification, enabling both people and machines to have meaningful conversations about music.
+            </p>
+        </div>
+    </div>
+   
+</div>
+

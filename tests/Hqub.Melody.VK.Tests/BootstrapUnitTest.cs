@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Hqub.Mellody.Core.Utilities;
+using Hqub.Mellody.Music.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Hqub.Melody.VK.Tests
