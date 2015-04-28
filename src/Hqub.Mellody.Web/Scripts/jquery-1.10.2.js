@@ -187,7 +187,7 @@ jQuery.fn = jQuery.prototype = {
 				} else {
 					elem = document.getElementById( match[2] );
 
-					// Check parentNode to catch when Blackberry 4.6 returns
+					// CheckPlaylist parentNode to catch when Blackberry 4.6 returns
 					// nodes that are no longer in the document #6963
 					if ( elem && elem.parentNode ) {
 						// Handle the case where IE and Opera return items
@@ -1222,7 +1222,7 @@ function Sizzle( selector, context, results, seed ) {
 			if ( (m = match[1]) ) {
 				if ( nodeType === 9 ) {
 					elem = context.getElementById( m );
-					// Check parentNode to catch when Blackberry 4.6 returns
+					// CheckPlaylist parentNode to catch when Blackberry 4.6 returns
 					// nodes that are no longer in the document #6963
 					if ( elem && elem.parentNode ) {
 						// Handle the case where IE, Opera, and Webkit return items
@@ -1384,7 +1384,7 @@ function siblingCheck( a, b ) {
 		return diff;
 	}
 
-	// Check if b follows a
+	// CheckPlaylist if b follows a
 	if ( cur ) {
 		while ( (cur = cur.nextSibling) ) {
 			if ( cur === b ) {
@@ -1498,13 +1498,13 @@ setDocument = Sizzle.setDocument = function( node ) {
 	/* getElement(s)By*
 	---------------------------------------------------------------------- */
 
-	// Check if getElementsByTagName("*") returns only elements
+	// CheckPlaylist if getElementsByTagName("*") returns only elements
 	support.getElementsByTagName = assert(function( div ) {
 		div.appendChild( doc.createComment("") );
 		return !div.getElementsByTagName("*").length;
 	});
 
-	// Check if getElementsByClassName can be trusted
+	// CheckPlaylist if getElementsByClassName can be trusted
 	support.getElementsByClassName = assert(function( div ) {
 		div.innerHTML = "<div class='a'></div><div class='a i'></div>";
 
@@ -1517,7 +1517,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 	});
 
 	// Support: IE<10
-	// Check if getElementById returns elements by name
+	// CheckPlaylist if getElementById returns elements by name
 	// The broken getElementById methods don't pick up programatically-set names,
 	// so use a roundabout getElementsByName test
 	support.getById = assert(function( div ) {
@@ -1530,7 +1530,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 		Expr.find["ID"] = function( id, context ) {
 			if ( typeof context.getElementById !== strundefined && documentIsHTML ) {
 				var m = context.getElementById( id );
-				// Check parentNode to catch when Blackberry 4.6 returns
+				// CheckPlaylist parentNode to catch when Blackberry 4.6 returns
 				// nodes that are no longer in the document #6963
 				return m && m.parentNode ? [m] : [];
 			}
@@ -1661,7 +1661,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 		docElem.msMatchesSelector) )) ) {
 
 		assert(function( div ) {
-			// Check to see if it's possible to do matchesSelector
+			// CheckPlaylist to see if it's possible to do matchesSelector
 			// on a disconnected node (IE 9)
 			support.disconnectedMatch = matches.call( div, "div" );
 
@@ -2492,7 +2492,7 @@ function addCombinator( matcher, combinator, base ) {
 		doneName = done++;
 
 	return combinator.first ?
-		// Check against closest ancestor/preceding element
+		// CheckPlaylist against closest ancestor/preceding element
 		function( elem, context, xml ) {
 			while ( (elem = elem[ dir ]) ) {
 				if ( elem.nodeType === 1 || checkNonElements ) {
@@ -2501,7 +2501,7 @@ function addCombinator( matcher, combinator, base ) {
 			}
 		} :
 
-		// Check against all ancestor/preceding elements
+		// CheckPlaylist against all ancestor/preceding elements
 		function( elem, context, xml ) {
 			var data, cache, outerCache,
 				dirkey = dirruns + " " + doneName;
@@ -3131,7 +3131,7 @@ jQuery.Callbacks = function( options ) {
 				}
 				return this;
 			},
-			// Check if a given callback is in the list.
+			// CheckPlaylist if a given callback is in the list.
 			// If no argument is given, return whether or not list has callbacks attached.
 			has: function( fn ) {
 				return fn ? jQuery.inArray( fn, list ) > -1 : !!( list && list.length );
@@ -3384,7 +3384,7 @@ jQuery.support = (function( support ) {
 	// (IE uses styleFloat instead of cssFloat)
 	support.cssFloat = !!a.style.cssFloat;
 
-	// Check the default checkbox/radio value ("" on WebKit; "on" elsewhere)
+	// CheckPlaylist the default checkbox/radio value ("" on WebKit; "on" elsewhere)
 	support.checkOn = !!input.value;
 
 	// Make sure that a selected-by-default option has a working selected property.
@@ -3423,12 +3423,12 @@ jQuery.support = (function( support ) {
 		support.deleteExpando = false;
 	}
 
-	// Check if we can trust getAttribute("value")
+	// CheckPlaylist if we can trust getAttribute("value")
 	input = document.createElement("input");
 	input.setAttribute( "value", "" );
 	support.input = input.getAttribute( "value" ) === "";
 
-	// Check if an input maintains its value after becoming a radio
+	// CheckPlaylist if an input maintains its value after becoming a radio
 	input.value = "t";
 	input.setAttribute( "type", "radio" );
 	support.radioValue = input.value === "t";
@@ -3440,7 +3440,7 @@ jQuery.support = (function( support ) {
 	fragment = document.createDocumentFragment();
 	fragment.appendChild( input );
 
-	// Check if a disconnected checkbox will retain its checked
+	// CheckPlaylist if a disconnected checkbox will retain its checked
 	// value of true after appended to the DOM (IE6/7)
 	support.appendChecked = input.checked;
 
@@ -3494,7 +3494,7 @@ jQuery.support = (function( support ) {
 		body.appendChild( container ).appendChild( div );
 
 		// Support: IE8
-		// Check if table cells still have offsetWidth/Height when they are set
+		// CheckPlaylist if table cells still have offsetWidth/Height when they are set
 		// to display:none and there are still other visible table cells in a
 		// table row; if so, offsetWidth/Height are not reliable for use when
 		// determining if an element has been hidden directly using
@@ -3509,10 +3509,10 @@ jQuery.support = (function( support ) {
 		tds[ 1 ].style.display = "none";
 
 		// Support: IE8
-		// Check if empty table cells still have offsetWidth/Height
+		// CheckPlaylist if empty table cells still have offsetWidth/Height
 		support.reliableHiddenOffsets = isSupported && ( tds[ 0 ].offsetHeight === 0 );
 
-		// Check box-sizing and margin behavior.
+		// CheckPlaylist box-sizing and margin behavior.
 		div.innerHTML = "";
 		div.style.cssText = "box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;padding:1px;border:1px;display:block;width:4px;margin-top:1%;position:absolute;top:1%;";
 
@@ -3527,7 +3527,7 @@ jQuery.support = (function( support ) {
 			support.pixelPosition = ( window.getComputedStyle( div, null ) || {} ).top !== "1%";
 			support.boxSizingReliable = ( window.getComputedStyle( div, null ) || { width: "4px" } ).width === "4px";
 
-			// Check if div with explicit width and no margin-right incorrectly
+			// CheckPlaylist if div with explicit width and no margin-right incorrectly
 			// gets computed margin-right based on width of container. (#3333)
 			// Fails in WebKit before Feb 2011 nightlies
 			// WebKit Bug 13343 - getComputedStyle returns wrong value for margin-right
@@ -3542,7 +3542,7 @@ jQuery.support = (function( support ) {
 
 		if ( typeof div.style.zoom !== core_strundefined ) {
 			// Support: IE<8
-			// Check if natively block-level elements act like inline-block
+			// CheckPlaylist if natively block-level elements act like inline-block
 			// elements when setting their display to 'inline' and giving
 			// them layout
 			div.innerHTML = "";
@@ -3550,7 +3550,7 @@ jQuery.support = (function( support ) {
 			support.inlineBlockNeedsLayout = ( div.offsetWidth === 3 );
 
 			// Support: IE6
-			// Check if elements with layout shrink-wrap their children
+			// CheckPlaylist if elements with layout shrink-wrap their children
 			div.style.display = "block";
 			div.innerHTML = "<div></div>";
 			div.firstChild.style.width = "5px";
@@ -3648,7 +3648,7 @@ function internalData( elem, name, data, pvt /* Internal Use Only */ ){
 		thisCache[ jQuery.camelCase( name ) ] = data;
 	}
 
-	// Check for both converted-to-camel and non-converted data property names
+	// CheckPlaylist for both converted-to-camel and non-converted data property names
 	// If a data property was specified
 	if ( typeof name === "string" ) {
 
@@ -7009,7 +7009,7 @@ jQuery.extend({
 		// followed by the unprefixed version
 		hooks = jQuery.cssHooks[ name ] || jQuery.cssHooks[ origName ];
 
-		// Check if we're setting a value
+		// CheckPlaylist if we're setting a value
 		if ( value !== undefined ) {
 			type = typeof value;
 
@@ -8106,7 +8106,7 @@ jQuery.extend({
 				s.accepts[ "*" ]
 		);
 
-		// Check for headers option
+		// CheckPlaylist for headers option
 		for ( i in s.headers ) {
 			jqXHR.setRequestHeader( i, s.headers[ i ] );
 		}
@@ -8320,7 +8320,7 @@ function ajaxHandleResponses( s, jqXHR, responses ) {
 		}
 	}
 
-	// Check if we're dealing with a known content-type
+	// CheckPlaylist if we're dealing with a known content-type
 	if ( ct ) {
 		for ( type in contents ) {
 			if ( contents[ type ] && contents[ type ].test( ct ) ) {
@@ -8330,7 +8330,7 @@ function ajaxHandleResponses( s, jqXHR, responses ) {
 		}
 	}
 
-	// Check to see if we have a response for the expected dataType
+	// CheckPlaylist to see if we have a response for the expected dataType
 	if ( dataTypes[ 0 ] in responses ) {
 		finalDataType = dataTypes[ 0 ];
 	} else {

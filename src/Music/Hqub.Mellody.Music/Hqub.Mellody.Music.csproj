@@ -64,9 +64,9 @@
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\InfoAlbumCommand.cs" />
     <Compile Include="Commands\InfoArtistCommand.cs" />
-    <Compile Include="Commands\PlayAlbumCommand.cs" />
-    <Compile Include="Commands\PlayArtistCommand.cs" />
-    <Compile Include="Commands\PlayTrackCommand.cs" />
+    <Compile Include="Commands\AlbumCommand.cs" />
+    <Compile Include="Commands\ArtistCommand.cs" />
+    <Compile Include="Commands\TrackCommand.cs" />
     <Compile Include="Configure\PythonConfigureSection.cs" />
     <Compile Include="Grammar\MellodyControlGrammar.cs" />
     <Compile Include="Helpers\ConfigureHelper.cs" />

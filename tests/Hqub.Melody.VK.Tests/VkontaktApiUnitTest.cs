@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Hqub.Melody.VK.Tests
+namespace Hqub.Melody.Music.Tests.Tests
 {
     [TestClass]
     public class VkontaktApiUnitTest

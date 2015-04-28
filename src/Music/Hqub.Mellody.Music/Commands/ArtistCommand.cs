@@ -6,17 +6,18 @@ using System.Threading.Tasks;
 
 namespace Hqub.Mellody.Music.Commands
 {
-    public class PlayTrackCommand : ICommand
+    public class ArtistCommand : ICommand
     {
-        public PlayTrackCommand()
+        public ArtistCommand()
         {
             Entities = new List<Entity>();
         }
 
         public string Name
         {
-            get { return "PlayTrackCommand"; }
+            get { return "ArtistCommand"; }
         }
+
         public List<Entity> Entities { get; set; }
     }
 }

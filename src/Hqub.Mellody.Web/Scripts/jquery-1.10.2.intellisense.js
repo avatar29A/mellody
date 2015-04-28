@@ -67,7 +67,7 @@ intellisense.annotate(jQuery, {
   },
   'contains': function() {
     /// <signature>
-    ///   <summary>Check to see if a DOM element is a descendant of another DOM element.</summary>
+    ///   <summary>CheckPlaylist to see if a DOM element is a descendant of another DOM element.</summary>
     ///   <param name="container" type="Element">The DOM element that may contain the other element.</param>
     ///   <param name="contained" type="Element">The DOM element that may be contained by (a descendant of) the other element.</param>
     ///   <returns type="Boolean" />
@@ -208,7 +208,7 @@ intellisense.annotate(jQuery, {
   },
   'isEmptyObject': function() {
     /// <signature>
-    ///   <summary>Check to see if an object is empty (contains no enumerable properties).</summary>
+    ///   <summary>CheckPlaylist to see if an object is empty (contains no enumerable properties).</summary>
     ///   <param name="object" type="Object">The object that will be checked to see if it's empty.</param>
     ///   <returns type="Boolean" />
     /// </signature>
@@ -229,7 +229,7 @@ intellisense.annotate(jQuery, {
   },
   'isPlainObject': function() {
     /// <signature>
-    ///   <summary>Check to see if an object is a plain object (created using "{}" or "new Object").</summary>
+    ///   <summary>CheckPlaylist to see if an object is a plain object (created using "{}" or "new Object").</summary>
     ///   <param name="object" type="PlainObject">The object that will be checked to see if it's a plain object.</param>
     ///   <returns type="Boolean" />
     /// </signature>
@@ -243,7 +243,7 @@ intellisense.annotate(jQuery, {
   },
   'isXMLDoc': function() {
     /// <signature>
-    ///   <summary>Check to see if a DOM node is within an XML document (or is an XML document).</summary>
+    ///   <summary>CheckPlaylist to see if a DOM node is within an XML document (or is an XML document).</summary>
     ///   <param name="node" type="Element">The DOM node that will be checked to see if it's in an XML document.</param>
     ///   <returns type="Boolean" />
     /// </signature>
@@ -1601,22 +1601,22 @@ intellisense.annotate(jQuery.fn, {
   },
   'is': function() {
     /// <signature>
-    ///   <summary>Check the current matched set of elements against a selector, element, or jQuery object and return true if at least one of these elements matches the given arguments.</summary>
+    ///   <summary>CheckPlaylist the current matched set of elements against a selector, element, or jQuery object and return true if at least one of these elements matches the given arguments.</summary>
     ///   <param name="selector" type="String">A string containing a selector expression to match elements against.</param>
     ///   <returns type="Boolean" />
     /// </signature>
     /// <signature>
-    ///   <summary>Check the current matched set of elements against a selector, element, or jQuery object and return true if at least one of these elements matches the given arguments.</summary>
+    ///   <summary>CheckPlaylist the current matched set of elements against a selector, element, or jQuery object and return true if at least one of these elements matches the given arguments.</summary>
     ///   <param name="function(index)" type="Function">A function used as a test for the set of elements. It accepts one argument, index, which is the element's index in the jQuery collection.Within the function, this refers to the current DOM element.</param>
     ///   <returns type="Boolean" />
     /// </signature>
     /// <signature>
-    ///   <summary>Check the current matched set of elements against a selector, element, or jQuery object and return true if at least one of these elements matches the given arguments.</summary>
+    ///   <summary>CheckPlaylist the current matched set of elements against a selector, element, or jQuery object and return true if at least one of these elements matches the given arguments.</summary>
     ///   <param name="jQuery object" type="Object">An existing jQuery object to match the current set of elements against.</param>
     ///   <returns type="Boolean" />
     /// </signature>
     /// <signature>
-    ///   <summary>Check the current matched set of elements against a selector, element, or jQuery object and return true if at least one of these elements matches the given arguments.</summary>
+    ///   <summary>CheckPlaylist the current matched set of elements against a selector, element, or jQuery object and return true if at least one of these elements matches the given arguments.</summary>
     ///   <param name="element" type="Element">An element to match the current set of elements against.</param>
     ///   <returns type="Boolean" />
     /// </signature>

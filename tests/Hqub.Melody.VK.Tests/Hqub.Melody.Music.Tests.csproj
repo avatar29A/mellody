@@ -6,8 +6,8 @@
     <ProjectGuid>{B5795BED-96DD-4ED5-9BA7-7376EE2272E2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Hqub.Melody.VK.Tests</RootNamespace>
-    <AssemblyName>Hqub.Melody.VK.Tests</AssemblyName>
+    <RootNamespace>Hqub.Melody.Music.Tests</RootNamespace>
+    <AssemblyName>Hqub.Melody.Music.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

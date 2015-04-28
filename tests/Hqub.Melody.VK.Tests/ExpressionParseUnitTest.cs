@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Hqub.Mellody.Music.Commands;
+﻿using Hqub.Mellody.Music.Commands;
 using Irony.Parsing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Hqub.Melody.VK.Tests
+namespace Hqub.Melody.Music.Tests
 {
     [TestClass]
     public class ExpressionParseUnitTest
@@ -15,7 +10,7 @@ namespace Hqub.Melody.VK.Tests
         private Parser GetParser()
         {
             var grammar = new Mellody.Music.Grammar.MellodyControlGrammar();
-            LanguageData language = new LanguageData(grammar);
+            var language = new LanguageData(grammar);
 
             return new Parser(language);
         }
@@ -25,14 +20,14 @@ namespace Hqub.Melody.VK.Tests
         {
             var parser = GetParser();
 
-            ParseTree parseTree = parser.Parse("Играть band \"Король и Шут\"");
+            ParseTree parseTree = parser.Parse("band \"Король и Шут\"");
             Assert.IsNotNull(parseTree.Root);
 
-            parseTree = parser.Parse("Найти группу \"Король и Шут\"");
+            parseTree = parser.Parse("группу \"Король и Шут\"");
             Assert.IsNotNull(parseTree.Root);
 
             var fabrica = new CommandFactory();
-            var command = fabrica.Create("Слушать исполнителей \"Король и Шут\" \"Кукрыниксы\"");
+            var command = fabrica.Create("исполнителей \"Король и Шут\" \"Кукрыниксы\"");
 
             Assert.AreNotEqual(command.Name, "HelpCommand");
             Assert.AreEqual(command.Entities.Count, 2);
@@ -44,7 +39,7 @@ namespace Hqub.Melody.VK.Tests
         {
             var parser = GetParser();
 
-            ParseTree parseTree = parser.Parse("Играть группы \"Ария\" \"Кипелов\" \"Маврин\"");
+            ParseTree parseTree = parser.Parse("группы \"Ария\" \"Кипелов\" \"Маврин\"");
             Assert.IsNotNull(parseTree.Root);
         }
 
@@ -52,12 +47,12 @@ namespace Hqub.Melody.VK.Tests
         public void ParsePlayTrackExpression()
         {
             var parser = GetParser();
-            ParseTree parseTree = parser.Parse("Слушать песню \"Король и Шут - Как в старой сказке\"");
+            ParseTree parseTree = parser.Parse("песню \"Король и Шут - Как в старой сказке\"");
 
             Assert.IsNotNull(parseTree.Root);
 
             var fabrica = new CommandFactory();
-            var command = fabrica.Create("Слушать трэки \"Король и Шут - Прыгну со скалы\" \"Кукрыниксы - Падение\"");
+            var command = fabrica.Create("трэки \"Король и Шут - Прыгну со скалы\" \"Кукрыниксы - Падение\"");
 
             Assert.AreNotEqual(command.Name, "HelpCommand");
             Assert.AreEqual(command.Entities.Count, 2);
@@ -70,17 +65,26 @@ namespace Hqub.Melody.VK.Tests
         public void ParsePlayAlbumExpression()
         {
             var parser = GetParser();
-            ParseTree parseTree = parser.Parse("Слушать альбом \"Король и Шут - Как в старой сказке\"");
+            ParseTree parseTree = parser.Parse("альбом \"Король и Шут - Как в старой сказке\"");
 
             Assert.IsNotNull(parseTree.Root);
 
             var fabrica = new CommandFactory();
-            var command = fabrica.Create("Слушать альбом \"Король и Шут - Как в старой сказке\" \"Кукрыниксы - Шаман\"");
+            var command = fabrica.Create("альбом \"Король и Шут - Как в старой сказке\" \"Кукрыниксы - Шаман\"");
 
             Assert.AreNotEqual(command.Name, "HelpCommand");
             Assert.AreEqual(command.Entities.Count, 2);
             Assert.AreEqual(command.Entities[0].Artist, "Король и Шут");
             Assert.AreEqual(command.Entities[1].Album, "Шаман");
+        }
+
+        [TestMethod]
+        public void ParsePlayRecomendationExpression()
+        {
+            var parser = GetParser();
+            ParseTree parseTree = parser.Parse("like \"Король и Шут\" \"Ария\"");
+
+            Assert.IsNotNull(parseTree.Root);
         }
     }
 }

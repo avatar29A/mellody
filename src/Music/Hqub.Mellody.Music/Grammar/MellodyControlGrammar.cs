@@ -8,14 +8,17 @@ namespace Hqub.Mellody.Music.Grammar
         {
             var program = new NonTerminal("program");
 
+            var help = new NonTerminal("help");
+
             var playArtist = new NonTerminal("playArtist");
             var infoArtist = new NonTerminal("infoArtist");
 
             var playTrack = new NonTerminal("playTrack");
-            var help = new NonTerminal("help");
 
             var playAlbum = new NonTerminal("playAlbum");
             var infoAlbum = new NonTerminal("infoAlbum");
+
+            var playRecomendation = new NonTerminal("playRecomendation");
 
             var track = new NonTerminal("track");
             var album = new NonTerminal("album");
@@ -24,28 +27,29 @@ namespace Hqub.Mellody.Music.Grammar
             var artistArgumentList = new NonTerminal("artistArgumentList");
             var trackArgumentList = new NonTerminal("trackArgumentList");
             var albumArgumentList = new NonTerminal("albumArgumentList");
-            
-
-            var downloadCommand = new NonTerminal("downloadCommand");
 
             var trackName = new StringLiteral("TrackName", "\"", StringOptions.AllowsAllEscapes);
             var albumName = new StringLiteral("AlbumName", "\"", StringOptions.AllowsAllEscapes);
             var artistName = new StringLiteral("ArtistName", "\"", StringOptions.AllowsAllEscapes);
 
+            var like = new NonTerminal("like");
+            like.Rule = ToTerm("похож") | "like";
+
             Root = program;
 
-            Root.Rule = playArtist | infoArtist | playTrack | playAlbum | infoAlbum | help;
+            Root.Rule = playArtist | infoArtist | playTrack | playAlbum | infoAlbum | playRecomendation | help;
 
             track.Rule = ToTerm("трэк") | "трэки"| "трек" | "треки" | "track" | "tracks" | "songs" | "song" | "песню" | "песни" | "запись";
             album.Rule = ToTerm("альбом") | "album" | "release" | "пластинку" | "касету" | "диск";
-            artist.Rule = ToTerm("артист") | "артиста" | "артистов" | "исполнителя" | "исполнителей" | "музыканта" | "певца" | "коллектив" |
-                          "ансамбль" | "группу" | "группы" | "виа" | "group" | "groups" | "band" | "bands";
+            artist.Rule = ToTerm("артист") | "artist" | "исполнитель" | "исполнители" 
+                           | "группа" | "группы" | "group" | "groups" | "band" | "bands";
 
             help.Rule = ToTerm("помощь") | ToTerm("help") | ToTerm("?");
 
-            downloadCommand.Rule = ToTerm("скачать") | "загрузить" | "download";
 
             playArtist.Rule = artist + artistArgumentList;
+            playRecomendation.Rule = like + artistArgumentList;
+
             infoArtist.Rule = artistArgumentList + ToTerm("инфо");
 
             artistArgumentList.Rule = MakePlusRule(artistArgumentList, null, artistName);
@@ -58,7 +62,7 @@ namespace Hqub.Mellody.Music.Grammar
 
             albumArgumentList.Rule = MakePlusRule(albumArgumentList, null, albumName);
 
-            MarkPunctuation(artist, track, album, downloadCommand, ToTerm(","), ToTerm("инфо"));
+            MarkPunctuation(artist, track, album, ToTerm(","), ToTerm("инфо"), like);
         }
     }
 }

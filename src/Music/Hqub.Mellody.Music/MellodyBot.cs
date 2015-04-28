@@ -67,16 +67,16 @@ namespace Hqub.Mellody.Music
 
             switch (command.Name)
             {
-                case "PlayArtistCommand":
+                case "ArtistCommand":
                     break;
                 case "InfoArtistCommand":
                     SendInfoArtistCommand(fromId, (InfoArtistCommand) command);
                     break;
-                case "PlayAlbumCommand":
-                    SendPlayAlbumCommand(fromId, (PlayAlbumCommand) command);
+                case "AlbumCommand":
+                    SendPlayAlbumCommand(fromId, (AlbumCommand) command);
                     break;
-                case "PlayTrackCommand":
-                    SendPlayTrackCommand(fromId, (PlayTrackCommand) command);
+                case "TrackCommand":
+                    SendPlayTrackCommand(fromId, (TrackCommand) command);
                     break;
                 case "InfoAlbumCommand":
                     SendInfoAlbumCommand(fromId, (InfoAlbumCommand) command);
@@ -152,7 +152,7 @@ namespace Hqub.Mellody.Music
 
         }
 
-        private void SendPlayTrackCommand(int userId, PlayTrackCommand command)
+        private void SendPlayTrackCommand(int userId, TrackCommand command)
         {
             var message = new StringBuilder();
 
@@ -175,7 +175,7 @@ namespace Hqub.Mellody.Music
             SendMessage(userId, message.ToString(), string.Join(",", attachment));
         }
 
-        private async void SendPlayAlbumCommand(int userId, PlayAlbumCommand command)
+        private async void SendPlayAlbumCommand(int userId, AlbumCommand command)
         {
             var message = new StringBuilder();
             var attachment = new List<string>();

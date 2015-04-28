@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Hqub.Mellody.Music.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Hqub.Melody.VK.Tests
+namespace Hqub.Melody.Music.Tests.Tests
 {
     [TestClass]
     public class BootstrapUnitTest

@@ -56,7 +56,7 @@ namespace Hqub.Mellody.Music.Commands
 
         private ICommand CreatePlayArtistCommand(ParseTreeNode node)
         {
-            var command = new PlayArtistCommand();
+            var command = new ArtistCommand();
 
             return FillArtists(node, command);
         }
@@ -86,7 +86,7 @@ namespace Hqub.Mellody.Music.Commands
         private ICommand CreatePlayTrackCommand(ParseTreeNode node)
         {
             var arguments = node.ChildNodes[0];
-            var command = new PlayTrackCommand();
+            var command = new TrackCommand();
 
             foreach (var argument in arguments.ChildNodes)
             {
@@ -103,7 +103,7 @@ namespace Hqub.Mellody.Music.Commands
 
         private ICommand CreatePlayAlbumCommand(ParseTreeNode node)
         {
-            var command = new PlayAlbumCommand();
+            var command = new AlbumCommand();
 
             return FillAlbums(node, command);
         }

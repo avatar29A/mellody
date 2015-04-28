@@ -50,7 +50,6 @@ namespace Hqub.Mellody.Music.Helpers
                 Albums = new List<Release>(releases.Select(r => r))
             };
         }
-
     }
 
     public class ArtistInfo

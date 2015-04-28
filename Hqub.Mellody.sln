@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9CB938B2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hqub.Mellody.Music", "src\Music\Hqub.Mellody.Music\Hqub.Mellody.Music.csproj", "{08B559A0-A10A-4B5A-8ACE-0D4E2DDACB1F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hqub.Melody.VK.Tests", "tests\Hqub.Melody.VK.Tests\Hqub.Melody.VK.Tests.csproj", "{B5795BED-96DD-4ED5-9BA7-7376EE2272E2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hqub.Melody.Music.Tests", "tests\Hqub.Melody.VK.Tests\Hqub.Melody.Music.Tests.csproj", "{B5795BED-96DD-4ED5-9BA7-7376EE2272E2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hqub.Mellowave.Vkontakte.API", "src\vkapi\Hqub.Mellowave.Vkontakte.API\Hqub.Mellowave.Vkontakte.API.csproj", "{2731A412-D568-4C1C-B407-406DFE69EF4D}"
 EndProject
