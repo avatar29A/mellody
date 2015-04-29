@@ -8,8 +8,8 @@ namespace Hqub.Mellody.Web.Controllers
 {
     public class RadioController : Controller
     {
-        private IPlaylistService _playlistService;
-        private IStationService _stationService;
+        private readonly IPlaylistService _playlistService;
+        private readonly IStationService _stationService;
 
         public RadioController(IPlaylistService playlistService, IStationService stationService)
         {
@@ -34,19 +34,16 @@ namespace Hqub.Mellody.Web.Controllers
             // Get tracks for playlist:
             var playlist = await _playlistService.CreatePlaylist(model.Queries);
 
+            // Save playlist and get id:
             var stationId = _stationService.Create(playlist);
 
-
-            // Save playlist and get id:
-            // 
-
-            return Json(new Models.Response.RadioCreatedResponse());
+            return Json(new Models.Response.RadioCreatedResponse(stationId));
         }
 
         [HttpPost]
         public JsonResult Check(Models.PrepareRadioModel model)
         {
-            return Json(new Models.Response.RadioCreatedResponse());
+            return Json(null);
         }
 
         public ActionResult Station()

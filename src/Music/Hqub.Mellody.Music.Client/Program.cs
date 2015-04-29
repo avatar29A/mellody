@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Net;
 using Hqub.Mellody.Music.Commands;
-using Hqub.Mellody.Music.Store;
-using Hqub.Mellody.Music.Store.Models;
+using Hqub.Mellody.Music.Services;
+using Hqub.Mellody.Poco;
 using Hqub.Mellowave.Vkontakte.API.LongPoll;
 
 namespace Hqub.Mellody.Music.Client
@@ -14,18 +14,7 @@ namespace Hqub.Mellody.Music.Client
         {
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionTrapper;
 
-//            DownloadUserAudioList("13378455");
-
-//           var task = Music.Helpers.MusicBrainzHelper.GetArtistTracks("Король и Шут", 500);
-//
-//            task.Wait();
-
-
-//            int counter = 0;
-//            foreach (var track in task.Result)
-//            {
-//                Console.WriteLine("{1}. {0}", track.Title, ++counter);
-//            }
+            CreateTracks();
 
 
 //            MellodyBotStart();
@@ -41,6 +30,28 @@ namespace Hqub.Mellody.Music.Client
 
 
             Console.ReadKey();
+        }
+
+        private async static void CreateTracks()
+        {
+            //            DownloadUserAudioList("13378455");
+
+            var station = new StationService();
+            var playlistService = new PlaylistService();
+
+            var playlist = await playlistService.CreatePlaylist(new List<QueryEntity>
+            {
+                new QueryEntity
+                {
+                    Name = "Ария - Ночь Короче Дня",
+                    TypeQuery = TypeQuery.Album
+                }
+            });
+
+
+            var stationId = station.Create(playlist);
+
+            Console.WriteLine("Station with ID = {0} created.", stationId);
         }
 
         private static void UnhandledExceptionTrapper(object sender, UnhandledExceptionEventArgs e)

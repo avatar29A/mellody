@@ -128,6 +128,14 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Hqub.Mellody.Poco\Hqub.Mellody.Poco.csproj">
+      <Project>{cda42fe1-a32f-4195-9eab-b69c47870e99}</Project>
+      <Name>Hqub.Mellody.Poco</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Hqub.Mellody.Music.Services\Hqub.Mellody.Music.Services.csproj">
+      <Project>{7ba4e55d-ff9d-4cf7-8022-634c7872f043}</Project>
+      <Name>Hqub.Mellody.Music.Services</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Hqub.Mellody.Music.Store\Hqub.Mellody.Music.Store.csproj">
       <Project>{65d5324a-5b10-43a7-9c80-741eb7b5a738}</Project>
       <Name>Hqub.Mellody.Music.Store</Name>
