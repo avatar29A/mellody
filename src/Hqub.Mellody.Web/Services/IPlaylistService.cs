@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Hqub.Mellody.Web.Models;
 using Hqub.Mellody.Web.Models.DTO;
 
@@ -17,6 +18,6 @@ namespace Hqub.Mellody.Web.Services
         /// Create music statio
         /// </summary>
         /// <returns></returns>
-        List<Track> CreatePlaylist(List<QueryEntity> queries);
+        Task<List<Track>> CreatePlaylist(List<QueryEntity> queries);
     }
 }

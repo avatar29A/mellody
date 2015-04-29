@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{08B559A0-A10A-4B5A-8ACE-0D4E2DDACB1F}</ProjectGuid>
+    <ProjectGuid>{65D5324A-5B10-43A7-9C80-741EB7B5A738}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Hqub.Mellody.Music</RootNamespace>
-    <AssemblyName>Mellody.Music</AssemblyName>
+    <RootNamespace>Hqub.Mellody.Music.Store</RootNamespace>
+    <AssemblyName>Hqub.Mellody.Music.Store</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -31,33 +31,24 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Web|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Web\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Mellody.Music|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Mellody.Music\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Hqub.MusicBrainz.API">
-      <HintPath>..\..\..\packages\MusicBrainzAPI.1.0.0\lib\net45\Hqub.MusicBrainz.API.dll</HintPath>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="Irony">
-      <HintPath>..\..\..\packages\Irony.0.9.0\lib\net45\Irony.dll</HintPath>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -66,33 +57,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cache\MellodyMemory.cs" />
-    <Compile Include="Commands\CommandFactory.cs" />
-    <Compile Include="Commands\Entity.cs" />
-    <Compile Include="Commands\HelpCommand.cs" />
-    <Compile Include="Commands\ICommand.cs" />
-    <Compile Include="Commands\InfoAlbumCommand.cs" />
-    <Compile Include="Commands\InfoArtistCommand.cs" />
-    <Compile Include="Commands\AlbumCommand.cs" />
-    <Compile Include="Commands\ArtistCommand.cs" />
-    <Compile Include="Commands\TrackCommand.cs" />
-    <Compile Include="Configure\PythonConfigureSection.cs" />
-    <Compile Include="Grammar\MellodyControlGrammar.cs" />
-    <Compile Include="Helpers\ConfigureHelper.cs" />
-    <Compile Include="Helpers\MusicBrainzHelper.cs" />
-    <Compile Include="MellodyBot.cs" />
+    <Compile Include="IHasId.cs" />
+    <Compile Include="Migrations\201504291530299_Initial.cs" />
+    <Compile Include="Migrations\201504291530299_Initial.Designer.cs">
+      <DependentUpon>201504291530299_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Playlist.cs" />
+    <Compile Include="MusicStoreDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilities\PythonInvoker.cs" />
+    <Compile Include="Models\Track.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\..\vkapi\Hqub.Mellowave.Vkontakte.API\Hqub.Mellowave.Vkontakte.API.csproj">
-      <Project>{2731a412-d568-4c1c-b407-406dfe69ef4d}</Project>
-      <Name>Hqub.Mellowave.Vkontakte.API</Name>
-    </ProjectReference>
+    <EmbeddedResource Include="Migrations\201504291530299_Initial.resx">
+      <DependentUpon>201504291530299_Initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

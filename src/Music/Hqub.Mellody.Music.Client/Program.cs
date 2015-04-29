@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Net;
 using Hqub.Mellody.Music.Commands;
+using Hqub.Mellody.Music.Store;
+using Hqub.Mellody.Music.Store.Models;
 using Hqub.Mellowave.Vkontakte.API.LongPoll;
 
 namespace Hqub.Mellody.Music.Client
@@ -14,7 +16,19 @@ namespace Hqub.Mellody.Music.Client
 
 //            DownloadUserAudioList("13378455");
 
-            MellodyBotStart();
+//           var task = Music.Helpers.MusicBrainzHelper.GetArtistTracks("Король и Шут", 500);
+//
+//            task.Wait();
+
+
+//            int counter = 0;
+//            foreach (var track in task.Result)
+//            {
+//                Console.WriteLine("{1}. {0}", track.Title, ++counter);
+//            }
+
+
+//            MellodyBotStart();
 //            TestGrammar();
 //            GetMyAudioRecords();
 //            SearchScorpions();

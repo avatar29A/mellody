@@ -13,11 +13,11 @@ namespace Hqub.Mellody.Web.Services
     public class PlaylistService : IPlaylistService
     {
         private readonly CommandFactory _mellodyTranslator;
-        private readonly Dictionary<Type, Func<List<Entity>, List<Track>>> _mappingCommand; 
+        private readonly Dictionary<Type, Func<List<Entity>, Task<List<Track>>>> _mappingCommand; 
 
         public PlaylistService()
         {
-            _mappingCommand = new Dictionary<Type, Func<List<Entity>, List<Track>>>
+            _mappingCommand = new Dictionary<Type, Func<List<Entity>, Task<List<Track>>>>
             {
                 {
                     typeof (TrackCommand), GetTracks
@@ -34,7 +34,7 @@ namespace Hqub.Mellody.Web.Services
             _mellodyTranslator = new CommandFactory();
         }
 
-        public Dictionary<Type, Func<List<Entity>, List<Track>>> MappingCommand
+        public Dictionary<Type, Func<List<Entity>, Task<List<Track>>>> MappingCommand
         {
             get { return _mappingCommand; }
         }
@@ -44,7 +44,7 @@ namespace Hqub.Mellody.Web.Services
             return CheckQueries(queries);
         }
 
-        public List<Track> CreatePlaylist(List<QueryEntity> queries)
+        public async Task<List<Track>> CreatePlaylist(List<QueryEntity> queries)
         {
             if (!CheckQueries(queries))
                 throw new QuerySyntaxException();
@@ -53,17 +53,37 @@ namespace Hqub.Mellody.Web.Services
 
             foreach (var query in queries)
             {
-                var command = _mellodyTranslator.Create(query.Name);
+                var queryText = GetQueryText(query);
+
+                var command = _mellodyTranslator.Create(queryText);
                 if (command == null)
                     continue;
 
-                playlist.AddRange(_mappingCommand[command.GetType()](command.Entities));
+                playlist.AddRange(await _mappingCommand[command.GetType()](command.Entities));
             }
 
             return playlist;
         }
 
-        private List<Track> GetTracks(List<Entity> entities)
+        /// <summary>
+        /// Check type and transfom text query.
+        /// </summary>
+        /// <param name="query">User query</param>
+        /// <returns>Transformed query</returns>
+        private string GetQueryText(QueryEntity query)
+        {
+            switch (query.TypeQuery)
+            {
+                case TypeQuery.Album:
+                    return string.Format("album \"{0}\"", query.Name.Trim());
+                case TypeQuery.Artist:
+                    return string.Format("group \"{0}\"", query.Name.Trim());
+                default:
+                    return query.Name;
+            }
+        }
+
+        private async Task<List<Track>> GetTracks(IEnumerable<Entity> entities)
         {
             return entities.Select(t => new Track
             {
@@ -71,18 +91,13 @@ namespace Hqub.Mellody.Web.Services
             }).ToList();
         }
 
-
-        private List<Track> GetAlbums(List<Entity> entities)
+        private async Task<List<Track>> GetAlbums(List<Entity> entities)
         {
             var tracks = new List<Track>();
 
             foreach (var entity in entities)
             {
-                var task = Music.Helpers.MusicBrainzHelper.GetAlbumTracks(entity.Artist, entity.Album);
-
-                task.Wait();
-
-                var album = task.Result;
+                var album = await Music.Helpers.MusicBrainzHelper.GetAlbumTracks(entity.Artist, entity.Album);
 
                 tracks.AddRange(album.Tracks.Select(t => new Track
                 {
@@ -94,9 +109,22 @@ namespace Hqub.Mellody.Web.Services
             return tracks;
         }
 
-        private List<Track> GetArtists(List<Entity> entities)
+        private async Task<List<Track>> GetArtists(List<Entity> entities)
         {
-            return new List<Track>();
+            var tracks = new List<Track>();
+
+            foreach (var entity in entities)
+            {
+                var allAlbumTracks = await Music.Helpers.MusicBrainzHelper.GetArtistTracks(entity.Artist);
+
+                tracks.AddRange(allAlbumTracks.Select(t => new Track
+                {
+                    Title = string.Format("{0} - {1}", entity.Artist, t.Title),
+                    Duration = t.Length
+                }));
+            }
+
+            return tracks;
         }
 
         private bool CheckQueries(List<QueryEntity> queries)

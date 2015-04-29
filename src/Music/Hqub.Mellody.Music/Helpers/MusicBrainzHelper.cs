@@ -35,26 +35,60 @@ namespace Hqub.Mellody.Music.Helpers
             return albumDTO;
         }
 
+        public static async Task<List<Recording>> GetAlbumTracks(string albumId)
+        {
+            var release = await Release.GetAsync(albumId, "recordings");
+
+            var recordings = new List<Recording>();
+            foreach (var medium in release.MediumList)
+            {
+                recordings.AddRange(medium.Tracks.Select(track => track.Recordring));
+            }
+
+            return recordings;
+        }
+
         public static async Task<ArtistInfo> GetArtistInfo(string artistName)
         {
-            var artist = (await Artist.SearchAsync(artistName)).First();
+            var artists = await Artist.SearchAsync(artistName);
+            var artist = artists.First();
+
 
             var query = string.Format("aid=({0})", artist.Id);
             var releases = (await Release.SearchAsync(Uri.EscapeUriString(query)));
 
             return new ArtistInfo
             {
+                Id = artist.Id,
                 ArtistName = artist.Name,
                 BeginYear = artist.LifeSpan.Begin,
                 Tags = string.Join(", ", artist.Tags.Select(t => t.Name)),
                 Albums = new List<Release>(releases.Select(r => r))
             };
         }
+
+        public static async Task<List<Recording>> GetArtistTracks(string artistName, int max = 100)
+        {
+            const int MaxCountPerReuqest = 100;
+
+            var artistInfo = await GetArtistInfo(artistName);
+
+            var tracks = new List<Recording>();
+
+            for (int i = 0; i < max / MaxCountPerReuqest; i++)
+            {
+                var recordings = await Recording.BrowseAsync("artist", artistInfo.Id, MaxCountPerReuqest, i * MaxCountPerReuqest);
+
+                tracks.AddRange(recordings.ToList());
+            }
+
+            return tracks;
+        }
     }
 
     public class ArtistInfo
     {
-
+        public string Id { get; set; }
         public string BeginYear { get; set; }
         public string ArtistName { get; set; }
 

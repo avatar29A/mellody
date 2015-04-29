@@ -37,7 +37,8 @@ namespace Hqub.Mellody.Web.App_Start
             // container.LoadConfiguration();
 
             // TODO: Register your types here
-             container.RegisterType<IPlaylistService, PlaylistService>();
+            container.RegisterType<IPlaylistService, PlaylistService>();
+            container.RegisterType<IStationService, StationService>();
         }
     }
 }

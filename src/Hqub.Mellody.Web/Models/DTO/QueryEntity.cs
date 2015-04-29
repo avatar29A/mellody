@@ -7,6 +7,7 @@ namespace Hqub.Mellody.Web.Models.DTO
     public enum TypeQuery
     {
         Artist,
+        Album,
         Query
     }
 

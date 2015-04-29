@@ -25,46 +25,79 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mellody.Cloud", "Mellody.Cl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hqub.Mellody.Music.Client", "src\Music\Hqub.Mellody.Music.Client\Hqub.Mellody.Music.Client.csproj", "{EFB2E6D0-6A25-4198-B068-37D7AD80F989}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hqub.Mellody.Music.Store", "src\Music\Hqub.Mellody.Music.Store\Hqub.Mellody.Music.Store.csproj", "{65D5324A-5B10-43A7-9C80-741EB7B5A738}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hqub.Mellody.Music.Services", "src\Music\Hqub.Mellody.Music.Services\Hqub.Mellody.Music.Services.csproj", "{7BA4E55D-FF9D-4CF7-8022-634C7872F043}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Mellody.Music|Any CPU = Mellody.Music|Any CPU
 		Release|Any CPU = Release|Any CPU
 		Web|Any CPU = Web|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{08B559A0-A10A-4B5A-8ACE-0D4E2DDACB1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{08B559A0-A10A-4B5A-8ACE-0D4E2DDACB1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08B559A0-A10A-4B5A-8ACE-0D4E2DDACB1F}.Mellody.Music|Any CPU.ActiveCfg = Mellody.Music|Any CPU
+		{08B559A0-A10A-4B5A-8ACE-0D4E2DDACB1F}.Mellody.Music|Any CPU.Build.0 = Mellody.Music|Any CPU
 		{08B559A0-A10A-4B5A-8ACE-0D4E2DDACB1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08B559A0-A10A-4B5A-8ACE-0D4E2DDACB1F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{08B559A0-A10A-4B5A-8ACE-0D4E2DDACB1F}.Web|Any CPU.ActiveCfg = Web|Any CPU
 		{B5795BED-96DD-4ED5-9BA7-7376EE2272E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B5795BED-96DD-4ED5-9BA7-7376EE2272E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5795BED-96DD-4ED5-9BA7-7376EE2272E2}.Mellody.Music|Any CPU.ActiveCfg = Mellody.Music|Any CPU
+		{B5795BED-96DD-4ED5-9BA7-7376EE2272E2}.Mellody.Music|Any CPU.Build.0 = Mellody.Music|Any CPU
 		{B5795BED-96DD-4ED5-9BA7-7376EE2272E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5795BED-96DD-4ED5-9BA7-7376EE2272E2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B5795BED-96DD-4ED5-9BA7-7376EE2272E2}.Web|Any CPU.ActiveCfg = Web|Any CPU
 		{2731A412-D568-4C1C-B407-406DFE69EF4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2731A412-D568-4C1C-B407-406DFE69EF4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2731A412-D568-4C1C-B407-406DFE69EF4D}.Mellody.Music|Any CPU.ActiveCfg = Mellody.Music|Any CPU
+		{2731A412-D568-4C1C-B407-406DFE69EF4D}.Mellody.Music|Any CPU.Build.0 = Mellody.Music|Any CPU
 		{2731A412-D568-4C1C-B407-406DFE69EF4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2731A412-D568-4C1C-B407-406DFE69EF4D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2731A412-D568-4C1C-B407-406DFE69EF4D}.Web|Any CPU.ActiveCfg = Web|Any CPU
 		{F4572870-CFD8-4AB2-859B-B2EF320D72E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F4572870-CFD8-4AB2-859B-B2EF320D72E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4572870-CFD8-4AB2-859B-B2EF320D72E7}.Mellody.Music|Any CPU.ActiveCfg = Mellody.Music|Any CPU
+		{F4572870-CFD8-4AB2-859B-B2EF320D72E7}.Mellody.Music|Any CPU.Build.0 = Mellody.Music|Any CPU
 		{F4572870-CFD8-4AB2-859B-B2EF320D72E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4572870-CFD8-4AB2-859B-B2EF320D72E7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F4572870-CFD8-4AB2-859B-B2EF320D72E7}.Web|Any CPU.ActiveCfg = Web|Any CPU
 		{F4572870-CFD8-4AB2-859B-B2EF320D72E7}.Web|Any CPU.Build.0 = Web|Any CPU
 		{F7D7366A-7347-4223-B26B-1EA092F10B48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F7D7366A-7347-4223-B26B-1EA092F10B48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7D7366A-7347-4223-B26B-1EA092F10B48}.Mellody.Music|Any CPU.ActiveCfg = Mellody.Music|Any CPU
+		{F7D7366A-7347-4223-B26B-1EA092F10B48}.Mellody.Music|Any CPU.Build.0 = Mellody.Music|Any CPU
 		{F7D7366A-7347-4223-B26B-1EA092F10B48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7D7366A-7347-4223-B26B-1EA092F10B48}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F7D7366A-7347-4223-B26B-1EA092F10B48}.Web|Any CPU.ActiveCfg = Web|Any CPU
 		{F7D7366A-7347-4223-B26B-1EA092F10B48}.Web|Any CPU.Build.0 = Web|Any CPU
 		{EFB2E6D0-6A25-4198-B068-37D7AD80F989}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EFB2E6D0-6A25-4198-B068-37D7AD80F989}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFB2E6D0-6A25-4198-B068-37D7AD80F989}.Mellody.Music|Any CPU.ActiveCfg = Mellody.Music|Any CPU
+		{EFB2E6D0-6A25-4198-B068-37D7AD80F989}.Mellody.Music|Any CPU.Build.0 = Mellody.Music|Any CPU
 		{EFB2E6D0-6A25-4198-B068-37D7AD80F989}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFB2E6D0-6A25-4198-B068-37D7AD80F989}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EFB2E6D0-6A25-4198-B068-37D7AD80F989}.Web|Any CPU.ActiveCfg = Web|Any CPU
 		{EFB2E6D0-6A25-4198-B068-37D7AD80F989}.Web|Any CPU.Build.0 = Web|Any CPU
+		{65D5324A-5B10-43A7-9C80-741EB7B5A738}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65D5324A-5B10-43A7-9C80-741EB7B5A738}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65D5324A-5B10-43A7-9C80-741EB7B5A738}.Mellody.Music|Any CPU.ActiveCfg = Mellody.Music|Any CPU
+		{65D5324A-5B10-43A7-9C80-741EB7B5A738}.Mellody.Music|Any CPU.Build.0 = Mellody.Music|Any CPU
+		{65D5324A-5B10-43A7-9C80-741EB7B5A738}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65D5324A-5B10-43A7-9C80-741EB7B5A738}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65D5324A-5B10-43A7-9C80-741EB7B5A738}.Web|Any CPU.ActiveCfg = Release|Any CPU
+		{65D5324A-5B10-43A7-9C80-741EB7B5A738}.Web|Any CPU.Build.0 = Release|Any CPU
+		{7BA4E55D-FF9D-4CF7-8022-634C7872F043}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BA4E55D-FF9D-4CF7-8022-634C7872F043}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BA4E55D-FF9D-4CF7-8022-634C7872F043}.Mellody.Music|Any CPU.ActiveCfg = Mellody.Music|Any CPU
+		{7BA4E55D-FF9D-4CF7-8022-634C7872F043}.Mellody.Music|Any CPU.Build.0 = Mellody.Music|Any CPU
+		{7BA4E55D-FF9D-4CF7-8022-634C7872F043}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BA4E55D-FF9D-4CF7-8022-634C7872F043}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BA4E55D-FF9D-4CF7-8022-634C7872F043}.Web|Any CPU.ActiveCfg = Release|Any CPU
+		{7BA4E55D-FF9D-4CF7-8022-634C7872F043}.Web|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,5 +109,7 @@ Global
 		{F4572870-CFD8-4AB2-859B-B2EF320D72E7} = {6191556E-3A86-4233-831B-21A62AAF125A}
 		{F7D7366A-7347-4223-B26B-1EA092F10B48} = {9CB938B2-0D9F-4A35-9E85-5BDBD622689C}
 		{EFB2E6D0-6A25-4198-B068-37D7AD80F989} = {0DC2D10D-2554-4E2F-9EA8-51524D67AFB7}
+		{65D5324A-5B10-43A7-9C80-741EB7B5A738} = {0DC2D10D-2554-4E2F-9EA8-51524D67AFB7}
+		{7BA4E55D-FF9D-4CF7-8022-634C7872F043} = {0DC2D10D-2554-4E2F-9EA8-51524D67AFB7}
 	EndGlobalSection
 EndGlobal
