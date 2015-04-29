@@ -1,5 +1,5 @@
 using System;
-using Hqub.Mellody.Web.Services;
+using Hqub.Mellody.Music.Services;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 

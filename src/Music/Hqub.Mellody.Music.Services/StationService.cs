@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Hqub.Mellody.Web.Models;
 
-namespace Hqub.Mellody.Web.Services
+namespace Hqub.Mellody.Music.Services
 {
     public class StationService : IStationService
     {
-        public Guid Create(List<Track> tracks)
+        public Guid Create(List<Poco.Track> tracks)
         {
             throw new NotImplementedException();
         }

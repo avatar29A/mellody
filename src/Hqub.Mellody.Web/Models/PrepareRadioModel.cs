@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Hqub.Mellody.Web.Models.DTO;
+using Hqub.Mellody.Poco;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 

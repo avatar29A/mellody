@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Hqub.Mellody.Web.Services;
+using Hqub.Mellody.Music.Services;
 using Microsoft.Practices.Unity.Utility;
 
 namespace Hqub.Mellody.Web.Controllers

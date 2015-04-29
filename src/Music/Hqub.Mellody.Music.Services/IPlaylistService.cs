@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Hqub.Mellody.Web.Models;
-using Hqub.Mellody.Web.Models.DTO;
+using Hqub.Mellody.Poco;
 
-namespace Hqub.Mellody.Web.Services
+namespace Hqub.Mellody.Music.Services
 {
     public interface IPlaylistService
     {

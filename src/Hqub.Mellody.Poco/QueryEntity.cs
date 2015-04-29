@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Hqub.Mellody.Web.Models.DTO
+namespace Hqub.Mellody.Poco
 {
     [JsonConverter(typeof(StringEnumConverter))]
     public enum TypeQuery

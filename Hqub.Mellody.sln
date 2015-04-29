@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hqub.Mellody.Music.Store", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hqub.Mellody.Music.Services", "src\Music\Hqub.Mellody.Music.Services\Hqub.Mellody.Music.Services.csproj", "{7BA4E55D-FF9D-4CF7-8022-634C7872F043}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hqub.Mellody.Poco", "src\Hqub.Mellody.Poco\Hqub.Mellody.Poco.csproj", "{CDA42FE1-A32F-4195-9EAB-B69C47870E99}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -98,6 +100,14 @@ Global
 		{7BA4E55D-FF9D-4CF7-8022-634C7872F043}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7BA4E55D-FF9D-4CF7-8022-634C7872F043}.Web|Any CPU.ActiveCfg = Release|Any CPU
 		{7BA4E55D-FF9D-4CF7-8022-634C7872F043}.Web|Any CPU.Build.0 = Release|Any CPU
+		{CDA42FE1-A32F-4195-9EAB-B69C47870E99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDA42FE1-A32F-4195-9EAB-B69C47870E99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDA42FE1-A32F-4195-9EAB-B69C47870E99}.Mellody.Music|Any CPU.ActiveCfg = Release|Any CPU
+		{CDA42FE1-A32F-4195-9EAB-B69C47870E99}.Mellody.Music|Any CPU.Build.0 = Release|Any CPU
+		{CDA42FE1-A32F-4195-9EAB-B69C47870E99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDA42FE1-A32F-4195-9EAB-B69C47870E99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDA42FE1-A32F-4195-9EAB-B69C47870E99}.Web|Any CPU.ActiveCfg = Release|Any CPU
+		{CDA42FE1-A32F-4195-9EAB-B69C47870E99}.Web|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,14 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7BA4E55D-FF9D-4CF7-8022-634C7872F043}</ProjectGuid>
+    <ProjectGuid>{CDA42FE1-A32F-4195-9EAB-B69C47870E99}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Hqub.Mellody.Music.Services</RootNamespace>
-    <AssemblyName>Hqub.Mellody.Music.Services</AssemblyName>
+    <RootNamespace>Hqub.Mellody.Poco</RootNamespace>
+    <AssemblyName>Hqub.Mellody.Poco</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -31,19 +31,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Mellody.Music|AnyCPU'">
-    <OutputPath>bin\Mellody.Music\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Hqub.MusicBrainz.API, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\MusicBrainzAPI.1.0.0\lib\net45\Hqub.MusicBrainz.API.dll</HintPath>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -54,25 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IPlaylistService.cs" />
-    <Compile Include="IStationService.cs" />
-    <Compile Include="PlaylistService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StationService.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Hqub.Mellody.Poco\Hqub.Mellody.Poco.csproj">
-      <Project>{cda42fe1-a32f-4195-9eab-b69c47870e99}</Project>
-      <Name>Hqub.Mellody.Poco</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Hqub.Mellody.Music.Store\Hqub.Mellody.Music.Store.csproj">
-      <Project>{65d5324a-5b10-43a7-9c80-741eb7b5a738}</Project>
-      <Name>Hqub.Mellody.Music.Store</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Hqub.Mellody.Music\Hqub.Mellody.Music.csproj">
-      <Project>{08b559a0-a10a-4b5a-8ace-0d4e2ddacb1f}</Project>
-      <Name>Hqub.Mellody.Music</Name>
-    </ProjectReference>
+    <Compile Include="QueryEntity.cs" />
+    <Compile Include="Track.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

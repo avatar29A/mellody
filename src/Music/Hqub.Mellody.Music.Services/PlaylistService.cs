@@ -2,13 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using Hqub.Mellody.Music.Commands;
-using Hqub.Mellody.Web.Exceptions;
-using Hqub.Mellody.Web.Models;
-using Hqub.Mellody.Web.Models.DTO;
+using Hqub.Mellody.Poco;
 
-namespace Hqub.Mellody.Web.Services
+namespace Hqub.Mellody.Music.Services
 {
     public class PlaylistService : IPlaylistService
     {
@@ -47,7 +44,7 @@ namespace Hqub.Mellody.Web.Services
         public async Task<List<Track>> CreatePlaylist(List<QueryEntity> queries)
         {
             if (!CheckQueries(queries))
-                throw new QuerySyntaxException();
+                throw new Exception();
 
             var playlist = new List<Track>();
 
