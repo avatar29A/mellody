@@ -34,8 +34,6 @@ namespace Hqub.Mellody.Music.Client
 
         private async static void CreateTracks()
         {
-            //            DownloadUserAudioList("13378455");
-
             var station = new StationService();
             var playlistService = new PlaylistService();
 
@@ -43,7 +41,7 @@ namespace Hqub.Mellody.Music.Client
             {
                 new QueryEntity
                 {
-                    Name = "Ария - Ночь Короче Дня",
+                    Name = "Ария - Герой Асфальта",
                     TypeQuery = TypeQuery.Album
                 }
             });

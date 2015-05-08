@@ -22,7 +22,8 @@ namespace Hqub.Mellody.Web
             bundles.Add(new ScriptBundle("~/bundles/app")
                 .Include("~/Scripts/app/radio.js")
                 .Include("~/Scripts/app/dto.js")
-                .Include("~/Scripts/app/utils.js"));
+                .Include("~/Scripts/app/utils.js")
+                .Include("~/Scripts/app/player.js"));
 
             bundles.Add(new StyleBundle("~/Content/css")
                 .Include("~/Content/site.css")

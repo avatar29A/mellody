@@ -28,9 +28,9 @@ namespace Hqub.Mellody.Web.Models.Response
         public List<string> Errors { get; set; }
 
             /// <summary>
-        /// Description the problems
+        /// Message the problems
         /// </summary>
         [JsonProperty("description")]
-        public string Description { get; set; }
+        public string Message { get; set; }
     }
 }

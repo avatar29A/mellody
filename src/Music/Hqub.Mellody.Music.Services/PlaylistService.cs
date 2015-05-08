@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Hqub.Mellody.Music.Commands;
+using Hqub.Mellody.Music.Store;
 using Hqub.Mellody.Poco;
 
 namespace Hqub.Mellody.Music.Services
@@ -62,6 +63,20 @@ namespace Hqub.Mellody.Music.Services
             return playlist;
         }
 
+        public List<Track> GetPlaylist(Guid playlistId)
+        {
+            using (var context = new MusicStoreDbContext())
+            {
+                return context.Tracks.Where(t => t.Playlist.Id == playlistId).Select(t => new Track
+                {
+                    Artist = t.Artist,
+                    Title = t.Title,
+                    Duration = t.Duration,
+                    Id = t.Id
+                }).ToList();
+            }
+        }
+
         /// <summary>
         /// Check type and transfom text query.
         /// </summary>
@@ -84,6 +99,7 @@ namespace Hqub.Mellody.Music.Services
         {
             return entities.Select(t => new Track
             {
+                Artist = t.Artist,
                 Title = string.Format("{0} - {1}", t.Artist, t.Track)
             }).ToList();
         }
@@ -94,10 +110,11 @@ namespace Hqub.Mellody.Music.Services
 
             foreach (var entity in entities)
             {
-                var album = await Music.Helpers.MusicBrainzHelper.GetAlbumTracks(entity.Artist, entity.Album);
+                var album = await Helpers.MusicBrainzHelper.GetAlbumTracks(entity.Artist, entity.Album);
 
                 tracks.AddRange(album.Tracks.Select(t => new Track
                 {
+                    Artist = entity.Artist,
                     Title = t.Title,
                     Duration = t.Length
                 }).ToList());
@@ -116,12 +133,25 @@ namespace Hqub.Mellody.Music.Services
 
                 tracks.AddRange(allAlbumTracks.Select(t => new Track
                 {
+                    Artist = entity.Artist,
                     Title = string.Format("{0} - {1}", entity.Artist, t.Title),
                     Duration = t.Length
                 }));
             }
 
             return tracks;
+        }
+
+        private string GetArtist(string title)
+        {
+            var splitTitle = title.Split('-');
+
+            if (splitTitle.Length != 2)
+            {
+                return string.Empty;
+            }
+
+            return splitTitle[0].Trim();
         }
 
         private bool CheckQueries(List<QueryEntity> queries)

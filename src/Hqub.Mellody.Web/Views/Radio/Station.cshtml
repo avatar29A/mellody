@@ -1,4 +1,5 @@
 ﻿@using Hqub.Mellody.Web.Models
+@model Hqub.Mellody.Web.Models.Radio.StationModel
 
 @{
     ViewBag.Title = "Mellody: Новый радио эфир";
@@ -12,6 +13,12 @@
 @section scripts
 {
     @Scripts.Render("~/bundles/app")
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script type="text/javascript">
+        var station_id = '@Model.StationId';
+        InitlalizeStationVM();
+    </script>
+
 }
 
 <div class="grid">
@@ -39,59 +46,9 @@
             </a>
         </div>
 
-        <script src="https://www.youtube.com/iframe_api"></script>
-
         <script>
-            // 3. This function creates an <iframe> (and YouTube player)
-            //    after the API code downloads.
-            var player;
-            var ariaPlaylist = ['HIBRIA - Silent Revenge', 'HIBRIA - Shoot me Down', 'Offspring - Americana'];
-            var currentPlayIndex = 0;
             function onYouTubeIframeAPIReady() {
-                player = new YT.Player('player', {
-                    height: '390',
-                    width: '700',
-                    loop: 0,
-                    playerVars: {
-                        controls: 0
-                    },
-                    events: {
-                        'onReady': onPlayerReady,
-                        'onStateChange': onPlayerStateChange
-                    }
-                });
-            }
-
-            // 4. The API will call this function when the video player is ready.
-            function onPlayerReady(event) {
-//                nextPlay();
-            }
-
-            function nextPlay() {
-                if (currentPlayIndex >= ariaPlaylist.length) {
-                    currentPlayIndex = 0;
-                    return;
-                }
-
-                player.loadPlaylist({ listType: 'search', list: [ariaPlaylist[currentPlayIndex]] });
-                player.playVideo();
-
-                ++currentPlayIndex;
-            }
-
-            // 5. The API calls this function when the player's state changes.
-            //    The function indicates that when playing a video (state=1),
-            //    the player should play for six seconds and then stop.
-            function onPlayerStateChange(event) {
-                console.log(event.data);
-
-                if (event.data == YT.PlayerState.ENDED) {
-                    //stopVideo();
-                    //nextPlay();
-                }
-            }
-            function stopVideo() {
-                player.stopVideo();
+                InitalYoutubePlayer();
             }
         </script>
     </div>

@@ -15,8 +15,10 @@ namespace Hqub.Mellody.Music.Services
         {
             var playlistId = Guid.NewGuid();
 
+#if DEBUG
             var stopwatch = new Stopwatch();
             stopwatch.Start();
+#endif
 
             using (var ctx = new MusicStoreDbContext())
             {
@@ -44,8 +46,10 @@ namespace Hqub.Mellody.Music.Services
                 }
             }
 
+#if DEBUG
             stopwatch.Stop();
             Debug.WriteLine("QUERY END FOR: {0}", stopwatch.Elapsed);
+#endif
 
             return playlistId;
         }

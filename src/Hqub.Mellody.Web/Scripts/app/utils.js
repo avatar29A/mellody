@@ -24,6 +24,27 @@
 
 };
 
+get = function(url, callback) {
+    return $.ajax({
+        url: url,
+        type: 'GET',
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            if (callback)
+                callback(data);
+            else {
+                if (data.redirect) {
+                    location.href = resolveUrl(data.url);
+                }
+            }
+        },
+        error: function (error) {
+            alert("There was an error posting the data to the server: " + (error.responseText || error.statusText));
+        }
+    });
+}
+
 executeOnServer = function (model, url, callback) {
 
     return $.ajax({

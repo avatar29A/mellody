@@ -209,6 +209,7 @@
     </Compile>
     <Compile Include="Models\NavigationBarModel.cs" />
     <Compile Include="Models\PrepareRadioModel.cs" />
+    <Compile Include="Models\Radio\StationModel.cs" />
     <Compile Include="Models\Response\RadioCreatedResponse.cs" />
     <Compile Include="Models\Response\ResponseEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -320,6 +321,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\app\dto.js" />
+    <Content Include="Scripts\app\player.js" />
     <Content Include="Scripts\app\radio.js" />
     <Content Include="Scripts\app\utils.js" />
     <Content Include="Scripts\bootstrap.js" />

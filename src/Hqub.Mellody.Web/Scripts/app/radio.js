@@ -1,4 +1,4 @@
-﻿var RadioViewModel = function () {
+﻿var PlaylistViewModel = function () {
     var self = this;
 
     this.itemToAdd = ko.observable("");
@@ -51,8 +51,24 @@
     }
 }
 
-function InitlalizeRadioVM() {
-    var vm = new RadioViewModel();
+var StationViewModel = function() {
+    var self = this;
+
+    this.load_playlist = function() {
+        get('/Music/GetPlaylist/' + station_id, function (data) {
+            console.log(data);
+        });
+    }
+}
+
+function InitlalizePlaylistVM() {
+    var vm = new PlaylistViewModel();
+    ko.applyBindings(vm);
+}
+
+function InitlalizeStationVM() {
+    var vm = new StationViewModel();
+    vm.load_playlist();
     ko.applyBindings(vm);
 }
 

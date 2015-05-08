@@ -9,7 +9,7 @@ namespace Hqub.Mellody.Music.Store.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationsEnabled = false;
         }
 
         protected override void Seed(Hqub.Mellody.Music.Store.MusicStoreDbContext context)

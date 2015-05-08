@@ -60,25 +60,39 @@
             </p>
         </div>
     </div>
-    <div class="row clearfix">
-        <div class="place-right">
-            <button class="command-button success" onclick="location.href = '@Url.Action("Index", "Radio")'">
-                <i class="icon-music on-left"></i>
-                Create music mix
-                <small>combine your like artist</small>
-            </button>
-        </div>
-    </div>
+@*    <div class="row clearfix">*@
+@*        <div class="place-right">*@
+@*            <button class="command-button success" onclick="location.href = '@Url.Action("Index", "Radio")'">*@
+@*                <i class="icon-music on-left"></i>*@
+@*                Create music mix*@
+@*                <small>combine your like artist</small>*@
+@*            </button>*@
+@*        </div>*@
+@*    </div>*@
     
     <div class="row">
         <div class="span4">
             <h2>Music</h2>
             <p>sdf dsf dsf fds dfsfdfdf fdsfsd fdfdfdsfdsf fdsfdsf fdsfdsf sfdsfdsf</p>
+        
+            <div class="row clearfix">
+                <div class="place-right">
+                    @Html.ActionLink("read more", "Index", "Radio")
+                    
+                </div>
+            </div>
         </div>
         
         <div class="span4">
             <h2>Cloud</h2>
             <p>sdf dsf dsf fds dfsfdfdf fdsfsd fdfdfdsfdsf fdsfdsf fdsfdsf sfdsfdsf</p>
+        
+            <div class="row clearfix">
+                <div class="place-right">
+                    @Html.ActionLink("read more >", "Index", "Radio")
+
+                </div>
+            </div>
         </div>
         
         <div class="span4">
@@ -91,6 +105,13 @@
                 The ultimate source of music information by allowing anyone to contribute and releasing the data under open licenses.
                 The universal lingua franca for music by providing a reliable and unambiguous form of music identification, enabling both people and machines to have meaningful conversations about music.
             </p>
+
+            <div class="row clearfix">
+                <div class="place-right">
+                    @Html.ActionLink("read more", "Index", "Radio")
+
+                </div>
+            </div>
         </div>
     </div>
    

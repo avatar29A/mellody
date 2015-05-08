@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Hqub.Mellody.Poco;
 
@@ -17,5 +18,7 @@ namespace Hqub.Mellody.Music.Services
         /// </summary>
         /// <returns></returns>
         Task<List<Track>> CreatePlaylist(List<QueryEntity> queries);
+
+        List<Track> GetPlaylist(Guid playlistId);
     }
 }
