@@ -70,7 +70,7 @@
             return;
 
         self.setWait(true);
-        executeOnServer(new RadioDTO(self.mediaQueriesSupported()), '/Music/Index/', function (data) {
+        executeOnServer(new RadioDTO(self.mediaQueriesSupported()), '/Playlist/Index', function (data) {
             self.setWait(false);
             if (data.IsError) {
                 console.log("Error: " + data.Message + " (" + data.statusCode + ")");
@@ -78,7 +78,7 @@
                 return;
             }
 
-            window.location.href = '/Music/Station/' + data.StationId;
+            window.location.href = '/Station/Index/' + data.StationId;
         });
     }
 }
@@ -87,7 +87,7 @@ var StationViewModel = function() {
     var self = this;
 
     this.load_playlist = function() {
-        get('/Music/GetPlaylist/' + station_id, function (data) {
+        get('/Playlist/GetPlaylist/' + station_id, function (data) {
             console.log(data);
         });
     }

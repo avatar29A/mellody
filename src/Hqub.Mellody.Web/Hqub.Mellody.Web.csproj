@@ -205,7 +205,8 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\RadioController.cs" />
+    <Compile Include="Controllers\PlaylistController.cs" />
+    <Compile Include="Controllers\StationController.cs" />
     <Compile Include="Exceptions\QuerySyntaxException.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -371,9 +372,9 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-    <Content Include="Views\Radio\Index.cshtml" />
+    <Content Include="Views\Playlist\Index.cshtml" />
     <Content Include="Views\Controls\Navigation.cshtml" />
-    <Content Include="Views\Radio\Station.cshtml" />
+    <Content Include="Views\Station\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

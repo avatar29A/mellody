@@ -10,7 +10,7 @@ using Microsoft.Practices.Unity.Utility;
 
 namespace Hqub.Mellody.Web.Controllers
 {
-    public class RadioController : Controller
+    public class PlaylistController : Controller
     {
         private const int MaxQueryCount = 5;
 
@@ -18,7 +18,7 @@ namespace Hqub.Mellody.Web.Controllers
         private readonly IStationService _stationService;
         private readonly ICacheService _cacheService;
 
-        public RadioController(IPlaylistService playlistService,
+        public PlaylistController(IPlaylistService playlistService,
             IStationService stationService,
             ICacheService cacheService)
         {
@@ -27,6 +27,8 @@ namespace Hqub.Mellody.Web.Controllers
             _cacheService = cacheService;
         }
 
+        #region API
+
         /// <summary>
         /// Return all tracks by playlist id.
         /// </summary>
@@ -34,7 +36,7 @@ namespace Hqub.Mellody.Web.Controllers
         /// <returns></returns>
         [HttpGet]
         public JsonResult GetPlaylist(Guid id)
-        { 
+        {
             try
             {
                 var playlist = _playlistService.GetPlaylist(id);
@@ -47,36 +49,12 @@ namespace Hqub.Mellody.Web.Controllers
             }
         }
 
+        #endregion
+
         // GET: Radio
         public ActionResult Index()
         {
             return View();
-        }
-
-        [HttpGet]
-        public ActionResult Station(string id)
-        {
-            var guid = StringToGuid(id);
-
-            if (guid == Guid.Empty)
-                return RedirectToAction("Index");
-
-            return View(new StationModel
-            {
-                StationId = id
-            });
-        }
-
-        private Guid StringToGuid(string val)
-        {
-            Guid guidId;
-
-            if (!string.IsNullOrEmpty(val) && Guid.TryParse(val, out guidId))
-            {
-                return guidId;
-            }
-
-            return Guid.Empty;
         }
 
         /// <summary>
@@ -123,7 +101,7 @@ namespace Hqub.Mellody.Web.Controllers
             }
             catch (Exception exception)
             {
-                Logger.AddException(exception);
+                Logger.AddExceptionFull("PlaylistController.Index [POST]", exception);
 
                 return Json(new RadioCreatedResponse
                 {
@@ -132,12 +110,6 @@ namespace Hqub.Mellody.Web.Controllers
                     StatusCode = 500
                 });
             }
-        }
-
-        [HttpPost]
-        public JsonResult Check(Models.PrepareRadioModel model)
-        {
-            return Json(null);
         }
     }
 }

@@ -38,6 +38,22 @@ namespace Hqub.Mellody.Web
             _instance.ErrorException(exception.Message, exception);
         }
 
+        public static void AddExceptionFull(string message, Exception exception)
+        {
+            var error = new StringBuilder();
+
+            error.AppendLine(message);
+            error.AppendFormat("{0} \n\n {1}", exception.Message, exception.StackTrace);
+
+            if (exception.InnerException != null)
+            {
+                error.AppendLine("\n[Inner exception]");
+                error.AppendFormat("{0} \n\n {1}", exception.InnerException.Message, exception.InnerException.StackTrace);
+            }
+
+            _instance.Error(error.ToString());
+        }
+
         public static void LogApplicationStart()
         {
             Instance.Trace("Application run success");
