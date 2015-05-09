@@ -69,6 +69,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CacheService.cs" />
+    <Compile Include="Exceptions\EmptySearchResultException.cs" />
+    <Compile Include="ICacheService.cs" />
     <Compile Include="IPlaylistService.cs" />
     <Compile Include="IStationService.cs" />
     <Compile Include="PlaylistService.cs" />

@@ -67,6 +67,9 @@
     <Reference Include="Mono.Reflection">
       <HintPath>..\..\packages\Mono.Reflection.1.0.0.0\lib\Mono.Reflection.dll</HintPath>
     </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\..\packages\NLog.3.2.1\lib\net45\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="PerpetuumSoft.Knockout">
       <HintPath>..\..\packages\PerpetuumSoft.Knockout.0.5.7.2\lib\net40\PerpetuumSoft.Knockout.dll</HintPath>
     </Reference>
@@ -207,6 +210,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Logger.cs" />
     <Compile Include="Models\NavigationBarModel.cs" />
     <Compile Include="Models\PrepareRadioModel.cs" />
     <Compile Include="Models\Radio\StationModel.cs" />
@@ -218,6 +222,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\busy_indicator.gif" />
     <Content Include="Content\metro-ui\css\iconFont.min.css" />
     <Content Include="Content\metro-ui\css\metro-bootstrap-responsive.css" />
     <Content Include="Content\metro-ui\css\metro-bootstrap-responsive.min.css" />
@@ -332,6 +337,12 @@
     <Content Include="Content\metro-ui\fonts\iconFont.ttf" />
     <Content Include="Content\metro-ui\fonts\iconFont.json" />
     <Content Include="Content\metro-ui\fonts\iconFont.eot" />
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -384,6 +395,10 @@
     <ProjectReference Include="..\Music\Hqub.Mellody.Music.Services\Hqub.Mellody.Music.Services.csproj">
       <Project>{7ba4e55d-ff9d-4cf7-8022-634c7872f043}</Project>
       <Name>Hqub.Mellody.Music.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Music\Hqub.Mellody.Music.Store\Hqub.Mellody.Music.Store.csproj">
+      <Project>{65D5324A-5B10-43A7-9C80-741EB7B5A738}</Project>
+      <Name>Hqub.Mellody.Music.Store</Name>
     </ProjectReference>
     <ProjectReference Include="..\Music\Hqub.Mellody.Music\Hqub.Mellody.Music.csproj">
       <Project>{08b559a0-a10a-4b5a-8ace-0d4e2ddacb1f}</Project>

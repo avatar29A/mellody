@@ -62,6 +62,14 @@
     <Compile Include="Migrations\201504291530299_Initial.Designer.cs">
       <DependentUpon>201504291530299_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201505081748379_AddQueryEntity.cs" />
+    <Compile Include="Migrations\201505081748379_AddQueryEntity.Designer.cs">
+      <DependentUpon>201505081748379_AddQueryEntity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505090901567_RemoveQueryTableAndAddHashFieldToPlaylist.cs" />
+    <Compile Include="Migrations\201505090901567_RemoveQueryTableAndAddHashFieldToPlaylist.Designer.cs">
+      <DependentUpon>201505090901567_RemoveQueryTableAndAddHashFieldToPlaylist.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Playlist.cs" />
     <Compile Include="MusicStoreDbContext.cs" />
@@ -77,6 +85,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201504291530299_Initial.resx">
       <DependentUpon>201504291530299_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505081748379_AddQueryEntity.resx">
+      <DependentUpon>201505081748379_AddQueryEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505090901567_RemoveQueryTableAndAddHashFieldToPlaylist.resx">
+      <DependentUpon>201505090901567_RemoveQueryTableAndAddHashFieldToPlaylist.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

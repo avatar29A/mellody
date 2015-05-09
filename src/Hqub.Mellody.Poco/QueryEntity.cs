@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.ComponentModel;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace Hqub.Mellody.Poco

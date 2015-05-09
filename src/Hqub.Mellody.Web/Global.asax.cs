@@ -18,6 +18,13 @@ namespace Hqub.Mellody.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            Logger.LogApplicationStart();
+        }
+
+        protected void Application_End()
+        {
+            Logger.LogApplicationEnd();
         }
     }
 }

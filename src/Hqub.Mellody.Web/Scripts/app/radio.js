@@ -1,5 +1,6 @@
 ﻿var PlaylistViewModel = function () {
     var self = this;
+    this.isExecute = ko.observable(false);
 
     this.itemToAdd = ko.observable("");
     this.mediaQueriesSupported = ko.observableArray([]);
@@ -7,13 +8,28 @@
     this.typeQuery = ko.observable("Artist");
 
     this.addQuery = function () {
-        if ((this.itemToAdd() != "") && (this.mediaQueriesSupported.indexOf(this.itemToAdd()) < 0)) // Prevent blanks and duplicates
+        if ((this.itemToAdd() != "") && (this.mediaQueriesSupported.indexOf(this.itemToAdd()) < 0)) { // Prevent blanks and duplicates
+
+            if (this.mediaQueriesSupported().length == 5) {
+                Show("you reached limit in beta version", "Number of requests is limited to five.");
+                return;
+            }
+
             this.mediaQueriesSupported.push({
                 name: this.itemToAdd(),
                 typeQuery: this.typeQuery()
             });
+        }
         this.itemToAdd("");
     };
+
+    this.placeholder = ko.computed(function() {
+        if (self.typeQuery() == 'Artist') {
+            return "Example: Ozzy Osbourne";
+        } else {
+            return "Example: Black Sabbath - Paranoid";
+        }
+    });
 
     //
     // Function for working with query list
@@ -25,7 +41,8 @@
 
     // 
     // Copy text query
-    this.copyQuery = function(query) {
+    this.copyQuery = function (query) {
+        self.typeQuery(query.typeQuery);
         self.itemToAdd(query.name);
     };
 
@@ -40,13 +57,28 @@
         self.mediaQueriesSupported.remove(query);
     };
 
+    this.setWait = function(val) {
+        self.isExecute(val);
+    };
+
     //====================================================================
 
     //
     // Send request on create music station
-    this.runStation = function() {
+    this.runStation = function () {
+        if (self.isExecute())
+            return;
+
+        self.setWait(true);
         executeOnServer(new RadioDTO(self.mediaQueriesSupported()), '/Music/Index/', function (data) {
-            console.log(data);
+            self.setWait(false);
+            if (data.IsError) {
+                console.log("Error: " + data.Message + " (" + data.statusCode + ")");
+                Show("error", data.Message);
+                return;
+            }
+
+            window.location.href = '/Music/Station/' + data.StationId;
         });
     }
 }

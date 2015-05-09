@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Hqub.Mellody.Music.Commands;
+using Hqub.Mellody.Music.Services.Exceptions;
 using Hqub.Mellody.Music.Store;
 using Hqub.Mellody.Poco;
 
@@ -60,6 +61,9 @@ namespace Hqub.Mellody.Music.Services
                 playlist.AddRange(await _mappingCommand[command.GetType()](command.Entities));
             }
 
+            if(playlist.Count == 0)
+                throw new EmptySearchResultException();
+
             return playlist;
         }
 
@@ -110,14 +114,21 @@ namespace Hqub.Mellody.Music.Services
 
             foreach (var entity in entities)
             {
-                var album = await Helpers.MusicBrainzHelper.GetAlbumTracks(entity.Artist, entity.Album);
-
-                tracks.AddRange(album.Tracks.Select(t => new Track
+                try
                 {
-                    Artist = entity.Artist,
-                    Title = t.Title,
-                    Duration = t.Length
-                }).ToList());
+                    var album = await Helpers.MusicBrainzHelper.GetAlbumTracks(entity.Artist, entity.Album);
+
+                    tracks.AddRange(album.Tracks.Select(t => new Track
+                    {
+                        Artist = entity.Artist,
+                        Title = t.Title,
+                        Duration = t.Length
+                    }).ToList());
+                }
+                catch
+                {
+                    continue;
+                }
             }
 
             return tracks;
@@ -129,14 +140,21 @@ namespace Hqub.Mellody.Music.Services
 
             foreach (var entity in entities)
             {
-                var allAlbumTracks = await Music.Helpers.MusicBrainzHelper.GetArtistTracks(entity.Artist);
-
-                tracks.AddRange(allAlbumTracks.Select(t => new Track
+                try
                 {
-                    Artist = entity.Artist,
-                    Title = string.Format("{0} - {1}", entity.Artist, t.Title),
-                    Duration = t.Length
-                }));
+                    var allAlbumTracks = await Music.Helpers.MusicBrainzHelper.GetArtistTracks(entity.Artist);
+
+                    tracks.AddRange(allAlbumTracks.Select(t => new Track
+                    {
+                        Artist = entity.Artist,
+                        Title = string.Format("{0} - {1}", entity.Artist, t.Title),
+                        Duration = t.Length
+                    }));
+                }
+                catch
+                {
+                    continue;
+                }
             }
 
             return tracks;

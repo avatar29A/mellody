@@ -1,7 +1,7 @@
 ﻿@using Hqub.Mellody.Web.Models
 
 @{
-    ViewBag.Title = "Mellody: Новый радио эфир";
+    ViewBag.Title = "Mellody: Your favorite playlist!";
 }
 
 @section header
@@ -22,10 +22,11 @@
     <div class="row">
         <form data-bind="submit:addQuery">
             <fieldset>
-                <legend>Creating music station</legend>
+                <legend>Create your playlist</legend>
                 <div>
                     <div class="input-control input-lg text" data-role="input-control">
-                        <input type="text" placeholder="type query" data-bind="value:itemToAdd, valueUpdate:'afterkeydown'" />
+                        <input type="text" placeholder="type query" 
+                               data-bind="value:itemToAdd, valueUpdate:'afterkeydown', attr: { placeholder: placeholder}" />
                         <button class="btn-clear" tabindex="-1" type="button"></button>
                     </div>
                 </div>
@@ -54,22 +55,22 @@
                         </label>
                     </div>
 
-                    <div class="input-control radio  default-style margin20 nbm ntm" data-role="input-control">
-                        <label>
-                            <input type="radio"
-                                   data-bind="checked: typeQuery"
-                                   name="queryType"
-                                   value="Query">
-                            <span class="check"></span>
-                            query
-                        </label>
-                    </div>
+@*                    <div class="input-control radio  default-style margin20 nbm ntm" data-role="input-control">*@
+@*                        <label>*@
+@*                            <input type="radio"*@
+@*                                   data-bind="checked: typeQuery"*@
+@*                                   name="queryType"*@
+@*                                   value="Query">*@
+@*                            <span class="check"></span>*@
+@*                            query*@
+@*                        </label>*@
+@*                    </div>*@
 
                     <div class="place-right clearfix">
-                        <button class="button primary" type="button" data-bind="click:checkQuery">
-                            <i class="icon-checkmark"></i>
-                            CheckPlaylist query
-                        </button>
+                        @*                        <button class="button primary" type="button" data-bind="click:checkQuery">*@
+                        @*                            <i class="icon-checkmark"></i>*@
+                        @*                            CheckPlaylist query*@
+                        @*                        </button>*@
 
                         <button class="button success" type="submit">
                             <i class="icon-plus-2"></i>
@@ -81,34 +82,45 @@
         </form>     
     </div>
     
-    <div class="row" data-bind="visible: mediaQueriesSupported().length">
+    <div class="row">
         <h2>Queries</h2>
-        <table class="table hovered border">
-            <tbody data-bind="foreach: mediaQueriesSupported">
-                <tr>
-                    <td><span data-bind="text: name"></span></td>
-                    <td><span data-bind="text: typeQuery"></span></td>
-                    <td>
-                        <div class="place-right clearfix margin15 nlm nbm ntm">
-                            <a href="#" data-bind="click: $root.copyQuery"><span class="icon-copy"></span></a>
-                            <a href="#" data-bind="click: $root.editQuery"><span class="icon-pencil"></span></a>
-                            <a href="#" data-bind="click: $root.removeQuery"><span class="icon-remove"></span></a>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
         
-        <div class="place-right clearfix">
-            <button class="command-button success" data-bind="click: runStation">
-                <i class="icon-rocket"></i>
-                Run station
-                <small>enjoy your listening!</small>
-            </button>
+        <div data-bind="visible: mediaQueriesSupported().length == 0" class="margin20">
+            <p>Your query list is empty :(</p>
+        </div>
+        
+        <div data-bind="visible: mediaQueriesSupported().length">
+            <table class="table hovered border">
+                <tbody data-bind="foreach: mediaQueriesSupported">
+                    <tr>
+                        <td><span data-bind="text: name"></span></td>
+                        <td><span data-bind="text: typeQuery"></span></td>
+                        <td>
+                            <div class="place-right clearfix margin15 nlm nbm ntm">
+                                <a href="#" data-bind="click: $root.copyQuery"><span class="icon-copy"></span></a>
+                                <a href="#" data-bind="click: $root.editQuery"><span class="icon-pencil"></span></a>
+                                <a href="#" data-bind="click: $root.removeQuery"><span class="icon-remove"></span></a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="place-right clearfix">
+
+                <button class="command-button success" data-bind="disable: isExecute, click: runStation">
+                    <i class="icon-rocket"></i>
+                    Run station
+                    <small>enjoy your listening!</small>
+                </button>
+            </div>
+
+            <div data-bind="visible: isExecute" class="place-right clearfix margin20">
+                <img width="25px"
+                     src="@Url.Content("/Content/Images/busy_indicator.gif")" />
+            </div>
         </div>
     </div>
-    
-
 </div>
 
 

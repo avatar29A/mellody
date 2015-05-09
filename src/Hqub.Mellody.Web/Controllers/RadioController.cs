@@ -1,21 +1,30 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Hqub.Mellody.Music.Services;
+using Hqub.Mellody.Music.Services.Exceptions;
 using Hqub.Mellody.Web.Models.Radio;
+using Hqub.Mellody.Web.Models.Response;
 using Microsoft.Practices.Unity.Utility;
 
 namespace Hqub.Mellody.Web.Controllers
 {
     public class RadioController : Controller
     {
+        private const int MaxQueryCount = 5;
+
         private readonly IPlaylistService _playlistService;
         private readonly IStationService _stationService;
+        private readonly ICacheService _cacheService;
 
-        public RadioController(IPlaylistService playlistService, IStationService stationService)
+        public RadioController(IPlaylistService playlistService,
+            IStationService stationService,
+            ICacheService cacheService)
         {
             _playlistService = playlistService;
             _stationService = stationService;
+            _cacheService = cacheService;
         }
 
         /// <summary>
@@ -80,20 +89,47 @@ namespace Hqub.Mellody.Web.Controllers
         {
             try
             {
+                var queries = model.Queries.Take(MaxQueryCount).ToList();
+
+                var playlist = _cacheService.GetPlaylist(queries);
+                if (playlist != null)
+                {
+                    return Json(new RadioCreatedResponse(playlist.Id));
+                }
+
                 // Get tracks for playlist:
-                var playlist = await _playlistService.CreatePlaylist(model.Queries);
+                var tracks = await _playlistService.CreatePlaylist(queries);
 
                 // Save playlist and get id:
-                var stationId = _stationService.Create(playlist);
+                var stationId = _stationService.Create(tracks);
 
-                return Json(new Models.Response.RadioCreatedResponse(stationId));
+                // Save playlist in cache:
+                _cacheService.AddPlaylist(queries, stationId);
+
+                return Json(new RadioCreatedResponse(stationId));
+            }
+            catch (EmptySearchResultException ex)
+            {
+                Logger.AddException(
+                    string.Format("Not found queries:\n{0}",
+                        string.Join("\n", model.Queries.Select(q => q.Name).ToArray())), ex);
+
+                return Json(new RadioCreatedResponse
+                {
+                    IsError = true,
+                    Message = "Not found queries",
+                    StatusCode = 404
+                });
             }
             catch (Exception exception)
             {
-                return Json(new Models.Response.RadioCreatedResponse
+                Logger.AddException(exception);
+
+                return Json(new RadioCreatedResponse
                 {
                     IsError = true,
-                    Message = ""
+                    Message = "Internal server error.",
+                    StatusCode = 500
                 });
             }
         }
