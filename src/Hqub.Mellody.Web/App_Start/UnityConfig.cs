@@ -1,5 +1,6 @@
 using System;
 using Hqub.Mellody.Music.Services;
+using Hqub.Mellody.Web.Services;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 
@@ -40,6 +41,8 @@ namespace Hqub.Mellody.Web.App_Start
             container.RegisterType<IPlaylistService, PlaylistService>();
             container.RegisterType<IStationService, StationService>();
             container.RegisterType<ICacheService, CacheService>();
+            container.RegisterType<IAccountService, AccauntService>();
+            container.RegisterType<ILogService, LogService>();
         }
     }
 }

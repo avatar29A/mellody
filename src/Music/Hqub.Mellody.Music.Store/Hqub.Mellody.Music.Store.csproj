@@ -70,8 +70,18 @@
     <Compile Include="Migrations\201505090901567_RemoveQueryTableAndAddHashFieldToPlaylist.Designer.cs">
       <DependentUpon>201505090901567_RemoveQueryTableAndAddHashFieldToPlaylist.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201505100737502_AddStationEntity.cs" />
+    <Compile Include="Migrations\201505100737502_AddStationEntity.Designer.cs">
+      <DependentUpon>201505100737502_AddStationEntity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505101131089_AddCreateDateToBaseEntity.cs" />
+    <Compile Include="Migrations\201505101131089_AddCreateDateToBaseEntity.Designer.cs">
+      <DependentUpon>201505101131089_AddCreateDateToBaseEntity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\BaseEntity.cs" />
     <Compile Include="Models\Playlist.cs" />
+    <Compile Include="Models\Station.cs" />
     <Compile Include="MusicStoreDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Track.cs" />
@@ -91,6 +101,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201505090901567_RemoveQueryTableAndAddHashFieldToPlaylist.resx">
       <DependentUpon>201505090901567_RemoveQueryTableAndAddHashFieldToPlaylist.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505100737502_AddStationEntity.resx">
+      <DependentUpon>201505100737502_AddStationEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505101131089_AddCreateDateToBaseEntity.resx">
+      <DependentUpon>201505101131089_AddCreateDateToBaseEntity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

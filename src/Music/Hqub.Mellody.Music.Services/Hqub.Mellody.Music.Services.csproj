@@ -69,14 +69,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CacheService.cs" />
+    <Compile Include="Helpers\HashAlgHelper.cs" />
+    <Compile Include="Helpers\PlaylistHelper.cs" />
+    <Compile Include="Helpers\StationHelper.cs" />
+    <Compile Include="Implementation\AccauntService.cs" />
+    <Compile Include="Implementation\CacheService.cs" />
     <Compile Include="Exceptions\EmptySearchResultException.cs" />
-    <Compile Include="ICacheService.cs" />
-    <Compile Include="IPlaylistService.cs" />
-    <Compile Include="IStationService.cs" />
-    <Compile Include="PlaylistService.cs" />
+    <Compile Include="Interfaces\IAccountService.cs" />
+    <Compile Include="Interfaces\ICacheService.cs" />
+    <Compile Include="Interfaces\ILogService.cs" />
+    <Compile Include="Interfaces\IPlaylistService.cs" />
+    <Compile Include="Interfaces\IStationService.cs" />
+    <Compile Include="Implementation\PlaylistService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StationService.cs" />
+    <Compile Include="Implementation\StationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Hqub.Mellody.Poco\Hqub.Mellody.Poco.csproj">

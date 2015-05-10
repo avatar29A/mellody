@@ -7,15 +7,14 @@ using System.Threading.Tasks;
 
 namespace Hqub.Mellody.Music.Store.Models
 {
-    public class Playlist : IHasId
+    public class Playlist : BaseEntity
     {
-        public Guid Id { get; set; }
-
         public string Name { get; set; }
 
         [Index]
         public string Hash { get; set; }
 
+        public string HashDescription { get; set; }
 
         public virtual ICollection<Track> Tracks { get; set; }
     }

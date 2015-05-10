@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using Hqub.Mellody.Poco;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Hqub.Mellody.Music.Services
 {
-    public interface IStationService
+    public interface ILogService
     {
-        Guid Create(List<Track> tracks);
+
     }
 }

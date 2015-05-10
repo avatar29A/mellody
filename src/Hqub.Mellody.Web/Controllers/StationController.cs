@@ -12,10 +12,9 @@ namespace Hqub.Mellody.Web.Controllers
         [HttpGet]
         public ActionResult Index(string id)
         {
-            var guid = StringToGuid(id);
-
+            var guid = Music.Helpers.StationHelper.StringToGuid(id);
             if (guid == Guid.Empty)
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Playlist");
 
             return View(new StationModel
             {
@@ -25,17 +24,7 @@ namespace Hqub.Mellody.Web.Controllers
 
         #region Methods
 
-        private Guid StringToGuid(string val)
-        {
-            Guid guidId;
-
-            if (!string.IsNullOrEmpty(val) && Guid.TryParse(val, out guidId))
-            {
-                return guidId;
-            }
-
-            return Guid.Empty;
-        }
+       
 
         #endregion
     }

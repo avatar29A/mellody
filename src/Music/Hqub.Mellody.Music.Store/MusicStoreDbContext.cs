@@ -21,6 +21,7 @@ namespace Hqub.Mellody.Music.Store
             return new MusicStoreDbContext();
         }
 
+        public DbSet<Station> Stations { get; set; } 
         public DbSet<Playlist> Playlists { get; set; }
         public DbSet<Track> Tracks { get; set; }
     }

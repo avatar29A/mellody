@@ -1,21 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Transactions;
 using Hqub.Mellody.Music.Commands;
 using Hqub.Mellody.Music.Services.Exceptions;
 using Hqub.Mellody.Music.Store;
 using Hqub.Mellody.Poco;
+using Playlist = Hqub.Mellody.Music.Store.Models.Playlist;
+using Track = Hqub.Mellody.Music.Store.Models.Track;
 
 namespace Hqub.Mellody.Music.Services
 {
     public class PlaylistService : IPlaylistService
     {
+        private readonly ICacheService _cacheService;
         private readonly CommandFactory _mellodyTranslator;
         private readonly Dictionary<Type, Func<List<Entity>, Task<List<Track>>>> _mappingCommand; 
 
-        public PlaylistService()
+        public PlaylistService(ICacheService cacheService)
         {
+            _cacheService = cacheService;
             _mappingCommand = new Dictionary<Type, Func<List<Entity>, Task<List<Track>>>>
             {
                 {
@@ -33,39 +39,46 @@ namespace Hqub.Mellody.Music.Services
             _mellodyTranslator = new CommandFactory();
         }
 
-        public Dictionary<Type, Func<List<Entity>, Task<List<Track>>>> MappingCommand
+        /// <summary>
+        /// Looking tracks for playlist in MusicBrainz service.
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        public async Task<Playlist> CreatePlaylist(QueryEntity query)
         {
-            get { return _mappingCommand; }
-        }
+            var playlist = _cacheService.GetPlaylist(query);
+            if (playlist != null)
+                return playlist;
 
-        public bool CheckPlaylist(List<QueryEntity> queries)
-        {
-            return CheckQueries(queries);
-        }
-
-        public async Task<List<Track>> CreatePlaylist(List<QueryEntity> queries)
-        {
-            if (!CheckQueries(queries))
-                throw new Exception();
-
-            var playlist = new List<Track>();
-
-            foreach (var query in queries)
+            using (var ctx = new MusicStoreDbContext())
             {
+                var playlistId = Guid.NewGuid();
+                playlist = new Playlist
+                {
+                    Id = playlistId,
+                    Name = Helpers.PlaylistHelper.GetArtistName(query)
+                };
+
+                ctx.Playlists.Add(playlist);
+
                 var queryText = GetQueryText(query);
 
                 var command = _mellodyTranslator.Create(queryText);
                 if (command == null)
-                    continue;
+                    return playlist;
 
-                playlist.AddRange(await _mappingCommand[command.GetType()](command.Entities));
+                playlist.Tracks = new Collection<Track>(await _mappingCommand[command.GetType()](command.Entities));
+                if (playlist.Tracks.Count == 0)
+                    return null;
+                
+                _cacheService.AddPlaylist(query, playlist);
+
+                ctx.SaveChanges();
+
+                return playlist;
             }
-
-            if(playlist.Count == 0)
-                throw new EmptySearchResultException();
-
-            return playlist;
         }
+
 
         public List<Track> GetPlaylist(Guid playlistId)
         {
@@ -103,6 +116,7 @@ namespace Hqub.Mellody.Music.Services
         {
             return entities.Select(t => new Track
             {
+                Id = Guid.NewGuid(),
                 Artist = t.Artist,
                 Title = string.Format("{0} - {1}", t.Artist, t.Track)
             }).ToList();
@@ -120,6 +134,7 @@ namespace Hqub.Mellody.Music.Services
 
                     tracks.AddRange(album.Tracks.Select(t => new Track
                     {
+                        Id = Guid.Parse(t.Id),
                         Artist = entity.Artist,
                         Title = t.Title,
                         Duration = t.Length
@@ -142,10 +157,11 @@ namespace Hqub.Mellody.Music.Services
             {
                 try
                 {
-                    var allAlbumTracks = await Music.Helpers.MusicBrainzHelper.GetArtistTracks(entity.Artist);
+                    var allAlbumTracks = await Helpers.MusicBrainzHelper.GetArtistTracks(entity.Artist);
 
                     tracks.AddRange(allAlbumTracks.Select(t => new Track
                     {
+                        Id = Guid.Parse(t.Id),
                         Artist = entity.Artist,
                         Title = string.Format("{0} - {1}", entity.Artist, t.Title),
                         Duration = t.Length
@@ -158,23 +174,6 @@ namespace Hqub.Mellody.Music.Services
             }
 
             return tracks;
-        }
-
-        private string GetArtist(string title)
-        {
-            var splitTitle = title.Split('-');
-
-            if (splitTitle.Length != 2)
-            {
-                return string.Empty;
-            }
-
-            return splitTitle[0].Trim();
-        }
-
-        private bool CheckQueries(List<QueryEntity> queries)
-        {
-            return true;
         }
     }
 }

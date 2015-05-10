@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Hqub.Mellody.Music.Services;
 using Hqub.Mellody.Music.Services.Exceptions;
+using Hqub.Mellody.Music.Store.Models;
+using Hqub.Mellody.Poco;
 using Hqub.Mellody.Web.Models.Radio;
 using Hqub.Mellody.Web.Models.Response;
 using Microsoft.Practices.Unity.Utility;
@@ -12,7 +15,7 @@ namespace Hqub.Mellody.Web.Controllers
 {
     public class PlaylistController : Controller
     {
-        private const int MaxQueryCount = 5;
+        private const int MaxQueryCount = 3;
 
         private readonly IPlaylistService _playlistService;
         private readonly IStationService _stationService;
@@ -69,20 +72,21 @@ namespace Hqub.Mellody.Web.Controllers
             {
                 var queries = model.Queries.Take(MaxQueryCount).ToList();
 
-                var playlist = _cacheService.GetPlaylist(queries);
-                if (playlist != null)
+                var playlists = new List<Playlist>();
+                foreach (var query in queries)
                 {
-                    return Json(new RadioCreatedResponse(playlist.Id));
+                    var playlist = await _playlistService.CreatePlaylist(query);
+                    if (playlist == null) // if tracks number is 0, then playlist is null.
+                        continue;
+
+                    playlists.Add(playlist);
                 }
 
-                // Get tracks for playlist:
-                var tracks = await _playlistService.CreatePlaylist(queries);
-
-                // Save playlist and get id:
-                var stationId = _stationService.Create(tracks);
-
-                // Save playlist in cache:
-                _cacheService.AddPlaylist(queries, stationId);
+                if(playlists.Count == 0)
+                    throw new EmptySearchResultException();
+                
+                // Create personal station:
+                var stationId = _stationService.Create(playlists);
 
                 return Json(new RadioCreatedResponse(stationId));
             }

@@ -5,6 +5,7 @@ using Hqub.Mellody.Music.Commands;
 using Hqub.Mellody.Music.Services;
 using Hqub.Mellody.Poco;
 using Hqub.Mellowave.Vkontakte.API.LongPoll;
+using System.Text.RegularExpressions;
 
 namespace Hqub.Mellody.Music.Client
 {
@@ -14,7 +15,9 @@ namespace Hqub.Mellody.Music.Client
         {
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionTrapper;
 
-            CreateTracks();
+            Console.WriteLine(TestRegexp("АРия .- Ночь ,короче ;дня!"));
+
+//            CreateTracks();
 
 
 //            MellodyBotStart();
@@ -32,24 +35,26 @@ namespace Hqub.Mellody.Music.Client
             Console.ReadKey();
         }
 
+        private static string TestRegexp(string name)
+        {
+            return Regex.Replace(name, "[^\\w\\d]", string.Empty).Trim().ToLower();
+        }
+
         private async static void CreateTracks()
         {
             var station = new StationService();
-            var playlistService = new PlaylistService();
+            var playlistService = new PlaylistService(new CacheService());
 
-            var playlist = await playlistService.CreatePlaylist(new List<QueryEntity>
+            var playlist = await playlistService.CreatePlaylist(new QueryEntity
             {
-                new QueryEntity
-                {
-                    Name = "Ария - Герой Асфальта",
-                    TypeQuery = TypeQuery.Album
-                }
+                Name = "Ария - Герой Асфальта",
+                TypeQuery = TypeQuery.Album
             });
 
 
-            var stationId = station.Create(playlist);
+//            var stationId = station.Create(playlist);
 
-            Console.WriteLine("Station with ID = {0} created.", stationId);
+            Console.WriteLine("PocoStation with ID = {0} created.", Guid.Empty);
         }
 
         private static void UnhandledExceptionTrapper(object sender, UnhandledExceptionEventArgs e)
