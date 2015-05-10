@@ -5,6 +5,9 @@ using System.Web;
 
 namespace Hqub.Mellody.Web.Exceptions
 {
+    /// <summary>
+    /// Exception thrown if instanse of QueryEntity is unsupported.
+    /// </summary>
     public class QuerySyntaxException : Exception
     {
         public QuerySyntaxException()

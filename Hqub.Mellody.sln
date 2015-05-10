@@ -21,8 +21,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hqub.Mellody.Web.Tests", "t
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mellody.Music", "Mellody.Music", "{0DC2D10D-2554-4E2F-9EA8-51524D67AFB7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mellody.Cloud", "Mellody.Cloud", "{BD773CCC-A0CE-4CAB-9234-6897C08BB5AA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hqub.Mellody.Music.Client", "src\Music\Hqub.Mellody.Music.Client\Hqub.Mellody.Music.Client.csproj", "{EFB2E6D0-6A25-4198-B068-37D7AD80F989}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hqub.Mellody.Music.Store", "src\Music\Hqub.Mellody.Music.Store\Hqub.Mellody.Music.Store.csproj", "{65D5324A-5B10-43A7-9C80-741EB7B5A738}"

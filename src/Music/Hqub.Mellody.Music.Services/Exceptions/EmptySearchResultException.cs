@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Hqub.Mellody.Music.Services.Exceptions
 {
+    /// <summary>
+    /// Exception thrown when all playlist is empty.
+    /// </summary>
     public class EmptySearchResultException : Exception
     {
         public EmptySearchResultException() : base("Search result is empty.")

@@ -13,7 +13,7 @@ namespace Hqub.Mellody.Poco
     }
 
     /// <summary>
-    /// Description query entities. 
+    /// Description items from playlist. 
     /// </summary>
     [JsonObject]
     public class QueryEntity

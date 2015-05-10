@@ -8,11 +8,16 @@ namespace Hqub.Mellody.Music.Services
     public interface IPlaylistService
     {
         /// <summary>
-        /// Create music statio
+        /// Create music new playlist
         /// </summary>
-        /// <returns></returns>
-        Task<Playlist> CreatePlaylist(Hqub.Mellody.Poco.QueryEntity queries);
+        /// <returns>Playlist wrapped in async Task</returns>
+        Task<Playlist> Create(Poco.QueryEntity queries);
 
-        List<Track> GetPlaylist(Guid playlistId);
+        /// <summary>
+        /// Get track entity from db
+        /// </summary>
+        /// <param name="id">Track ID</param>
+        /// <returns>Track</returns>
+        List<Track> Get(Guid id);
     }
 }

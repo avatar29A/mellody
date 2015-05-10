@@ -5,6 +5,9 @@ using Newtonsoft.Json.Converters;
 
 namespace Hqub.Mellody.Web.Models
 {
+    /// <summary>
+    /// ViewModel for creating playlist.
+    /// </summary>
     [JsonObject]
     public class PrepareRadioModel
     {

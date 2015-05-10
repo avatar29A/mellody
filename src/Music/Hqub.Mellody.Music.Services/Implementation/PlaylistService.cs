@@ -15,9 +15,16 @@ namespace Hqub.Mellody.Music.Services
 {
     public class PlaylistService : IPlaylistService
     {
+
+        #region Fields
+
         private readonly ICacheService _cacheService;
         private readonly CommandFactory _mellodyTranslator;
-        private readonly Dictionary<Type, Func<List<Entity>, Task<List<Track>>>> _mappingCommand; 
+        private readonly Dictionary<Type, Func<List<Entity>, Task<List<Track>>>> _mappingCommand;
+
+        #endregion
+
+        #region .ctor
 
         public PlaylistService(ICacheService cacheService)
         {
@@ -39,12 +46,11 @@ namespace Hqub.Mellody.Music.Services
             _mellodyTranslator = new CommandFactory();
         }
 
-        /// <summary>
-        /// Looking tracks for playlist in MusicBrainz service.
-        /// </summary>
-        /// <param name="query"></param>
-        /// <returns></returns>
-        public async Task<Playlist> CreatePlaylist(QueryEntity query)
+        #endregion
+
+        #region IPlaylistService
+
+        public async Task<Playlist> Create(QueryEntity query)
         {
             var playlist = _cacheService.GetPlaylist(query);
             if (playlist != null)
@@ -79,12 +85,11 @@ namespace Hqub.Mellody.Music.Services
             }
         }
 
-
-        public List<Track> GetPlaylist(Guid playlistId)
+        public List<Track> Get(Guid id)
         {
             using (var context = new MusicStoreDbContext())
             {
-                return context.Tracks.Where(t => t.Playlist.Id == playlistId).Select(t => new Track
+                return context.Tracks.Where(t => t.Playlist.Id == id).Select(t => new Track
                 {
                     Artist = t.Artist,
                     Title = t.Title,
@@ -93,6 +98,10 @@ namespace Hqub.Mellody.Music.Services
                 }).ToList();
             }
         }
+
+        #endregion
+
+        #region Private Method
 
         /// <summary>
         /// Check type and transfom text query.
@@ -175,5 +184,7 @@ namespace Hqub.Mellody.Music.Services
 
             return tracks;
         }
+
+        #endregion
     }
 }

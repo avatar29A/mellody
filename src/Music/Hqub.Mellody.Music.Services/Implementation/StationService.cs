@@ -12,6 +12,8 @@ namespace Hqub.Mellody.Music.Services
 {
     public class StationService : IStationService
     {
+        #region IStationService
+
         public Guid Create(List<Playlist> playlists)
         {
             var stationId = Guid.NewGuid();
@@ -45,5 +47,7 @@ namespace Hqub.Mellody.Music.Services
                 return ctx.Stations.First(s => s.Id == id);
             }
         }
+
+        #endregion
     }
 }

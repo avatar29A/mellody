@@ -12,7 +12,9 @@ namespace Hqub.Mellody.Music.Services
 {
     public class CacheService : ICacheService
     {
-        public bool Exists(QueryEntity query)
+        #region ICacheService
+
+        public bool ExistsPlaylist(QueryEntity query)
         {
             var hash = Helpers.HashAlgHelper.GetHash(Helpers.PlaylistHelper.ConvertQueryToString(query));
 
@@ -33,14 +35,14 @@ namespace Hqub.Mellody.Music.Services
             }
         }
 
-        public void AddPlaylist(QueryEntity query, Guid playlistId)
+        public void AddPlaylist(QueryEntity query, Guid id)
         {
             var playlistName = Helpers.PlaylistHelper.ConvertQueryToString(query);
             var hash = Helpers.HashAlgHelper.GetHash(playlistName);
 
             using (var ctx = new MusicStoreDbContext())
             {
-                var playlist = ctx.Playlists.First(x => x.Id == playlistId);
+                var playlist = ctx.Playlists.First(x => x.Id == id);
                 playlist.Name = playlistName;
                 playlist.Hash = hash;
 
@@ -58,5 +60,7 @@ namespace Hqub.Mellody.Music.Services
 
             return playlist;
         }
+
+        #endregion
     }
 }

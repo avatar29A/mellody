@@ -76,7 +76,7 @@ namespace Hqub.Mellody.Web.Controllers
                 var playlists = new List<Playlist>();
                 foreach (var query in queries)
                 {
-                    var playlist = await _playlistService.CreatePlaylist(query);
+                    var playlist = await _playlistService.Create(query);
                     if (playlist == null) // if tracks number is 0, then playlist is null.
                         continue;
 

@@ -6,6 +6,9 @@ using Newtonsoft.Json;
 
 namespace Hqub.Mellody.Web.Models.Response
 {
+    /// <summary>
+    /// Basic type of response. Contains information system information.
+    /// </summary>
     [JsonObject]
     public class ResponseEntity
     {

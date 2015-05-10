@@ -45,7 +45,7 @@ namespace Hqub.Mellody.Music.Client
             var station = new StationService();
             var playlistService = new PlaylistService(new CacheService());
 
-            var playlist = await playlistService.CreatePlaylist(new QueryEntity
+            var playlist = await playlistService.Create(new QueryEntity
             {
                 Name = "Ария - Герой Асфальта",
                 TypeQuery = TypeQuery.Album

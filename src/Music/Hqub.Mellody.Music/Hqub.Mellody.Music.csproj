@@ -66,7 +66,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cache\MellodyMemory.cs" />
     <Compile Include="Commands\CommandFactory.cs" />
     <Compile Include="Commands\Entity.cs" />
     <Compile Include="Commands\HelpCommand.cs" />
