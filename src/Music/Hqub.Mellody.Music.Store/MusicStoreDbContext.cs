@@ -14,6 +14,7 @@ namespace Hqub.Mellody.Music.Store
         public MusicStoreDbContext()
             : base("MusicStoreEntities")
         {
+//            this.Configuration.ProxyCreationEnabled = false;
         }
 
         public static MusicStoreDbContext GetContext()

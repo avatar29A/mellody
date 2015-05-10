@@ -37,5 +37,13 @@ namespace Hqub.Mellody.Music.Services
 
             return stationId;
         }
+
+        public Station Get(Guid id)
+        {
+            using (var ctx = MusicStoreDbContext.GetContext())
+            {
+                return ctx.Stations.First(s => s.Id == id);
+            }
+        }
     }
 }

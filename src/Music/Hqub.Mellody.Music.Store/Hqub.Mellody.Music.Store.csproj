@@ -78,6 +78,10 @@
     <Compile Include="Migrations\201505101131089_AddCreateDateToBaseEntity.Designer.cs">
       <DependentUpon>201505101131089_AddCreateDateToBaseEntity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201505101725150_AddManyToManyBetweenPlaylistAndStation.cs" />
+    <Compile Include="Migrations\201505101725150_AddManyToManyBetweenPlaylistAndStation.Designer.cs">
+      <DependentUpon>201505101725150_AddManyToManyBetweenPlaylistAndStation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseEntity.cs" />
     <Compile Include="Models\Playlist.cs" />
@@ -107,6 +111,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201505101131089_AddCreateDateToBaseEntity.resx">
       <DependentUpon>201505101131089_AddCreateDateToBaseEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505101725150_AddManyToManyBetweenPlaylistAndStation.resx">
+      <DependentUpon>201505101725150_AddManyToManyBetweenPlaylistAndStation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

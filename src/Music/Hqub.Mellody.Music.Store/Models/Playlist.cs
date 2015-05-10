@@ -17,5 +17,6 @@ namespace Hqub.Mellody.Music.Store.Models
         public string HashDescription { get; set; }
 
         public virtual ICollection<Track> Tracks { get; set; }
+        public virtual ICollection<Station> Stations { get; set; } 
     }
 }

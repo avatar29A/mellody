@@ -42,9 +42,10 @@ namespace Hqub.Mellody.Web.Controllers
         {
             try
             {
-                var playlist = _playlistService.GetPlaylist(id);
+                var station = _stationService.Get(id);
+                var tracks = station.Playlists.Select(p => p.Tracks);
 
-                return Json(playlist, JsonRequestBehavior.AllowGet);
+                return Json(tracks, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {
