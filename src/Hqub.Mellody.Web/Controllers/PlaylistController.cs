@@ -27,31 +27,6 @@ namespace Hqub.Mellody.Web.Controllers
             _cacheService = cacheService;
         }
 
-        #region API
-
-        /// <summary>
-        /// Return all tracks by playlist id.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpGet]
-        public JsonResult GetPlaylist(Guid id)
-        {
-            try
-            {
-                var station = _stationService.Get(id);
-                var tracks = station.Playlists.Select(p => p.Tracks);
-
-                return Json(tracks, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception)
-            {
-                return Json(null);
-            }
-        }
-
-        #endregion
-
         // GET: Radio
         public ActionResult Index()
         {

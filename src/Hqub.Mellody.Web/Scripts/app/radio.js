@@ -87,7 +87,7 @@ var StationViewModel = function() {
     var self = this;
 
     this.load_playlist = function() {
-        get('/Playlist/GetPlaylist/' + station_id, function (data) {
+        get('/Station/Get/' + station_id, function (data) {
             console.log(data);
         });
     }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Hqub.Mellody.Music.Store.Models;
 using Hqub.Mellody.Poco;
+using Hqub.Mellody.Web.MapperConverters;
 using Microsoft.Owin;
 using Owin;
 
@@ -16,9 +17,9 @@ namespace Hqub.Mellody.Web
 
         private void ConfigureMapping()
         {
-            Mapper.CreateMap<TrackDTO, Track>();
-            Mapper.CreateMap<PlaylistDTO, Playlist>();
-            Mapper.CreateMap<StationDTO, Station>();
+            Mapper.CreateMap<Track, TrackDTO>();
+            Mapper.CreateMap<Playlist, PlaylistDTO>();
+            Mapper.CreateMap<Station, StationDTO>();
         }
     }
 }

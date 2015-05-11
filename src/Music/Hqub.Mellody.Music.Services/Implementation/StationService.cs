@@ -48,6 +48,16 @@ namespace Hqub.Mellody.Music.Services
             }
         }
 
+        public IList<Track> GetTracks(Guid stationId)
+        {
+            using (var ctx = MusicStoreDbContext.GetContext())
+            {
+                var station =  ctx.Stations.First(s => s.Id == stationId);
+
+                return station.Playlists.SelectMany(p => p.Tracks).ToList();
+            }
+        }
+
         #endregion
     }
 }

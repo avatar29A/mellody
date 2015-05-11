@@ -1,5 +1,5 @@
 ﻿@using Hqub.Mellody.Web.Models
-@model Hqub.Mellody.Web.Models.Radio.StationModel
+@model Hqub.Mellody.Poco.StationDTO
 
 @{
     ViewBag.Title = "Mellody: Новый радио эфир";
@@ -15,7 +15,7 @@
     @Scripts.Render("~/bundles/app")
     <script src="https://www.youtube.com/iframe_api"></script>
     <script type="text/javascript">
-        var station_id = '@Model.StationId';
+        var station_id = '@Model.Id';
         InitlalizeStationVM();
     </script>
 
