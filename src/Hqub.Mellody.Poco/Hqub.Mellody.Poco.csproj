@@ -45,8 +45,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PlaylistDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryEntity.cs" />
+    <Compile Include="StationDTO.cs" />
+    <Compile Include="TrackDTO.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

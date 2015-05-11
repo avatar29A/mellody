@@ -3,6 +3,9 @@ using Newtonsoft.Json;
 
 namespace Hqub.Mellody.Web.Models.Response
 {
+    /// <summary>
+    /// Return the entity on request of creating station.
+    /// </summary>
     [JsonObject]
     public class RadioCreatedResponse : ResponseEntity
     {

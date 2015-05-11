@@ -6,6 +6,9 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using AutoMapper;
+using Hqub.Mellody.Music.Store.Models;
+using Hqub.Mellody.Poco;
 
 namespace Hqub.Mellody.Web
 {

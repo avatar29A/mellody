@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Hqub.Mellody.Music.Store.Models
 {
+    /// <summary>
+    /// Base entity. Contains primary key and date modify attributes.
+    /// </summary>
     public abstract class BaseEntity : IHasId
     {
         protected BaseEntity()

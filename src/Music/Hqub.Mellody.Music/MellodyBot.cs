@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Hqub.Mellody.Music.Cache;
 using Hqub.Mellody.Music.Commands;
 using Hqub.Mellody.Music.Helpers;
 using Hqub.Mellowave.Vkontakte.API.Factories;
@@ -22,13 +21,11 @@ namespace Hqub.Mellody.Music
         private readonly ApiFactory _vk;
         private readonly CommandFactory _mellodyTranslator;
         private LongPollServer _vkTunnel;
-        private MellodyMemory _mellodyMemory;
 
         public MellodyBot(ApiFactory vk)
         {
             _vk = vk;
             _mellodyTranslator = new CommandFactory();
-            _mellodyMemory = new MellodyMemory();
         }
 
         public void Live()

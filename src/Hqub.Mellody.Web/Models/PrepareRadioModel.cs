@@ -11,6 +11,9 @@ namespace Hqub.Mellody.Web.Models
     [JsonObject]
     public class PrepareRadioModel
     {
+        /// <summary>
+        /// List of queries.
+        /// </summary>
         public List<QueryEntity> Queries { get; set; }
     }
 }

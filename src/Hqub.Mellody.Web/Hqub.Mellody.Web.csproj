@@ -220,7 +220,6 @@
     <Compile Include="Logger.cs" />
     <Compile Include="Models\NavigationBarModel.cs" />
     <Compile Include="Models\PrepareRadioModel.cs" />
-    <Compile Include="Models\Radio\StationModel.cs" />
     <Compile Include="Models\Response\RadioCreatedResponse.cs" />
     <Compile Include="Models\Response\ResponseEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using Hqub.Mellody.Web.Models.Radio;
+using Hqub.Mellody.Poco;
 
 namespace Hqub.Mellody.Web.Controllers
 {
@@ -16,9 +13,9 @@ namespace Hqub.Mellody.Web.Controllers
             if (guid == Guid.Empty)
                 return RedirectToAction("Index", "Playlist");
 
-            return View(new StationModel
+            return View(new StationDTO
             {
-                StationId = id
+                Id = guid
             });
         }
 

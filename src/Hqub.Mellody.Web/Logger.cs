@@ -14,11 +14,20 @@ namespace Hqub.Mellody.Web
         }
 
 
+        /// <summary>
+        /// is writing message about error into journal, as well as stacktrace.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="exception"></param>
         public static void AddException(string message, Exception exception)
         {
             _instance.Error("{0}\n{1}", message, exception.StackTrace);
         }
 
+        /// <summary>
+        /// is writing message about error into journal. Used standard NLog method 'ErrorException'.
+        /// </summary>
+        /// <param name="exception">Instance of the exception.</param>
         public static void AddException(Exception exception)
         {
             var stars = GetStarts(10);
@@ -38,6 +47,11 @@ namespace Hqub.Mellody.Web
             _instance.ErrorException(exception.Message, exception);
         }
 
+        /// <summary>
+        /// is writing message about error, stacktrace and inner exception.
+        /// </summary>
+        /// <param name="message">Error message</param>
+        /// <param name="exception">Instance of the exception</param>
         public static void AddExceptionFull(string message, Exception exception)
         {
             var error = new StringBuilder();
@@ -54,11 +68,17 @@ namespace Hqub.Mellody.Web
             _instance.Error(error.ToString());
         }
 
+        /// <summary>
+        /// logged app launch.
+        /// </summary>
         public static void LogApplicationStart()
         {
             Instance.Trace("Application run success");
         }
 
+        /// <summary>
+        /// logged app end.
+        /// </summary>
         public static void LogApplicationEnd()
         {
             Instance.Trace("Application end.");
