@@ -13,7 +13,7 @@
 @section scripts
 {
     @Scripts.Render("~/bundles/app")
-    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="https://www.youtube.com/iframe_api?showinfo=0"></script>
     <script type="text/javascript">
         var station_id = '@Model.Id';
         InitlalizeStationVM();
@@ -42,13 +42,19 @@
         <div id="player" class="offset2"></div>
         <div class="row bg-gray span9"  style="margin-left: 160px; margin-top: -4px; margin-right: -10px;">
             <a href="#" data-bind="click: player().play_pause, enable: is_busy == false">
-                <img src="@Url.Content("/Content/metro-ui/icons/white/pause_white.png")">
+                <img src="@Url.Content("/Content/metro-ui/icons/white/pause_white.png")" />
+            </a>
+            
+            <a href="#">
+                <img src="@Url.Content("/Content/metro-ui/icons/white/ff.png")" />
             </a>
         </div>
 
         <script>
             function onYouTubeIframeAPIReady() {
-                InitalYoutubePlayer();
+                InitalYoutubePlayer(undefined, {
+                    'onStateChange': vm.onPlayerStateChange
+                });
             }
         </script>
     </div>

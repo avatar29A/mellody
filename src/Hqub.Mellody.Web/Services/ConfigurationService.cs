@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Hqub.Mellody.Music.Configure;
+﻿using Hqub.Mellody.Music.Configure;
 using Hqub.Mellody.Music.Services;
 
 namespace Hqub.Mellody.Web.Services
@@ -11,13 +7,16 @@ namespace Hqub.Mellody.Web.Services
     {
         public LastfmConfigureSection GetLastfmConfig()
         {
-            throw new NotImplementedException();
+            var config = (LastfmConfigureSection)
+                System.Configuration.ConfigurationManager.GetSection("mellodySectionGroup/lastfmSection");
+
+            return config;
         }
 
         public YoutubeConfigureSection GetYoutubeConfig()
         {
             var config = (YoutubeConfigureSection)
-               System.Configuration.ConfigurationManager.GetSection("customSectionGroup/youtubeSection");
+               System.Configuration.ConfigurationManager.GetSection("mellodySectionGroup/youtubeSection");
 
             return config;
         }

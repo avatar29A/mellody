@@ -14,12 +14,15 @@ namespace Hqub.Mellody.Web.Controllers
     public class StationController : Controller
     {
         private readonly IStationService _stationService;
+        private readonly IYoutubeService _youtubeService;
         private readonly ICacheService _cacheService;
 
         public StationController(IStationService stationService,
+            IYoutubeService youtubeService,
             ICacheService cacheService)
         {
             _stationService = stationService;
+            _youtubeService = youtubeService;
             _cacheService = cacheService;
         }
 
@@ -62,9 +65,9 @@ namespace Hqub.Mellody.Web.Controllers
                 }
 
                 // Remove first 'countTrackPerRequest' tracks from playlist.
-                Session[stationName] = tracksDTO.Skip(countTrackPerRequest);
+                Session[stationName] = tracksDTO.Skip(countTrackPerRequest).ToList();
 
-                var portionTracks = tracksDTO.Take(countTrackPerRequest);
+                var portionTracks = FillYoutubeSection(tracksDTO.Take(countTrackPerRequest).ToList());
                 return Json(portionTracks, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -79,6 +82,20 @@ namespace Hqub.Mellody.Web.Controllers
                     StatusCode = 500
                 }, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        private List<TrackDTO> FillYoutubeSection(List<TrackDTO> tracks)
+        {
+            foreach (var track in tracks)
+            {
+               var results = _youtubeService.Search(track.ToString());
+                if (results.Count == 0)
+                    continue;
+
+                track.VideoId = results[0].VideoId;
+            }
+
+            return tracks;
         }
 
         private List<TrackDTO> GetShuffleTracks(Guid stationId, int offset=0)

@@ -5,6 +5,7 @@ function GetDefaultPlayerSettings() {
         width: '700',
         height: '390',
         loop: 0,
+        showinfo:0,
         playerVars: {
             controls: 0
         }

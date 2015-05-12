@@ -18,6 +18,11 @@ namespace Hqub.Mellody.Poco
         public int Duration { get; set; }
         public int Quality { get; set; }
 
-        public YoutubeVideoDTO YoutubeInfo { get; set; }
+        public string VideoId { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("{0} - {1}", Artist, Title);
+        }
     }
 }

@@ -88,18 +88,48 @@ var StationViewModel = function() {
 
     this.load_playlist = function() {
         get('/Station/Get/' + station_id, function (data) {
-            console.log(data);
+            if (data.IsError || data.length == 0) {
+                alert("Station is empty :(");
+                return;
+            }
+
+            self.play(data);
         });
     }
+
+    // play current playlist:
+    this.play = function (tracks) {
+        var videos = $(tracks).map(function() {
+            return this.VideoId;
+        }).get();
+
+        Player.cuePlaylist(videos);
+    }
+
+    this.onPlayerStateChange = function (event) {
+        if (event.data == YT.PlayerState.CUED) {
+            Player.playVideo();
+
+        }else if (event.data == YT.PlayerState.ENDED) {
+            self.load_playlist();
+        }
+    }
+
+    this.nextTrack = function () {
+       
+    }
+
 }
 
+var vm = null;
+
 function InitlalizePlaylistVM() {
-    var vm = new PlaylistViewModel();
+    vm = new PlaylistViewModel();
     ko.applyBindings(vm);
 }
 
 function InitlalizeStationVM() {
-    var vm = new StationViewModel();
+    vm = new StationViewModel();
     vm.load_playlist();
     ko.applyBindings(vm);
 }
