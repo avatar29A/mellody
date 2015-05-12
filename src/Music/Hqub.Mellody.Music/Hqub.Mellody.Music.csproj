@@ -75,7 +75,9 @@
     <Compile Include="Commands\AlbumCommand.cs" />
     <Compile Include="Commands\ArtistCommand.cs" />
     <Compile Include="Commands\TrackCommand.cs" />
+    <Compile Include="Configure\LastfmConfigureSection.cs" />
     <Compile Include="Configure\PythonConfigureSection.cs" />
+    <Compile Include="Configure\YoutubeConfigureSection.cs" />
     <Compile Include="Grammar\MellodyControlGrammar.cs" />
     <Compile Include="Helpers\ConfigureHelper.cs" />
     <Compile Include="Helpers\MusicBrainzHelper.cs" />

@@ -89,6 +89,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http" />
@@ -110,8 +111,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configure\LastfmConfig.cs" />
-    <Compile Include="Configure\YoutubeConfig.cs" />
     <Compile Include="Helpers\HashAlgHelper.cs" />
     <Compile Include="Helpers\PlaylistHelper.cs" />
     <Compile Include="Helpers\StationHelper.cs" />

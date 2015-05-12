@@ -1,15 +1,17 @@
-﻿using Hqub.Mellody.Music.Configure;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using Hqub.Mellody.Music.Configure;
+using Hqub.Mellody.Music.Services;
 
-namespace Hqub.Mellody.Music.Client
+namespace Hqub.Mellody.Web.Services
 {
-    public class ConfigureService : Services.IConfigurationService
+    public class ConfigurationService : IConfigurationService
     {
         public LastfmConfigureSection GetLastfmConfig()
         {
-            var config = (LastfmConfigureSection)
-               System.Configuration.ConfigurationManager.GetSection("customSectionGroup/lastfmSection");
-
-            return config;
+            throw new NotImplementedException();
         }
 
         public YoutubeConfigureSection GetYoutubeConfig()

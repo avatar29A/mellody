@@ -2,7 +2,7 @@
 using System.Linq;
 using Google.Apis.Services;
 using Google.Apis.YouTube.v3;
-using Hqub.Mellody.Music.Services.Configure;
+using Hqub.Mellody.Music.Configure;
 using Hqub.Mellody.Poco;
 
 namespace Hqub.Mellody.Music.Services
@@ -12,20 +12,18 @@ namespace Hqub.Mellody.Music.Services
     /// </summary>
     public class YoutubeService : IYoutubeService
     {
-        private readonly IConfigurationService _configurationService;
-        private readonly YoutubeConfig _config;
+        private readonly YoutubeConfigureSection _config;
 
         public YoutubeService(IConfigurationService configurationService)
         {
-            _configurationService = configurationService;
-            _config = _configurationService.GetYoutubeConfig();
+            _config = configurationService.GetYoutubeConfig();
         }
 
         public List<YoutubeVideoDTO> Search(string query)
         {
             var youtube = new YouTubeService(new BaseClientService.Initializer
             {
-                ApiKey = _config.DeveloperKey,
+                ApiKey = _config.ApiKey,
                 ApplicationName = _config.ApplicationName
             });
 
@@ -37,10 +35,7 @@ namespace Hqub.Mellody.Music.Services
 
             return (from searchResult in searchListResponse.Items
                 where searchResult.Id.Kind == "youtube#video"
-                select new YoutubeVideoDTO(searchResult.Snippet.Title, searchResult.Id.VideoId)
-                {
-                    ThumbnaillUrlStandard = searchResult.Snippet.Thumbnails.Standard.Url
-                }).ToList();
+                select new YoutubeVideoDTO(searchResult.Snippet.Title, searchResult.Id.VideoId)).ToList();
         }
     }
 }

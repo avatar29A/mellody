@@ -8,7 +8,7 @@ namespace Hqub.Mellody.Music.Services
 {
     public interface IConfigurationService
     {
-        Configure.LastfmConfig GetLastfmConfig();
-        Configure.YoutubeConfig GetYoutubeConfig();
+        Configure.LastfmConfigureSection GetLastfmConfig();
+        Configure.YoutubeConfigureSection GetYoutubeConfig();
     }
 }
