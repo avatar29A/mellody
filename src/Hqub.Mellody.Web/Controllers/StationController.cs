@@ -6,6 +6,7 @@ using AutoMapper;
 using Hqub.Mellody.Music.Services;
 using Hqub.Mellody.Music.Store.Models;
 using Hqub.Mellody.Poco;
+using Hqub.Mellody.Web.Extensions;
 using Hqub.Mellody.Web.Models.Response;
 
 namespace Hqub.Mellody.Web.Controllers
@@ -45,11 +46,26 @@ namespace Hqub.Mellody.Web.Controllers
         {
             try
             {
-                var tracks = _stationService.GetTracks(id);
+                const int countTrackPerRequest = 10;
+                var stationName = string.Format("station_{0}", id);
 
-                var tracksDTO = tracks.Select(Mapper.Map<TrackDTO>);
+                List<TrackDTO> tracksDTO;
 
-                return Json(tracksDTO, JsonRequestBehavior.AllowGet);
+                //Try get tracks from session
+                if (Session[stationName] == null)
+                    tracksDTO = GetShuffleTracks(id);
+                else // if track list from session is empty, then get tracks from DB.
+                {
+                    tracksDTO = (List<TrackDTO>) Session[stationName];
+                    if (tracksDTO == null || tracksDTO.Count == 0)
+                        tracksDTO = GetShuffleTracks(id);
+                }
+
+                // Remove first 'countTrackPerRequest' tracks from playlist.
+                Session[stationName] = tracksDTO.Skip(countTrackPerRequest);
+
+                var portionTracks = tracksDTO.Take(countTrackPerRequest);
+                return Json(portionTracks, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -58,11 +74,21 @@ namespace Hqub.Mellody.Web.Controllers
 
                 return Json(new ResponseEntity
                 {
-                    IsError =  true,
+                    IsError = true,
                     Message = "Internal server error.",
                     StatusCode = 500
                 }, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        private List<TrackDTO> GetShuffleTracks(Guid stationId, int offset=0)
+        {
+            var tracks = _stationService.GetTracks(stationId);
+            var tracksDTO = tracks.Select(Mapper.Map<TrackDTO>).ToList();
+
+            tracksDTO.Shuffle();
+
+            return tracksDTO;
         }
 
         #region Methods

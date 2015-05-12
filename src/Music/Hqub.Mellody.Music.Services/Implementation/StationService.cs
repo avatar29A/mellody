@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Transactions;
-using EntityFramework.BulkInsert.Extensions;
 using Hqub.Mellody.Music.Store;
 using Hqub.Mellody.Music.Store.Models;
 

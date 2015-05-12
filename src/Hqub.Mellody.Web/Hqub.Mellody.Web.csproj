@@ -214,11 +214,11 @@
     <Compile Include="Controllers\PlaylistController.cs" />
     <Compile Include="Controllers\StationController.cs" />
     <Compile Include="Exceptions\QuerySyntaxException.cs" />
+    <Compile Include="Extensions\ListExt.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Logger.cs" />
-    <Compile Include="MapperConverters\TrackConverter.cs" />
     <Compile Include="Models\NavigationBarModel.cs" />
     <Compile Include="Models\PrepareRadioModel.cs" />
     <Compile Include="Models\Response\RadioCreatedResponse.cs" />
@@ -386,7 +386,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Images\Slider\" />
-    <Folder Include="Converters\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -50,6 +50,7 @@
     <Compile Include="QueryEntity.cs" />
     <Compile Include="StationDTO.cs" />
     <Compile Include="TrackDTO.cs" />
+    <Compile Include="YoutubeVideoDTO.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

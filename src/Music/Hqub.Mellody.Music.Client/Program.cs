@@ -15,7 +15,12 @@ namespace Hqub.Mellody.Music.Client
         {
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionTrapper;
 
-            Console.WriteLine(TestRegexp("АРия .- Ночь ,короче ;дня!"));
+            var service = new YoutubeService(new ConfigureService());
+
+            foreach (var youtubeVideoDTO in service.Search("Ария - Беспечный ангел"))
+            {
+                Console.WriteLine(string.Format("{0} [{1}]", youtubeVideoDTO.Title, youtubeVideoDTO.VideoId));
+            }
 
 //            CreateTracks();
 

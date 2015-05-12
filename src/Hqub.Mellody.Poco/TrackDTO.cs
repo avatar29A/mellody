@@ -17,5 +17,7 @@ namespace Hqub.Mellody.Poco
         public string Artist { get; set; }
         public int Duration { get; set; }
         public int Quality { get; set; }
+
+        public YoutubeVideoDTO YoutubeInfo { get; set; }
     }
 }
