@@ -100,10 +100,13 @@
     </div>
 
     <div id="info-block" class="row">
-        <h2 data-bind="text: currentTrack().FullTitle"></h2>
+        <div class="span11">
+            <h2 data-bind="text: currentTrack().FullTitle"></h2>
 
-        <div class="wiki-text margin-from-title" data-bind="text: currentTrack().ArtistBio">
+            <div class="wiki-text margin-from-title" data-bind="html: currentTrack().ArtistBio">
 
+            </div>
         </div>
+        
     </div>
 </div>

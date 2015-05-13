@@ -15,14 +15,17 @@ namespace Hqub.Mellody.Web.Controllers
     {
         private readonly IStationService _stationService;
         private readonly IYoutubeService _youtubeService;
+        private readonly ILastfmService _lastfmService;
         private readonly ICacheService _cacheService;
 
         public StationController(IStationService stationService,
             IYoutubeService youtubeService,
+            ILastfmService lastfmService,
             ICacheService cacheService)
         {
             _stationService = stationService;
             _youtubeService = youtubeService;
+            _lastfmService = lastfmService;
             _cacheService = cacheService;
         }
 
@@ -67,7 +70,7 @@ namespace Hqub.Mellody.Web.Controllers
                 // Remove first 'countTrackPerRequest' tracks from playlist.
                 Session[stationName] = tracksDTO.Skip(countTrackPerRequest).ToList();
 
-                var portionTracks = FillYoutubeSection(tracksDTO.Take(countTrackPerRequest).ToList());
+                var portionTracks = FillExtInfoSection(tracksDTO.Take(countTrackPerRequest).ToList());
                 return Json(new PlaylistResponse
                 {
                     Tracks = portionTracks
@@ -87,7 +90,7 @@ namespace Hqub.Mellody.Web.Controllers
             }
         }
 
-        private List<TrackDTO> FillYoutubeSection(List<TrackDTO> tracks)
+        private List<TrackDTO> FillExtInfoSection(List<TrackDTO> tracks)
         {
             foreach (var track in tracks)
             {
@@ -96,7 +99,7 @@ namespace Hqub.Mellody.Web.Controllers
                     continue;
 
                 track.VideoId = results[0].VideoId;
-                track.ArtistBio = " Believe is the twenty-third studio album by American singer-actress Cher, released on November 10, 1998 by Warner Bros. Records. The RIAA certified it Quadruple Platinum on December 23, 1999, recognizing four million shipments in the United States; Worldwide, the album has sold more than 20 million copies, making it the biggest-selling album of her career. In 1999 the album received three Grammy Awards nominations including &quot;Record of the Year&quot;, &quot;Best Pop Album&quot; and winning &quot;Best Dance Recording&quot; for the single &quot;Believe&quot;.";
+                track.ArtistBio = _lastfmService.GetBio(track.Artist, "ru");
             }
 
             return tracks;
