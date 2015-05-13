@@ -2,8 +2,8 @@
 
 function GetDefaultPlayerSettings() {
     return {
-        width: '700',
-        height: '390',
+        width: '850',
+        height: '450',
         loop: 0,
         showinfo:0,
         playerVars: {

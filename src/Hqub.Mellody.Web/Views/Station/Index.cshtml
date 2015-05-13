@@ -29,7 +29,7 @@
 
         <div class="clearfix">
             <div class="place-right">
-                <button class="command-button success" onclick="location.href = '@Url.Action("Index", "Radio")'">
+                <button class="command-button success" onclick="location.href = '@Url.Action("Index", "Playlist")'">
                     <i class="icon-music on-left"></i>
                     Create music channel
                     <small>combine your like artist</small>
@@ -39,27 +39,71 @@
     </div>
     
     <div class="row">
-        <div id="player" class="offset2"></div>
-        <div class="row bg-gray span9"  style="margin-left: 160px; margin-top: -4px; margin-right: -10px;">
-            <a href="#" data-bind="click: player().play_pause, enable: is_busy == false">
-                <img src="@Url.Content("/Content/metro-ui/icons/white/pause_white.png")" />
-            </a>
-            
-            <a href="#">
-                <img src="@Url.Content("/Content/metro-ui/icons/white/ff.png")" />
-            </a>
+        <div id="player"></div>
+
+        <div class="row bg-gray"  style="margin-top: -4px; margin-right: -10px; width: 850px;">
+            <div class="span6">
+                <a href="#" data-bind="click:pause_play">
+                    <img src="@Url.Content("/Content/metro-ui/icons/white/play_white.png")"
+                         class="player-control-btn play-pause-control" />
+                </a>
+
+                <a href="#" data-bind="click: nextTrack">
+                    <img src="@Url.Content("/Content/metro-ui/icons/white/ff.png")"
+                         class="player-control-btn" />
+                </a>
+
+                <a href="#">
+                    <img src="@Url.Content("/Content/metro-ui/icons/white/heart_white.png")"
+                         class="player-control-btn" />
+                </a>
+
+                <a href="#">
+                    <img src="@Url.Content("/Content/metro-ui/icons/white/unlike_white.png")"
+                         class="player-control-btn" />
+                </a>
+            </div>
+                
+            <div >
+                <table class="bg-gray place-right clearfix">
+                    <tr>
+                        <td>
+                            <a href="#" data-bind="click: volume_off">
+                                <img src="@Url.Content("/Content/metro-ui/icons/white/speaker_white_mini_off.png")"
+                                     >
+                            </a>
+                        </td>
+                        <td>
+                            <div id="volume_slider" 
+                                 class="slider margin10 nlm nrm" data-role="slider" data-position="100" data-min="0" data-max="100" style="width: 80px;"></div>
+                        </td>
+                        <td>
+                            <a href="#" data-bind="click: volume_on">
+                                <img src="@Url.Content("/Content/metro-ui/icons/white/speaker_white_mini.png")">
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
 
         <script>
             function onYouTubeIframeAPIReady() {
                 InitalYoutubePlayer(undefined, {
+                    'onReady': function() {
+                        vm.load_playlist();
+                    },
                     'onStateChange': vm.onPlayerStateChange
                 });
             }
         </script>
     </div>
 
-    <div class="row">
+    <div id="info-block" class="row">
+        <h2 data-bind="text: currentTrack().FullTitle"></h2>
 
+        <div class="wiki-text margin-from-title" data-bind="text: currentTrack().ArtistBio">
+
+        </div>
     </div>
 </div>

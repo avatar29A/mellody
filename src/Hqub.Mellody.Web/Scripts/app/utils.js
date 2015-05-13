@@ -153,3 +153,30 @@ function Show(title, message) {
         padding: 10
     });
 }
+
+//
+// ************************
+
+//
+// Station utils
+
+function replace_links_on_lastfm() {
+    // Добавляем к ссылке 'подробнее на ласт.фм' атрибут target="_blank"
+    var links = $('.wiki-text > a');
+
+    if (links.length > 0) {
+        var more_on_lastfm_link = links[links.length - 1];
+        $(more_on_lastfm_link).attr("target", '_blank');
+        $(more_on_lastfm_link).text("Узнать больше о " + session.current_artist + " на last.fm");
+    }
+}
+
+function go_url(url) {
+    window.open(url, '_blank');
+};
+
+function replace_image_src (replace_from, replace_to, control_id) {
+    $(control_id).attr('src', $(control_id).attr('src').replace(replace_from, replace_to));
+}
+
+

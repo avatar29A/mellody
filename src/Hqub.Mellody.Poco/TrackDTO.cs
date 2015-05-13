@@ -18,7 +18,14 @@ namespace Hqub.Mellody.Poco
         public int Duration { get; set; }
         public int Quality { get; set; }
 
+        /// <summary>
+        /// Biography artist
+        /// </summary>
+        public string ArtistBio { get; set; }
+
         public string VideoId { get; set; }
+
+        public string FullTitle { get { return ToString(); } }
 
         public override string ToString()
         {

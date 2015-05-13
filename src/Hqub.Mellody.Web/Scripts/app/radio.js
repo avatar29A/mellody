@@ -85,20 +85,36 @@
 
 var StationViewModel = function() {
     var self = this;
+    this.currentTrack = ko.observable({});
+    this.playlist = ko.observable({});
 
-    this.load_playlist = function() {
-        get('/Station/Get/' + station_id, function (data) {
-            if (data.IsError || data.length == 0) {
-                alert("Station is empty :(");
-                return;
-            }
+    this.notifySubscribers = function() {
+        // Настраиваем регулятор громкости:
+        $("#volume_slider").on("changed", function (e, val) {
+            self.volume(val);
+        });
+    }
 
-            self.play(data);
+    this.notifySubscribers();
+
+    this.load_playlist = function () {
+        $('#info-block').fadeOut('slow', function() {
+            get('/Station/Get/' + station_id, function (data) {
+                if (data.IsError || data.length == 0) {
+                    alert("Station is empty :(");
+                    return;
+                }
+
+                self.playlist(data);
+                self.play(data.Tracks);
+
+                $('#info-block').fadeIn('slow');
+            });
         });
     }
 
     // play current playlist:
-    this.play = function (tracks) {
+    this.play = function(tracks) {
         var videos = $(tracks).map(function() {
             return this.VideoId;
         }).get();
@@ -106,19 +122,64 @@ var StationViewModel = function() {
         Player.cuePlaylist(videos);
     }
 
-    this.onPlayerStateChange = function (event) {
-        if (event.data == YT.PlayerState.CUED) {
-            Player.playVideo();
+    this.volume_on = function() {
+        self.volume(100);
+    }
 
-        }else if (event.data == YT.PlayerState.ENDED) {
-            self.load_playlist();
+    this.volume_off = function() {
+        if (Player.isMuted()) {
+            Player.unMute();
+            return;
+        }
+
+        Player.mute();
+    }
+
+    this.volume = function(volume) {
+        Player.unMute();
+        Player.setVolume(volume);
+        $('#volume_slider').slider("value", volume);
+    }
+
+    this.pause_play = function() {
+        if (Player.getPlayerState() == YT.PlayerState.PLAYING) {
+            replace_image_src('pause_white.png', 'play_white.png', '.play-pause-control');
+            Player.pauseVideo();
+        } else {
+            replace_image_src('play_white.png', 'pause_white.png', '.play-pause-control');
+            Player.playVideo();
         }
     }
 
-    this.nextTrack = function () {
-       
+    this.like = function() {
+        alert("For work this button need login.");
     }
 
+    this.ban = function() {
+        alert("For work this button need login.");
+    }
+
+    this.setCurrentTrack = function(track) {
+        self.currentTrack(track);
+    }
+
+    this.onPlayerStateChange = function (event) {
+        console.log('PlayerStateChange = ' + event.data);
+
+        if (event.data == YT.PlayerState.CUED) {
+            self.setCurrentTrack(self.playlist().Tracks[0]);
+
+            self.pause_play(); 
+        } else if (event.data == YT.PlayerState.ENDED) {
+            self.load_playlist();
+        } else if (event.data == YT.PlayerState.PLAYING) {
+
+        }
+    }
+
+    this.nextTrack = function() {
+        self.load_playlist();
+    }
 }
 
 var vm = null;
@@ -130,7 +191,6 @@ function InitlalizePlaylistVM() {
 
 function InitlalizeStationVM() {
     vm = new StationViewModel();
-    vm.load_playlist();
     ko.applyBindings(vm);
 }
 
