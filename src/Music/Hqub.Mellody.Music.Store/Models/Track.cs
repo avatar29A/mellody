@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Hqub.Mellody.Music.Store.Models
 {
@@ -8,6 +9,9 @@ namespace Hqub.Mellody.Music.Store.Models
         public string Artist { get; set; }
         public int Duration { get; set; }
         public int Quality { get; set; }
+
+        [Index]
+        public Guid MbId { get; set; }
 
         public virtual Playlist Playlist { get; set; }
     }

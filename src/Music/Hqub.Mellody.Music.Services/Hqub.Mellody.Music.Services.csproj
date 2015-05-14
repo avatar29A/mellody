@@ -136,6 +136,8 @@
     <Compile Include="Interfaces\IStationService.cs" />
     <Compile Include="Implementation\PlaylistService.cs" />
     <Compile Include="Interfaces\IYoutubeService.cs" />
+    <Compile Include="Lastfm\ExtendArtistApi.cs" />
+    <Compile Include="Lastfm\LastfmConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Implementation\StationService.cs" />
   </ItemGroup>

@@ -68,17 +68,5 @@ namespace Hqub.Mellody.Web
         {
             Instance.Trace("Application end.");
         }
-
-        private static string GetStarts(int count)
-        {
-            var builder = new StringBuilder();
-
-            for (int i = 0; i < count; i++)
-            {
-                builder.Append("*");
-            }
-
-            return builder.ToString();
-        }
     }
 }

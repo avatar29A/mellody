@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 using Hqub.Mellody.Music.Commands;
@@ -18,6 +19,7 @@ namespace Hqub.Mellody.Music.Services
 
         #region Fields
 
+        private readonly ILogService _logService;
         private readonly ICacheService _cacheService;
         private readonly CommandFactory _mellodyTranslator;
         private readonly Dictionary<Type, Func<List<Entity>, Task<List<Track>>>> _mappingCommand;
@@ -26,8 +28,9 @@ namespace Hqub.Mellody.Music.Services
 
         #region .ctor
 
-        public PlaylistService(ICacheService cacheService)
+        public PlaylistService(ILogService logService, ICacheService cacheService)
         {
+            _logService = logService;
             _cacheService = cacheService;
             _mappingCommand = new Dictionary<Type, Func<List<Entity>, Task<List<Track>>>>
             {
@@ -143,15 +146,20 @@ namespace Hqub.Mellody.Music.Services
 
                     tracks.AddRange(album.Tracks.Select(t => new Track
                     {
-                        Id = Guid.Parse(t.Id),
+                        Id = Guid.NewGuid(),
+                        MbId = Guid.Parse(t.Id),
                         Artist = entity.Artist,
                         Title = t.Title,
                         Duration = t.Length
                     }).ToList());
                 }
-                catch
+                catch (Exception exception)
                 {
-                    continue;
+                    var builder = new StringBuilder("PlaylistService.GetAlbums");
+                    foreach (var entity1 in entities)
+                        builder.AppendFormat("\tentity: {0} - {1}\n", entity1.Artist, entity1.Album);
+
+                    _logService.AddExceptionFull(builder.ToString(), exception);
                 }
             }
 
@@ -170,15 +178,20 @@ namespace Hqub.Mellody.Music.Services
 
                     tracks.AddRange(allAlbumTracks.Select(t => new Track
                     {
-                        Id = Guid.Parse(t.Id),
+                        Id = Guid.NewGuid(),
+                        MbId = Guid.Parse(t.Id),
                         Artist = entity.Artist,
                         Title = string.Format("{0} - {1}", entity.Artist, t.Title),
                         Duration = t.Length
                     }));
                 }
-                catch
+                catch(Exception exception)
                 {
-                    continue;
+                    var builder = new StringBuilder("PlaylistService.GetArtists");
+                    foreach (var entity1 in entities)
+                        builder.AppendFormat("\tentity: {0}}\n", entity1.Artist);
+
+                    _logService.AddExceptionFull(builder.ToString(), exception);
                 }
             }
 

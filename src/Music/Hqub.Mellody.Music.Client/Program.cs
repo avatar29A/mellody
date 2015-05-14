@@ -45,22 +45,6 @@ namespace Hqub.Mellody.Music.Client
             return Regex.Replace(name, "[^\\w\\d]", string.Empty).Trim().ToLower();
         }
 
-        private async static void CreateTracks()
-        {
-            var station = new StationService();
-            var playlistService = new PlaylistService(new CacheService());
-
-            var playlist = await playlistService.Create(new QueryEntity
-            {
-                Name = "Ария - Герой Асфальта",
-                TypeQuery = TypeQuery.Album
-            });
-
-
-//            var stationId = station.Create(playlist);
-
-            Console.WriteLine("PocoStation with ID = {0} created.", Guid.Empty);
-        }
 
         private static void UnhandledExceptionTrapper(object sender, UnhandledExceptionEventArgs e)
         {

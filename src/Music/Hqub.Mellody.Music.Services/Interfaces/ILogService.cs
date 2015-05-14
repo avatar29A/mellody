@@ -8,6 +8,12 @@ namespace Hqub.Mellody.Music.Services
 {
     public interface ILogService
     {
+        void AddException(string message, Exception exception);
+        void AddException(Exception exception);
+        void AddExceptionFull(string message, Exception exception);
+
+        void LogApplicationStart();
+        void LogApplicationEnd();
 
     }
 }

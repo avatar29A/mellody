@@ -82,6 +82,14 @@
     <Compile Include="Migrations\201505101725150_AddManyToManyBetweenPlaylistAndStation.Designer.cs">
       <DependentUpon>201505101725150_AddManyToManyBetweenPlaylistAndStation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201505140649222_AddMbIdToTrackEntity.cs" />
+    <Compile Include="Migrations\201505140649222_AddMbIdToTrackEntity.Designer.cs">
+      <DependentUpon>201505140649222_AddMbIdToTrackEntity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505141212189_AddIndexToTrackEntity.cs" />
+    <Compile Include="Migrations\201505141212189_AddIndexToTrackEntity.Designer.cs">
+      <DependentUpon>201505141212189_AddIndexToTrackEntity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseEntity.cs" />
     <Compile Include="Models\Playlist.cs" />
@@ -114,6 +122,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201505101725150_AddManyToManyBetweenPlaylistAndStation.resx">
       <DependentUpon>201505101725150_AddManyToManyBetweenPlaylistAndStation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505140649222_AddMbIdToTrackEntity.resx">
+      <DependentUpon>201505140649222_AddMbIdToTrackEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505141212189_AddIndexToTrackEntity.resx">
+      <DependentUpon>201505141212189_AddIndexToTrackEntity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
