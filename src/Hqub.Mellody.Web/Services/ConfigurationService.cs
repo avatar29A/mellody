@@ -20,5 +20,14 @@ namespace Hqub.Mellody.Web.Services
 
             return config;
         }
+
+        public PlaylistConfigureSection GetPlaylistConfig()
+        {
+            var config =
+                (PlaylistConfigureSection)
+                    System.Configuration.ConfigurationManager.GetSection("mellodySectionGroup/playlistSection");
+
+            return config;
+        }
     }
 }

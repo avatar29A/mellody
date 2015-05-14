@@ -111,7 +111,7 @@ namespace Hqub.Mellody.Web.Controllers
             var tracks = _stationService.GetTracks(stationId);
             var tracksDTO = tracks.Select(Mapper.Map<TrackDTO>).ToList();
 
-            tracksDTO.Shuffle();
+//            tracksDTO.Shuffle();
 
             return tracksDTO;
         }

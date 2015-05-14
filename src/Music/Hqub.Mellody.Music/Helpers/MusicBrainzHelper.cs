@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Hqub.MusicBrainz.API.Entities;
+using MoreLinq;
 
 namespace Hqub.Mellody.Music.Helpers
 {
@@ -18,15 +19,19 @@ namespace Hqub.Mellody.Music.Helpers
 
             var release = await Release.GetAsync(album.Id, "recordings");
 
-            var recordings = new List<Recording>();
+            var recordings = new List<ReleaseInfo>();
             foreach (var medium in release.MediumList)
             {
-                recordings.AddRange(medium.Tracks.Select(track => track.Recordring));
+                recordings.AddRange(medium.Tracks.Select(track => new ReleaseInfo
+                {
+                    Position = track.Position,
+                    Recording = track.Recordring
+                }));
             }
 
             var albumDTO = new AlbumTracksAndInfo
             {
-                Tracks = recordings,
+                Releases = recordings,
                 Artist = artist.Name,
                 Album = release.Title,
                 Date = release.Date,
@@ -35,14 +40,18 @@ namespace Hqub.Mellody.Music.Helpers
             return albumDTO;
         }
 
-        public static async Task<List<Recording>> GetAlbumTracks(string albumId)
+        public static async Task<List<ReleaseInfo>> GetAlbumTracks(string albumId)
         {
             var release = await Release.GetAsync(albumId, "recordings");
 
-            var recordings = new List<Recording>();
+            var recordings = new List<ReleaseInfo>();
             foreach (var medium in release.MediumList)
             {
-                recordings.AddRange(medium.Tracks.Select(track => track.Recordring));
+                recordings.AddRange(medium.Tracks.Select(track => new ReleaseInfo
+                {
+                    Position = track.Position,
+                    Recording = track.Recordring
+                }));
             }
 
             return recordings;
@@ -67,7 +76,7 @@ namespace Hqub.Mellody.Music.Helpers
             };
         }
 
-        public static async Task<List<Recording>> GetArtistTracks(string artistName, int max = 100)
+        public static async Task<ArtistTracksInfo> GetArtistTracks(string artistName, int max = 100)
         {
             const int MaxCountPerReuqest = 100;
 
@@ -82,7 +91,13 @@ namespace Hqub.Mellody.Music.Helpers
                 tracks.AddRange(recordings.ToList());
             }
 
-            return tracks;
+            var distinctTracks = tracks.DistinctBy(t => t.Title);
+
+            return new ArtistTracksInfo
+            {
+                Artist = artistInfo.ArtistName,
+                Recordings = new List<Recording>(distinctTracks)
+            };
         }
     }
 
@@ -112,12 +127,18 @@ namespace Hqub.Mellody.Music.Helpers
         }
     }
 
+    public class ArtistTracksInfo
+    {
+        public string Artist { get; set; }
+        public List<Recording> Recordings { get; set; } 
+    }
+
     public class AlbumTracksAndInfo
     {
         /// <summary>
         /// Треки
         /// </summary>
-        public List<Recording> Tracks { get; set; }
+        public List<ReleaseInfo> Releases { get; set; }
 
         /// <summary>
         /// Дата издания
@@ -134,6 +155,11 @@ namespace Hqub.Mellody.Music.Helpers
         /// </summary>
         public string Artist { get; set; }
 
+        /// <summary>
+        /// Track order in album.
+        /// </summary>
+        public int Order { get; set; }
+
         public string Year
         {
             get
@@ -147,7 +173,13 @@ namespace Hqub.Mellody.Music.Helpers
         {
 
 
-            return string.Format("Группа: {0}\nАльбом: {1}\nКол-во треков: {2}\nГод выпуска: {3}\n", Artist, Album, Tracks.Count, Year);
+            return string.Format("Группа: {0}\nАльбом: {1}\nКол-во треков: {2}\nГод выпуска: {3}\n", Artist, Album, Releases.Count, Year);
         }
+    }
+
+    public class ReleaseInfo
+    {
+        public int Position { get; set; }
+        public Recording Recording { get; set; }
     }
 }

@@ -76,12 +76,14 @@
     <Compile Include="Commands\ArtistCommand.cs" />
     <Compile Include="Commands\TrackCommand.cs" />
     <Compile Include="Configure\LastfmConfigureSection.cs" />
+    <Compile Include="Configure\PlaylistConfigureSection.cs" />
     <Compile Include="Configure\PythonConfigureSection.cs" />
     <Compile Include="Configure\YoutubeConfigureSection.cs" />
     <Compile Include="Grammar\MellodyControlGrammar.cs" />
     <Compile Include="Helpers\ConfigureHelper.cs" />
     <Compile Include="Helpers\MusicBrainzHelper.cs" />
     <Compile Include="MellodyBot.cs" />
+    <Compile Include="MoreLinq\MoreEnumerable.DistinctBy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\PythonInvoker.cs" />
   </ItemGroup>

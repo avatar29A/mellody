@@ -131,8 +131,8 @@ namespace Hqub.Mellody.Music
 
             foreach (var entity in command.Entities)
             {
-                var albumDTO = await Helpers.MusicBrainzHelper.GetAlbumTracks(entity.Artist, entity.Album);
-                var recordings = albumDTO.Tracks;
+                var albumDTO = await MusicBrainzHelper.GetAlbumTracks(entity.Artist, entity.Album);
+                var recordings = albumDTO.Releases.Select(t=>t.Recording).ToList();
 
                 message.AppendLine(albumDTO.ToString());
                 message.AppendLine();
@@ -182,13 +182,13 @@ namespace Hqub.Mellody.Music
             foreach (var entity in command.Entities)
             {
                 var albumDTO = await Helpers.MusicBrainzHelper.GetAlbumTracks(entity.Artist, entity.Album);
-                var recordings = albumDTO.Tracks;
+                var releases = albumDTO.Releases;
 
-                var amountDiscs = GetAmountDiscs(recordings.Count);
+                var amountDiscs = GetAmountDiscs(releases.Count);
 
                 message.AppendLine(albumDTO.ToString());
 
-                var tracks = GetTracksFromVk(albumDTO.Artist, recordings);
+                var tracks = GetTracksFromVk(albumDTO.Artist, releases.Select(r=>r.Recording).ToList());
 
                 // Делим треки по дискам (в вк ограничение на 10 треков в сообщении)
                 for (int discI = 0; discI < amountDiscs; ++discI)

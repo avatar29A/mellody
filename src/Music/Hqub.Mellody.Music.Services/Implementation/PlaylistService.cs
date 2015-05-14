@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 using Hqub.Mellody.Music.Commands;
+using Hqub.Mellody.Music.Configure;
 using Hqub.Mellody.Music.Services.Exceptions;
 using Hqub.Mellody.Music.Store;
 using Hqub.Mellody.Poco;
@@ -20,6 +21,7 @@ namespace Hqub.Mellody.Music.Services
         #region Fields
 
         private readonly ILogService _logService;
+        private readonly PlaylistConfigureSection _configure;
         private readonly ICacheService _cacheService;
         private readonly CommandFactory _mellodyTranslator;
         private readonly Dictionary<Type, Func<List<Entity>, Task<List<Track>>>> _mappingCommand;
@@ -28,9 +30,12 @@ namespace Hqub.Mellody.Music.Services
 
         #region .ctor
 
-        public PlaylistService(ILogService logService, ICacheService cacheService)
+        public PlaylistService(ILogService logService,
+            IConfigurationService configurationService,
+            ICacheService cacheService)
         {
             _logService = logService;
+            _configure = configurationService.GetPlaylistConfig();
             _cacheService = cacheService;
             _mappingCommand = new Dictionary<Type, Func<List<Entity>, Task<List<Track>>>>
             {
@@ -79,7 +84,7 @@ namespace Hqub.Mellody.Music.Services
                 playlist.Tracks = new Collection<Track>(await _mappingCommand[command.GetType()](command.Entities));
                 if (playlist.Tracks.Count == 0)
                     return null;
-                
+
                 _cacheService.AddPlaylist(query, playlist);
 
                 ctx.SaveChanges();
@@ -98,7 +103,7 @@ namespace Hqub.Mellody.Music.Services
                     Title = t.Title,
                     Duration = t.Duration,
                     Id = t.Id
-                }).ToList();
+                }).OrderBy(t => t.Position).ToList();
             }
         }
 
@@ -144,13 +149,14 @@ namespace Hqub.Mellody.Music.Services
                 {
                     var album = await Helpers.MusicBrainzHelper.GetAlbumTracks(entity.Artist, entity.Album);
 
-                    tracks.AddRange(album.Tracks.Select(t => new Track
+                    tracks.AddRange(album.Releases.Select(releaseInfo => new Track
                     {
                         Id = Guid.NewGuid(),
-                        MbId = Guid.Parse(t.Id),
-                        Artist = entity.Artist,
-                        Title = t.Title,
-                        Duration = t.Length
+                        MbId = Guid.Parse(releaseInfo.Recording.Id),
+                        Artist = album.Artist,
+                        Title = album.Album,
+                        Duration = releaseInfo.Recording.Length,
+                        Position = releaseInfo.Position
                     }).ToList());
                 }
                 catch (Exception exception)
@@ -174,18 +180,19 @@ namespace Hqub.Mellody.Music.Services
             {
                 try
                 {
-                    var allAlbumTracks = await Helpers.MusicBrainzHelper.GetArtistTracks(entity.Artist);
+                    var artistTracksInfo =
+                        await Helpers.MusicBrainzHelper.GetArtistTracks(entity.Artist, _configure.MaxTracks);
 
-                    tracks.AddRange(allAlbumTracks.Select(t => new Track
+                    tracks.AddRange(artistTracksInfo.Recordings.Select(t => new Track
                     {
                         Id = Guid.NewGuid(),
                         MbId = Guid.Parse(t.Id),
-                        Artist = entity.Artist,
-                        Title = string.Format("{0} - {1}", entity.Artist, t.Title),
+                        Artist = artistTracksInfo.Artist,
+                        Title = t.Title,
                         Duration = t.Length
                     }));
                 }
-                catch(Exception exception)
+                catch (Exception exception)
                 {
                     var builder = new StringBuilder("PlaylistService.GetArtists");
                     foreach (var entity1 in entities)

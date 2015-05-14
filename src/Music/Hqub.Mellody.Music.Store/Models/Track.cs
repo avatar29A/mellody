@@ -10,6 +10,8 @@ namespace Hqub.Mellody.Music.Store.Models
         public int Duration { get; set; }
         public int Quality { get; set; }
 
+        public int Position { get; set; }
+
         [Index]
         public Guid MbId { get; set; }
 

@@ -90,6 +90,10 @@
     <Compile Include="Migrations\201505141212189_AddIndexToTrackEntity.Designer.cs">
       <DependentUpon>201505141212189_AddIndexToTrackEntity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201505141256319_AddPositionFieldToTrackEntity.cs" />
+    <Compile Include="Migrations\201505141256319_AddPositionFieldToTrackEntity.Designer.cs">
+      <DependentUpon>201505141256319_AddPositionFieldToTrackEntity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseEntity.cs" />
     <Compile Include="Models\Playlist.cs" />
@@ -128,6 +132,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201505141212189_AddIndexToTrackEntity.resx">
       <DependentUpon>201505141212189_AddIndexToTrackEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505141256319_AddPositionFieldToTrackEntity.resx">
+      <DependentUpon>201505141256319_AddPositionFieldToTrackEntity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
