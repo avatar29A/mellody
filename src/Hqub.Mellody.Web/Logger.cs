@@ -30,21 +30,15 @@ namespace Hqub.Mellody.Web
         /// <param name="exception">Instance of the exception.</param>
         public static void AddException(Exception exception)
         {
-            var stars = GetStarts(10);
+            if(exception == null)
+                return;
+
             var error = new StringBuilder();
-            error.AppendLine(stars);
             error.AppendFormat("{0} \n\n {1}", exception.Message, exception.StackTrace);
 
-            if (exception.InnerException != null)
-            {
-                error.AppendLine("\n[Inner exception]");
-                error.AppendFormat("{0} \n\n {1}", exception.InnerException.Message, exception.InnerException.StackTrace);
-            }
-
-            error.AppendLine(stars);
-
-            System.Diagnostics.Debug.WriteLine("[{0}] {1}", DateTime.Now, error);
             _instance.ErrorException(exception.Message, exception);
+
+            AddException(exception.InnerException);
         }
 
         /// <summary>
@@ -54,18 +48,9 @@ namespace Hqub.Mellody.Web
         /// <param name="exception">Instance of the exception</param>
         public static void AddExceptionFull(string message, Exception exception)
         {
-            var error = new StringBuilder();
+            _instance.Error(message);
 
-            error.AppendLine(message);
-            error.AppendFormat("{0} \n\n {1}", exception.Message, exception.StackTrace);
-
-            if (exception.InnerException != null)
-            {
-                error.AppendLine("\n[Inner exception]");
-                error.AppendFormat("{0} \n\n {1}", exception.InnerException.Message, exception.InnerException.StackTrace);
-            }
-
-            _instance.Error(error.ToString());
+            AddException(exception);
         }
 
         /// <summary>

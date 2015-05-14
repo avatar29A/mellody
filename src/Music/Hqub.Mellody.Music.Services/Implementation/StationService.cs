@@ -55,6 +55,16 @@ namespace Hqub.Mellody.Music.Services
             }
         }
 
+        public string GetName(Guid id)
+        {
+            var station = Get(id);
+            if(station == null)
+                throw new NullReferenceException("Station not found.");
+
+            // TODO: Need parse station name.
+            return station.Name;
+        }
+
         #endregion
     }
 }

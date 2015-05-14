@@ -27,5 +27,12 @@ namespace Hqub.Mellody.Music.Services
         /// <param name="stationId">ID station</param>
         /// <returns></returns>
         IList<Track> GetTracks(Guid stationId);
+
+        /// <summary>
+        /// Get station name.
+        /// </summary>
+        /// <param name="id">Station ID</param>
+        /// <returns>reurn station name</returns>
+        string GetName(Guid id);
     }
 }

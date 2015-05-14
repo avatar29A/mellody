@@ -8,6 +8,8 @@ namespace Hqub.Mellody.Web.Models.Response
 {
     public class PlaylistResponse : ResponseEntity
     {
+        public string StationName { get; set; }
+
         public List<TrackDTO> Tracks { get; set; }
     }
 }

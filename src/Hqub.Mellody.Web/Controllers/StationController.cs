@@ -73,6 +73,7 @@ namespace Hqub.Mellody.Web.Controllers
                 var portionTracks = FillExtInfoSection(tracksDTO.Take(countTrackPerRequest).ToList());
                 return Json(new PlaylistResponse
                 {
+                    StationName = _stationService.GetName(id),
                     Tracks = portionTracks
                 }, JsonRequestBehavior.AllowGet);
             }
