@@ -70,7 +70,7 @@
             return;
 
         self.setWait(true);
-        executeOnServer(new RadioDTO(self.mediaQueriesSupported()), '/Playlist/Index', function (data) {
+        executeOnServer(new RadioDTO(self.mediaQueriesSupported()), '/Station/Create', function (data) {
             self.setWait(false);
             if (data.IsError) {
                 console.log("Error: " + data.Message + " (" + data.statusCode + ")");
