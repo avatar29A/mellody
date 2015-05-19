@@ -18,6 +18,18 @@
         var station_id = '@Model.Id';
         InitlalizeStationVM();
     </script>
+    
+    <script type="text/html" id="similar-artist-tile-template">
+        <div class="tile">
+            <div class="tile-content image" data-bind="click: $parent.create_station_by_similar_artist">
+                <img data-bind="attr: {src: ImageUrl}" class="similar-artist-tile"/>
+            </div>
+
+            <div class="brand bg-dark opacity">
+                <p class="text" data-bind="text: ArtistName"></p>
+            </div>
+        </div>
+    </script>
 
 }
 
@@ -39,74 +51,157 @@
     </div>
     
     <div class="row">
-        <div id="player"></div>
+        <div class="span10">
+            <div id="player"></div>
 
-        <div class="row bg-gray"  style="margin-top: -4px; margin-right: -10px; width: 850px;">
-            <div class="span6">
-                <a href="#" data-bind="click:pause_play">
-                    <img src="@Url.Content("/Content/metro-ui/icons/white/play_white.png")"
-                         class="player-control-btn play-pause-control" />
-                </a>
+            <div class="row bg-gray" style="margin-top: -4px; margin-right: -10px; width: 850px;">
+                <div class="span6">
+                    <a href="#" data-bind="click:pause_play">
+                        <img src="@Url.Content("/Content/metro-ui/icons/white/play_white.png")"
+                             class="player-control-btn play-pause-control" />
+                    </a>
 
-                <a href="#" data-bind="click: nextTrack">
-                    <img src="@Url.Content("/Content/metro-ui/icons/white/ff.png")"
-                         class="player-control-btn" />
-                </a>
+                    <a href="#" data-bind="click: nextTrack">
+                        <img src="@Url.Content("/Content/metro-ui/icons/white/ff.png")"
+                             class="player-control-btn" />
+                    </a>
 
-                <a href="#">
-                    <img src="@Url.Content("/Content/metro-ui/icons/white/heart_white.png")"
-                         class="player-control-btn" />
-                </a>
+                    <a href="#">
+                        <img src="@Url.Content("/Content/metro-ui/icons/white/heart_white.png")"
+                             class="player-control-btn" />
+                    </a>
 
-                <a href="#">
-                    <img src="@Url.Content("/Content/metro-ui/icons/white/unlike_white.png")"
-                         class="player-control-btn" />
-                </a>
+                    <a href="#">
+                        <img src="@Url.Content("/Content/metro-ui/icons/white/unlike_white.png")"
+                             class="player-control-btn" />
+                    </a>
+                </div>
+
+
+                <div>
+                    <table class="bg-gray place-right clearfix">
+                        <tr>
+                            <td>
+                                <a href="#" data-bind="click: volume_off">
+                                    <img src="@Url.Content("/Content/metro-ui/icons/white/speaker_white_mini_off.png")">
+                                </a>
+                            </td>
+                            <td>
+                                <div id="volume_slider"
+                                     class="slider margin10 nlm nrm" data-role="slider" data-position="100" data-min="0" data-max="100" style="width: 80px;"></div>
+                            </td>
+                            <td>
+                                <a href="#" data-bind="click: volume_on">
+                                    <img src="@Url.Content("/Content/metro-ui/icons/white/speaker_white_mini.png")">
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
-                
-            <div >
-                <table class="bg-gray place-right clearfix">
-                    <tr>
-                        <td>
-                            <a href="#" data-bind="click: volume_off">
-                                <img src="@Url.Content("/Content/metro-ui/icons/white/speaker_white_mini_off.png")"
-                                     >
-                            </a>
-                        </td>
-                        <td>
-                            <div id="volume_slider" 
-                                 class="slider margin10 nlm nrm" data-role="slider" data-position="100" data-min="0" data-max="100" style="width: 80px;"></div>
-                        </td>
-                        <td>
-                            <a href="#" data-bind="click: volume_on">
-                                <img src="@Url.Content("/Content/metro-ui/icons/white/speaker_white_mini.png")">
-                            </a>
-                        </td>
-                    </tr>
-                </table>
+            
+            <div id="info-block" class="row">
+                <div class="span11">
+                    <h2 data-bind="text: currentTrack().FullTitle"></h2>
+
+                    <div class="wiki-text margin-from-title" data-bind="html: currentTrack().ArtistBio">
+
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <script>
-            function onYouTubeIframeAPIReady() {
-                InitalYoutubePlayer(undefined, {
-                    'onReady': function() {
-                        vm.load_playlist();
-                    },
-                    'onStateChange': vm.onPlayerStateChange
-                });
-            }
-        </script>
-    </div>
-
-    <div id="info-block" class="row">
-        <div class="span11">
-            <h2 data-bind="text: currentTrack().FullTitle"></h2>
-
-            <div class="wiki-text margin-from-title" data-bind="html: currentTrack().ArtistBio">
-
+            
+            <div class="tags-panel">
+                <ul class="tags" data-bind="foreach: currentTrack().Tags">
+                    <li>
+                        <a href="#" data-bind="text: $data"></a>
+                    </li>
+                </ul>
             </div>
+
+            <script>
+                function onYouTubeIframeAPIReady() {
+                    InitalYoutubePlayer(undefined, {
+                        'onReady': function () {
+                            vm.load_playlist();
+                        },
+                        'onStateChange': vm.onPlayerStateChange
+                    });
+                }
+            </script>
         </div>
         
+        <div>
+            <div class="clearfix">
+                <div class="place-right">
+                    <div class="listview-outlook" data-role="listview" style="width: 230px;">
+                        <div class="list-group ">
+                            <a href="" class="group-title">Your recently listened to songs</a>
+                            <div class="group-content">
+                                <a class="list marked" href="#">
+                                    <div class="list-content">
+                                        <span class="list-title">Король и Шутt</span>
+                                        <span class="list-subtitle">Кукла колдуна</span>
+                                    </div>
+                                </a>
+                                <a class="list" href="#">
+                                    <div class="list-content">
+                                        <span class="list-title">Кино</span>
+                                        <span class="list-subtitle">Звезда по имени солнце</span>
+                                    </div>
+                                </a>
+                                <a class="list" href="#">
+                                    <div class="list-content">
+                                        <span class="list-title">Hibria</span>
+                                        <span class="list-subtitle">Skillet</span>
+                                    </div>
+                                </a>
+                                <a class="list" href="#">
+                                    <div class="list-content">
+                                        <span class="list-title">Ляпис трубецкой</span>
+                                        <span class="list-subtitle">Манифест</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="list-group">
+                            <a href="" class="group-title">Your last radio stations</a>
+                            <div class="group-content" style="display: block;">
+                                <a class="list" href="#">
+                                    <div class="list-content">
+                                        <span class="list-title"><span class="icon-play-alt" style="margin-right: 5px;"></span>Iron Maiden station</span>
+                                    </div>
+                                </a>
+                                <a class="list" href="#">
+                                    <div class="list-content">
+                                        <span class="list-title"><span class="icon-play-alt" style="margin-right: 5px;"></span>Rock recomendation</span>
+                                    </div>
+                                </a>
+                                <a class="list" href="#">
+                                    <div class="list-content">
+                                        <span class="list-title"><span class="icon-play-alt" style="margin-right: 5px;"></span>Hibria and recomendation</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="span11">
+            <h2>Рекомендованные исполнители</h2>
+
+            <div class="margin-from-title" style="background: #eef5fc" data-bind="visible: !currentTrack().SimilarArtists || currentTrack().SimilarArtists.length == 0">
+                <p>Рекомендации отсутсвуют.</p>
+            </div>
+
+            <div class="margin-from-title" data-bind="template: { name: 'similar-artist-tile-template', foreach: currentTrack().SimilarArtists, as: 'artist' }">
+
+            </div>
+        </div>
     </div>
 </div>

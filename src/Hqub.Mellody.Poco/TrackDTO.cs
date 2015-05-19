@@ -19,11 +19,18 @@ namespace Hqub.Mellody.Poco
         public int Quality { get; set; }
 
         /// <summary>
+        /// Genres, associations with track
+        /// </summary>
+        public List<string> Tags { get; set; } 
+
+        /// <summary>
         /// Biography artist
         /// </summary>
         public string ArtistBio { get; set; }
 
         public string VideoId { get; set; }
+
+        public List<ArtistDTO> SimilarArtists { get; set; }
 
         public string FullTitle { get { return ToString(); } }
 

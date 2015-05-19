@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using DotLastFm.Models;
 
 namespace Hqub.Mellody.Music.Services
 {
@@ -22,5 +19,21 @@ namespace Hqub.Mellody.Music.Services
         /// <param name="lang">Language text</param>
         /// <returns>return artist biography</returns>
         string GetBio(string artistName, string lang);
+
+        /// <summary>
+        /// Get artist full info.
+        /// </summary>
+        /// <param name="artistName"></param>
+        /// <param name="lang"></param>
+        /// <returns>full details by artist.</returns>
+        ArtistWithDetails GetInfo(string artistName, string lang = "en");
+
+        /// <summary>
+        /// Get similar artists.
+        /// </summary>
+        /// <param name="artistName">aritst name</param>
+        /// <param name="lang">language</param>
+        /// <returns>list of similar artists</returns>
+        List<ArtistSimilarArtist> GetSimilar(string artistName, string lang = "en");
     }
 }

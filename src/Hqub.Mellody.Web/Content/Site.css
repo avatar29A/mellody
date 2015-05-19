@@ -14,3 +14,68 @@
 .margin-from-title{
     margin-top: 30px !important;
 }
+
+.similar-artist-tile{
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+/*
+  Similar artists  
+*/
+.similar-artist-tile {
+    height: 100% !important;
+}
+
+
+/*
+* Tags
+*/
+
+.tags-panel{
+    margin-left: -30px;
+}
+
+.tags{
+   
+}
+
+.tags li{
+    float: left;
+}
+
+ul{
+    list-style: none;
+
+}
+
+.tags a {
+    display: inline-block;
+    color: #fff;
+    padding: 3px 10px;
+    margin-left: 10px;
+    background-color: #0187c5;
+    border-radius: 2px;
+    text-transform: lowercase;
+    line-height: 24px;
+    font-size: 12px;
+
+}
+
+.last_a {
+    color: #0187c5;
+    text-decoration: none;
+}
+
+.tags a:focus,
+.tag  a:focus,
+.tags a:hover,
+.tag  a:hover {
+    text-decoration: none;
+    background-color: #0179b1;
+    color: #fff;
+}
+
+.tags a:active {
+    background-color: #016c9e;
+}

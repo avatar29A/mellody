@@ -26,10 +26,10 @@ namespace Hqub.Mellody.Web
                 .Include("~/Scripts/app/player.js"));
 
             bundles.Add(new StyleBundle("~/Content/css")
-                .Include("~/Content/site.css")
                 .Include("~/Content/metro-ui/css/metro-bootstrap.css",
                     "~/Content/metro-ui/css/metro-bootstrap-responsive.css",
-                    "~/Content/metro-ui/css/iconFont.min.css"));
+                    "~/Content/metro-ui/css/iconFont.min.css")
+                .Include("~/Content/site.css"));
 
             bundles.Add(
                 new ScriptBundle("~/bundles/metro-ui")

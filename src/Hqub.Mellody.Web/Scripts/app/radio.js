@@ -85,6 +85,8 @@
 
 var StationViewModel = function() {
     var self = this;
+
+    self.isExecute = ko.observable(false);
     this.currentTrack = ko.observable({});
     this.playlist = ko.observable({});
 
@@ -96,6 +98,28 @@ var StationViewModel = function() {
     }
 
     this.notifySubscribers();
+
+    this.create_station_by_similar_artist = function (artist)
+    {
+        if (self.isExecute())
+            return;
+
+        self.isExecute(true);
+        executeOnServer(new RadioDTO([{
+            name: artist.ArtistName,
+            typeQuery: "Artist"
+        }]), '/Station/Create', function (data) {
+            self.isExecute(false);
+
+            if (data.IsError) {
+                console.log("Error: " + data.Message + " (" + data.statusCode + ")");
+                Show("error", data.Message);
+                return;
+            }
+
+            window.location.href = '/Station/Index/' + data.StationId;
+        });
+    }
 
     this.load_playlist = function () {
         $('#info-block').fadeOut('slow', function() {

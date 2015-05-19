@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using AutoMapper;
+using DotLastFm.Models;
 using Hqub.Mellody.Music.Services;
 using Hqub.Mellody.Music.Services.Exceptions;
 using Hqub.Mellody.Music.Store.Models;
@@ -170,7 +171,18 @@ namespace Hqub.Mellody.Web.Controllers
                     continue;
 
                 track.VideoId = results[0].VideoId;
-                track.ArtistBio = _lastfmService.GetBio(track.Artist, "ru");
+
+                var artistInfo = _lastfmService.GetInfo(track.Artist, "ru");
+                track.ArtistBio = artistInfo.Bio.Summary;
+                track.SimilarArtists = new List<ArtistDTO>(artistInfo.SimilarArtists.Select(a => new ArtistDTO
+                {
+                    ArtistName = a.Name,
+                    ImageUrl = a.Images.First(img => img.Size == ImageSize.ExtraLarge).Value
+                }));
+                track.Tags = new List<string>
+                {
+                    "rock", "metal", "heavy-metal"
+                };
             }
 
             return tracks;
@@ -181,7 +193,7 @@ namespace Hqub.Mellody.Web.Controllers
             var tracks = _stationService.GetTracks(stationId);
             var tracksDTO = tracks.Select(Mapper.Map<TrackDTO>).ToList();
 
-            //            tracksDTO.Shuffle();
+            tracksDTO.Shuffle();
 
             return tracksDTO;
         }
