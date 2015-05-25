@@ -149,22 +149,15 @@
                         </div>
                         
                         <!--History stations-->
-                        <div class="list-group">
+                        <div class="list-group" data-bin="playlist().HistoryStations && playlist().HistoryStations.length > 0">
                             <a href="" class="group-title">Your last radio stations</a>
-                            <div class="group-content" style="display: block;">
-                                <a class="list" href="#">
+                            <div class="group-content" style="display: block;" data-bind="foreach: playlist().HistoryStations">
+                                <a class="list" data-bind="css: { marked: $data.Id == station_id}, click: $parent.play_station">
                                     <div class="list-content">
-                                        <span class="list-title"><span class="icon-play-alt" style="margin-right: 5px;"></span>Iron Maiden station</span>
-                                    </div>
-                                </a>
-                                <a class="list" href="#">
-                                    <div class="list-content">
-                                        <span class="list-title"><span class="icon-play-alt" style="margin-right: 5px;"></span>Rock recomendation</span>
-                                    </div>
-                                </a>
-                                <a class="list" href="#">
-                                    <div class="list-content">
-                                        <span class="list-title"><span class="icon-play-alt" style="margin-right: 5px;"></span>Hibria and recomendation</span>
+                                        <span class="list-title">
+                                            <span class="icon-play-alt" style="margin-right: 5px;"></span>
+                                            <span data-bind="text: Name"></span>
+                                        </span>
                                     </div>
                                 </a>
                             </div>
@@ -172,7 +165,6 @@
                     </div>
                 </div>
             </div>
-          
         </div>
     </div>
     

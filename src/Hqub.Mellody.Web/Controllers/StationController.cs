@@ -84,12 +84,18 @@ namespace Hqub.Mellody.Web.Controllers
                 var portionTracks = FillExtInfoSection(tracksDTO.Take(countTrackPerRequest).ToList());
                 // Update last listen tracks:
                 var historyTracks = SetLastListenTracks(portionTracks);
+                var historyStations = SetLastStations(new StationDTO
+                {
+                    Name = _stationService.GetName(id),
+                    Id = id
+                });
 
                 return Json(new PlaylistResponse
                 {
                     StationName = _stationService.GetName(id),
                     Tracks = portionTracks,
-                    HistoryTracks = historyTracks
+                    HistoryTracks = historyTracks,
+                    HistoryStations = historyStations
                 }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -171,26 +177,39 @@ namespace Hqub.Mellody.Web.Controllers
         /// </summary>
         private List<TrackDTO> SetLastListenTracks(List<TrackDTO> tracks)
         {
-            var lastListenTracks = GetLastListenTracks();
-            if(lastListenTracks == null)
-                lastListenTracks = new List<TrackDTO>();
+            var lastListenTracks = GetFromSession<List<TrackDTO>>(Keys.HistorySongs) ?? new List<TrackDTO>();
 
-            var newList = (lastListenTracks.Count + tracks.Count) > 5
-                ? tracks.Concat(lastListenTracks.Skip(lastListenTracks.Count - tracks.Count)).ToList()
-                : tracks.Concat(lastListenTracks).ToList();
+            lastListenTracks.InsertRange(0, tracks);
 
-            Session[Keys.HistorySongs] = newList;
+            Session[Keys.HistorySongs] = lastListenTracks.Take(5).ToList();
 
-            return newList;
+            return lastListenTracks;
         }
 
+
         /// <summary>
-        /// Extract last tracks from session
+        /// Save the last five stations
         /// </summary>
-        /// <returns></returns>
-        private List<TrackDTO> GetLastListenTracks()
+        private List<StationDTO> SetLastStations(StationDTO station)
         {
-            return (List<TrackDTO>) Session[Keys.HistorySongs];
+            var lastStationList = GetFromSession<List<StationDTO>>(Keys.HistoryStations) ?? new List<StationDTO>();
+            if (lastStationList.Any(s => s.Id == station.Id))
+                return lastStationList;
+
+            lastStationList.Insert(0, station);
+
+            Session[Keys.HistoryStations] = lastStationList.Take(5).ToList();
+
+            return lastStationList;
+        }
+
+
+        /// <summary>
+        /// Common method for extract data from session.
+        /// </summary>
+        private T GetFromSession<T>(string sessionKey)
+        {
+            return (T) Session[sessionKey];
         }
 
         /// <summary>

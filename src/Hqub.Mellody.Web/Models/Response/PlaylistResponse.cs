@@ -12,6 +12,8 @@ namespace Hqub.Mellody.Web.Models.Response
 
         public List<TrackDTO> Tracks { get; set; }
 
-        public List<TrackDTO> HistoryTracks { get; set; } 
+        public List<TrackDTO> HistoryTracks { get; set; }
+
+        public List<StationDTO> HistoryStations { get; set; } 
     }
 }

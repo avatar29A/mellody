@@ -139,6 +139,10 @@ var StationViewModel = function() {
         self.play([data]);
     }
 
+    this.play_station = function (data, event) {
+        window.location.href = '/Station/Index/' + data.Id;
+    }
+
     this.volume_on = function() {
         self.volume(100);
     }
