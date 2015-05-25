@@ -1,5 +1,6 @@
 ﻿var PlaylistViewModel = function () {
     var self = this;
+
     this.isExecute = ko.observable(false);
 
     this.itemToAdd = ko.observable("");
@@ -70,23 +71,15 @@
             return;
 
         self.setWait(true);
-        executeOnServer(new RadioDTO(self.mediaQueriesSupported()), '/Station/Create', function (data) {
-            self.setWait(false);
-            if (data.IsError) {
-                console.log("Error: " + data.Message + " (" + data.statusCode + ")");
-                Show("error", data.Message);
-                return;
-            }
 
-            window.location.href = '/Station/Index/' + data.StationId;
-        });
+        CreateStation(self.mediaQueriesSupported(), RunStation, DefaultErrorHandle, function() { self.setWait(false); });
     }
 }
 
 var StationViewModel = function() {
     var self = this;
-
-    self.isExecute = ko.observable(false);
+   
+    this.isExecute = ko.observable(false);
     this.currentTrack = ko.observable({});
     this.playlist = ko.observable({});
 
@@ -105,20 +98,15 @@ var StationViewModel = function() {
             return;
 
         self.isExecute(true);
-        executeOnServer(new RadioDTO([{
-            name: artist.ArtistName,
-            typeQuery: "Artist"
-        }]), '/Station/Create', function (data) {
-            self.isExecute(false);
 
-            if (data.IsError) {
-                console.log("Error: " + data.Message + " (" + data.statusCode + ")");
-                Show("error", data.Message);
-                return;
+        var queries = [
+            {
+                name: artist.ArtistName,
+                typeQuery: "Artist"
             }
+        ];
 
-            window.location.href = '/Station/Index/' + data.StationId;
-        });
+        CreateStation(queries, RunStation, DefaultErrorHandle, function() { self.isExecute(false); });
     }
 
     this.load_playlist = function () {
@@ -143,7 +131,12 @@ var StationViewModel = function() {
             return this.VideoId;
         }).get();
 
+        self.setCurrentTrack(tracks[0]);
         Player.cuePlaylist(videos);
+    }
+
+    this.play_track = function(data, event) {
+        self.play([data]);
     }
 
     this.volume_on = function() {
@@ -191,8 +184,6 @@ var StationViewModel = function() {
         console.log('PlayerStateChange = ' + event.data);
 
         if (event.data == YT.PlayerState.CUED) {
-            self.setCurrentTrack(self.playlist().Tracks[0]);
-
             self.pause_play(); 
         } else if (event.data == YT.PlayerState.ENDED) {
             self.load_playlist();

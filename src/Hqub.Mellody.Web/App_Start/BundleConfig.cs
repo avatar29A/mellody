@@ -23,7 +23,8 @@ namespace Hqub.Mellody.Web
                 .Include("~/Scripts/app/radio.js")
                 .Include("~/Scripts/app/dto.js")
                 .Include("~/Scripts/app/utils.js")
-                .Include("~/Scripts/app/player.js"));
+                .Include("~/Scripts/app/player.js")
+                .Include("~/Scripts/app/services.js"));
 
             bundles.Add(new StyleBundle("~/Content/css")
                 .Include("~/Content/metro-ui/css/metro-bootstrap.css",

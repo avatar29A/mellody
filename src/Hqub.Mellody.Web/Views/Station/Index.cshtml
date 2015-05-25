@@ -134,36 +134,21 @@
             <div class="clearfix">
                 <div class="place-right">
                     <div class="listview-outlook" data-role="listview" style="width: 230px;">
-                        <div class="list-group ">
+                        
+                        <!---Hisotry tracks-->
+                        <div class="list-group" data-bind="visible: playlist().HistoryTracks && playlist().HistoryTracks.length > 0">
                             <a href="" class="group-title">Your recently listened to songs</a>
-                            <div class="group-content">
-                                <a class="list marked" href="#">
+                            <div class="group-content" data-bind="foreach: playlist().HistoryTracks">
+                                <a class="list" data-bind="css: { marked: $data.VideoId == $parent.currentTrack().VideoId} ,click: $parent.play_track">
                                     <div class="list-content">
-                                        <span class="list-title">Король и Шутt</span>
-                                        <span class="list-subtitle">Кукла колдуна</span>
-                                    </div>
-                                </a>
-                                <a class="list" href="#">
-                                    <div class="list-content">
-                                        <span class="list-title">Кино</span>
-                                        <span class="list-subtitle">Звезда по имени солнце</span>
-                                    </div>
-                                </a>
-                                <a class="list" href="#">
-                                    <div class="list-content">
-                                        <span class="list-title">Hibria</span>
-                                        <span class="list-subtitle">Skillet</span>
-                                    </div>
-                                </a>
-                                <a class="list" href="#">
-                                    <div class="list-content">
-                                        <span class="list-title">Ляпис трубецкой</span>
-                                        <span class="list-subtitle">Манифест</span>
+                                        <span class="list-title" data-bind="text: Artist"></span>
+                                        <span class="list-subtitle" data-bind="text: Title"></span>
                                     </div>
                                 </a>
                             </div>
                         </div>
-
+                        
+                        <!--History stations-->
                         <div class="list-group">
                             <a href="" class="group-title">Your last radio stations</a>
                             <div class="group-content" style="display: block;">

@@ -225,6 +225,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Keys.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Models\NavigationBarModel.cs" />
     <Compile Include="Models\PrepareRadioModel.cs" />
@@ -345,6 +346,7 @@
     <Content Include="Scripts\app\dto.js" />
     <Content Include="Scripts\app\player.js" />
     <Content Include="Scripts\app\radio.js" />
+    <Content Include="Scripts\app\services.js" />
     <Content Include="Scripts\app\utils.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

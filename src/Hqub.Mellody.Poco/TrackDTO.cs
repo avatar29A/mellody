@@ -19,6 +19,11 @@ namespace Hqub.Mellody.Poco
         public int Quality { get; set; }
 
         /// <summary>
+        /// Url for artist photo
+        /// </summary>
+        public string ImageUrl { get; set; }
+
+        /// <summary>
         /// Genres, associations with track
         /// </summary>
         public List<string> Tags { get; set; } 

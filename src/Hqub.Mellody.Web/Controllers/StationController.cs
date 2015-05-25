@@ -82,10 +82,14 @@ namespace Hqub.Mellody.Web.Controllers
                 Session[stationName] = tracksDTO.Skip(countTrackPerRequest).ToList();
 
                 var portionTracks = FillExtInfoSection(tracksDTO.Take(countTrackPerRequest).ToList());
+                // Update last listen tracks:
+                var historyTracks = SetLastListenTracks(portionTracks);
+
                 return Json(new PlaylistResponse
                 {
                     StationName = _stationService.GetName(id),
-                    Tracks = portionTracks
+                    Tracks = portionTracks,
+                    HistoryTracks = historyTracks
                 }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -162,6 +166,42 @@ namespace Hqub.Mellody.Web.Controllers
 
         #region Methods
 
+        /// <summary>
+        /// Save the last five tracks
+        /// </summary>
+        private List<TrackDTO> SetLastListenTracks(List<TrackDTO> tracks)
+        {
+            var lastListenTracks = GetLastListenTracks();
+            if(lastListenTracks == null)
+                lastListenTracks = new List<TrackDTO>();
+
+            var newList = (lastListenTracks.Count + tracks.Count) > 5
+                ? tracks.Concat(lastListenTracks.Skip(lastListenTracks.Count - tracks.Count)).ToList()
+                : tracks.Concat(lastListenTracks).ToList();
+
+            Session[Keys.HistorySongs] = newList;
+
+            return newList;
+        }
+
+        /// <summary>
+        /// Extract last tracks from session
+        /// </summary>
+        /// <returns></returns>
+        private List<TrackDTO> GetLastListenTracks()
+        {
+            return (List<TrackDTO>) Session[Keys.HistorySongs];
+        }
+
+        /// <summary>
+        /// Add to response:
+        /// - Biography by artist
+        /// - Similar tracks,
+        /// - Artist and track name
+        /// - Youtube video ID
+        /// </summary>
+        /// <param name="tracks"></param>
+        /// <returns></returns>
         private List<TrackDTO> FillExtInfoSection(List<TrackDTO> tracks)
         {
             foreach (var track in tracks)
@@ -173,21 +213,48 @@ namespace Hqub.Mellody.Web.Controllers
                 track.VideoId = results[0].VideoId;
 
                 var artistInfo = _lastfmService.GetInfo(track.Artist, "ru");
+                
                 track.ArtistBio = artistInfo.Bio.Summary;
-                track.SimilarArtists = new List<ArtistDTO>(artistInfo.SimilarArtists.Select(a => new ArtistDTO
-                {
-                    ArtistName = a.Name,
-                    ImageUrl = a.Images.First(img => img.Size == ImageSize.ExtraLarge).Value
-                }));
-                track.Tags = new List<string>
-                {
-                    "rock", "metal", "heavy-metal"
-                };
+                track.ImageUrl = GetArtistImage(artistInfo.Images);
+                track.SimilarArtists = GetSimilarArtists(artistInfo.SimilarArtists);
+
+                track.Tags = artistInfo.Tags.Select(t=>t.Name).ToList();
             }
 
             return tracks;
         }
 
+
+        /// <summary>
+        /// Return url image
+        /// </summary>
+        /// <param name="images"></param>
+        /// <returns></returns>
+        private string GetArtistImage(IEnumerable<Image> images)
+        {
+            return images.First(img => img.Size == ImageSize.ExtraLarge).Value;
+        }
+
+
+        /// <summary>
+        /// List of similar artists
+        /// </summary>
+        /// <param name="similarArtists"></param>
+        /// <returns></returns>
+        private List<ArtistDTO> GetSimilarArtists(IEnumerable<ArtistSimilarArtist> similarArtists)
+        {
+            return new List<ArtistDTO>(similarArtists.Select(a => new ArtistDTO
+            {
+                ArtistName = a.Name,
+                ImageUrl = GetArtistImage(a.Images)
+            }));
+        }
+
+        /// <summary>
+        /// Randomize playlist
+        /// </summary>
+        /// <param name="stationId"></param>
+        /// <returns></returns>
         private List<TrackDTO> GetShuffleTracks(Guid stationId)
         {
             var tracks = _stationService.GetTracks(stationId);
