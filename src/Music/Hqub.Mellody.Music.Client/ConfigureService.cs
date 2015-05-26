@@ -27,5 +27,13 @@ namespace Hqub.Mellody.Music.Client
 
             return config;
         }
+
+        public EchonestConfigureSection GetEchonestConfig()
+        {
+            var config = (EchonestConfigureSection)
+              System.Configuration.ConfigurationManager.GetSection("customSectionGroup/echonestSection");
+
+            return config;
+        }
     }
 }

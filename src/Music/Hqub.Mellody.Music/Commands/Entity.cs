@@ -11,5 +11,6 @@ namespace Hqub.Mellody.Music.Commands
        public string Artist { get; set; }
        public string Album { get; set; }
        public string Track { get; set; }
+       public string Genre { get; set; }
     }
 }

@@ -29,5 +29,14 @@ namespace Hqub.Mellody.Web.Services
 
             return config;
         }
+
+        public EchonestConfigureSection GetEchonestConfig()
+        {
+            var config =
+                (EchonestConfigureSection)
+                    System.Configuration.ConfigurationManager.GetSection("mellodySectionGroup/echonestSection");
+
+            return config;
+        }
     }
 }

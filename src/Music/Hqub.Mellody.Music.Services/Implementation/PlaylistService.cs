@@ -8,6 +8,7 @@ using System.Transactions;
 using Hqub.Mellody.Music.Commands;
 using Hqub.Mellody.Music.Configure;
 using Hqub.Mellody.Music.Services.Exceptions;
+using Hqub.Mellody.Music.Services.Interfaces;
 using Hqub.Mellody.Music.Store;
 using Hqub.Mellody.Poco;
 using Playlist = Hqub.Mellody.Music.Store.Models.Playlist;
@@ -23,6 +24,7 @@ namespace Hqub.Mellody.Music.Services
         private readonly ILogService _logService;
         private readonly PlaylistConfigureSection _configure;
         private readonly ICacheService _cacheService;
+        private readonly IEchonestService _echonestService;
         private readonly CommandFactory _mellodyTranslator;
         private readonly Dictionary<Type, Func<List<Entity>, Task<List<Track>>>> _mappingCommand;
 
@@ -32,11 +34,14 @@ namespace Hqub.Mellody.Music.Services
 
         public PlaylistService(ILogService logService,
             IConfigurationService configurationService,
-            ICacheService cacheService)
+            ICacheService cacheService,
+            IEchonestService echonestService)
         {
             _logService = logService;
             _configure = configurationService.GetPlaylistConfig();
             _cacheService = cacheService;
+            _echonestService = echonestService;
+
             _mappingCommand = new Dictionary<Type, Func<List<Entity>, Task<List<Track>>>>
             {
                 {
@@ -46,8 +51,13 @@ namespace Hqub.Mellody.Music.Services
                 {
                     typeof (AlbumCommand), GetAlbums
                 },
+
                 {
                     typeof (ArtistCommand), GetArtists
+                },
+
+                {
+                    typeof(GenreCommand), GetTracksByGenre
                 }
             };
 
@@ -124,6 +134,8 @@ namespace Hqub.Mellody.Music.Services
                     return string.Format("album \"{0}\"", query.Name.Trim());
                 case TypeQuery.Artist:
                     return string.Format("group \"{0}\"", query.Name.Trim());
+                case TypeQuery.Genre:
+                    return string.Format("genre \"{0}\"", query.Name.Trim());
                 default:
                     return query.Name;
             }
@@ -161,11 +173,7 @@ namespace Hqub.Mellody.Music.Services
                 }
                 catch (Exception exception)
                 {
-                    var builder = new StringBuilder("PlaylistService.GetAlbums");
-                    foreach (var entity1 in entities)
-                        builder.AppendFormat("\tentity: {0} - {1}\n", entity1.Artist, entity1.Album);
-
-                    _logService.AddExceptionFull(builder.ToString(), exception);
+                    LogException("GetAlbums", entities, exception);
                 }
             }
 
@@ -194,16 +202,45 @@ namespace Hqub.Mellody.Music.Services
                 }
                 catch (Exception exception)
                 {
-                    var builder = new StringBuilder("PlaylistService.GetArtists");
-                    foreach (var entity1 in entities)
-                        builder.AppendFormat("\tentity: {0}}\n", entity1.Artist);
-
-                    _logService.AddExceptionFull(builder.ToString(), exception);
+                    LogException("GetArtists", entities, exception);
                 }
             }
 
             return tracks;
         }
+
+        private async Task<List<Track>> GetTracksByGenre(List<Entity> entities)
+        {
+            var tracks = new List<Track>();
+
+            try
+            {
+              var echoTracks =  _echonestService.GetPlaylistByGenre(entities.Select(e => e.Genre).ToList(), 100);
+
+                tracks.AddRange(echoTracks.Tracks.Select(t=> new Track
+                {
+                    Id = Guid.NewGuid(),
+                    Artist = t.ArtistName,
+                    Title = t.Title
+                }));
+            }
+            catch (Exception exception)
+            {
+                LogException("GetTracksByGenre", entities, exception);
+            }
+
+            return tracks;
+        }
+
+        private void LogException(string methodName, List<Entity> entities, Exception exception)
+        {
+            var builder = new StringBuilder(string.Format("PlaylistService.{0}", methodName));
+            foreach (var entity1 in entities)
+                builder.AppendFormat("\tentity: {0}}\n", entity1.Artist);
+
+            _logService.AddExceptionFull(builder.ToString(), exception);
+        }
+
 
         #endregion
     }

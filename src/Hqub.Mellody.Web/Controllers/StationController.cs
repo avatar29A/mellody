@@ -22,7 +22,6 @@ namespace Hqub.Mellody.Web.Controllers
         private readonly IPlaylistService _playlistService;
         private readonly IYoutubeService _youtubeService;
         private readonly ILastfmService _lastfmService;
-        private readonly ICacheService _cacheService;
 
         public StationController(IStationService stationService,
             IPlaylistService playlistService,
@@ -34,7 +33,6 @@ namespace Hqub.Mellody.Web.Controllers
             _playlistService = playlistService;
             _youtubeService = youtubeService;
             _lastfmService = lastfmService;
-            _cacheService = cacheService;
         }
 
 
@@ -175,7 +173,7 @@ namespace Hqub.Mellody.Web.Controllers
         /// <summary>
         /// Save the last five tracks
         /// </summary>
-        private List<TrackDTO> SetLastListenTracks(List<TrackDTO> tracks)
+        private List<TrackDTO> SetLastListenTracks(IEnumerable<TrackDTO> tracks)
         {
             var lastListenTracks = GetFromSession<List<TrackDTO>>(Keys.HistorySongs) ?? new List<TrackDTO>();
 

@@ -9,6 +9,7 @@ namespace Hqub.Mellody.Poco
     {
         Artist,
         Album,
+        Genre,
         Query
     }
 

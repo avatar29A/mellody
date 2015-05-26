@@ -20,18 +20,36 @@ namespace Hqub.Melody.Music.Tests
         {
             var parser = GetParser();
 
-            ParseTree parseTree = parser.Parse("band \"Король и Шут\"");
-            Assert.IsNotNull(parseTree.Root);
-
-            parseTree = parser.Parse("группу \"Король и Шут\"");
+            ParseTree parseTree = parser.Parse("group \"Король и Шут\"");
             Assert.IsNotNull(parseTree.Root);
 
             var fabrica = new CommandFactory();
-            var command = fabrica.Create("исполнителей \"Король и Шут\" \"Кукрыниксы\"");
+            var command = fabrica.Create("group \"Король и Шут\" \"Кукрыниксы\"");
 
+            Assert.IsNotNull(command);
             Assert.AreNotEqual(command.Name, "HelpCommand");
             Assert.AreEqual(command.Entities.Count, 2);
             Assert.AreEqual(command.Entities[0].Artist, "Король и Шут");
+        }
+
+
+        [TestMethod]
+        public void ParsePlayGenreExpression()
+        {
+            var parser = GetParser();
+
+            ParseTree parseTree = parser.Parse("genre \"rock\"");
+            Assert.IsNotNull(parseTree.Root);
+
+            var fabrica = new CommandFactory();
+            var command = fabrica.Create("genre \"rock\" \"ghotic\"");
+
+            Assert.IsNotNull(command);
+            Assert.AreNotEqual(command.Name, "HelpCommand");
+            Assert.AreEqual(command.Entities.Count, 2);
+            Assert.AreEqual(command.Entities[0].Genre, "rock");
+            Assert.AreEqual(command.Entities[1].Genre, "ghotic");
+
         }
 
         [TestMethod]

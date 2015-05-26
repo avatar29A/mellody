@@ -1,5 +1,7 @@
 using System;
 using Hqub.Mellody.Music.Services;
+using Hqub.Mellody.Music.Services.Implementation;
+using Hqub.Mellody.Music.Services.Interfaces;
 using Hqub.Mellody.Web.Services;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
@@ -46,6 +48,7 @@ namespace Hqub.Mellody.Web.App_Start
             container.RegisterType<IConfigurationService, ConfigurationService>();
             container.RegisterType<IYoutubeService, YoutubeService>();
             container.RegisterType<ILastfmService, LastfmService>();
+            container.RegisterType<IEchonestService, EchonestService>();
         }
     }
 }

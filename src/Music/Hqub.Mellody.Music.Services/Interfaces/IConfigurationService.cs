@@ -11,5 +11,6 @@ namespace Hqub.Mellody.Music.Services
         Configure.LastfmConfigureSection GetLastfmConfig();
         Configure.YoutubeConfigureSection GetYoutubeConfig();
         Configure.PlaylistConfigureSection GetPlaylistConfig();
+        Configure.EchonestConfigureSection GetEchonestConfig();
     }
 }

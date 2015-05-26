@@ -119,17 +119,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Echonest\EchoPlaylist.cs" />
+    <Compile Include="Echonest\EchoTrack.cs" />
     <Compile Include="Helpers\HashAlgHelper.cs" />
     <Compile Include="Helpers\PlaylistHelper.cs" />
     <Compile Include="Helpers\StationHelper.cs" />
     <Compile Include="Implementation\AccauntService.cs" />
     <Compile Include="Implementation\CacheService.cs" />
     <Compile Include="Exceptions\EmptySearchResultException.cs" />
+    <Compile Include="Implementation\EchonestService.cs" />
     <Compile Include="Implementation\LastfmService.cs" />
     <Compile Include="Implementation\YoutubeService.cs" />
     <Compile Include="Interfaces\IAccountService.cs" />
     <Compile Include="Interfaces\ICacheService.cs" />
     <Compile Include="Interfaces\IConfigurationService.cs" />
+    <Compile Include="Interfaces\IEchonestService.cs" />
     <Compile Include="Interfaces\ILastfmService.cs" />
     <Compile Include="Interfaces\ILogService.cs" />
     <Compile Include="Interfaces\IPlaylistService.cs" />

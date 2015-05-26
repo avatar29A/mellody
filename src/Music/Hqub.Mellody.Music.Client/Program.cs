@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Windows.Documents;
 using Hqub.Mellody.Music.Commands;
 using Hqub.Mellody.Music.Services;
+using Hqub.Mellody.Music.Services.Implementation;
 using Hqub.Mellody.Poco;
 using Hqub.Mellowave.Vkontakte.API.LongPoll;
 using System.Text.RegularExpressions;
@@ -15,7 +17,9 @@ namespace Hqub.Mellody.Music.Client
         {
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionTrapper;
 
-            DownloadUserAudioList("6666100");
+            TestEchonestStaticPlaylist();
+
+//            DownloadUserAudioList("6666100");
 
 //            CreateTracks();
 
@@ -31,6 +35,23 @@ namespace Hqub.Mellody.Music.Client
 //            GetDialogs();
 //            GetMessages();
 
+
+            Console.ReadKey();
+        }
+
+        private static void TestEchonestStaticPlaylist()
+        {
+            var service = new EchonestService(new ConfigureService(), null);
+            var playlist = service.GetPlaylistByGenre(new List<string>()
+            {
+                "rock"
+            }, 100);
+
+            int index = 0;
+            foreach (var track in playlist.Tracks)
+            {
+                Console.WriteLine("({2}) {0} - {1}", track.ArtistId, track.ArtistName, ++index);
+            }
 
             Console.ReadKey();
         }

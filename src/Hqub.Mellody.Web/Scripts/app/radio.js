@@ -27,7 +27,12 @@
     this.placeholder = ko.computed(function() {
         if (self.typeQuery() == 'Artist') {
             return "Example: Ozzy Osbourne";
-        } else {
+        }
+
+        if (self.typeQuery() == 'Genre') {
+            return "Example: rock";
+        }
+        else {
             return "Example: Black Sabbath - Paranoid";
         }
     });
@@ -92,21 +97,31 @@ var StationViewModel = function() {
 
     this.notifySubscribers();
 
-    this.create_station_by_similar_artist = function (artist)
-    {
+    this.create_station_by_similar_artist = function (artist) {
+        var selectedSimilarArtist = {
+            name: artist.ArtistName,
+            typeQuery: "Artist"
+        };
+
+        self.create_station(selectedSimilarArtist);
+    }
+
+    this.create_station_by_genre = function(genre) {
+        var selectedGenre = {
+            name: genre,
+            typeQuery: "Genre"
+        };
+
+        self.create_station(selectedGenre);
+    }
+
+    this.create_station = function(query) {
         if (self.isExecute())
             return;
 
         self.isExecute(true);
 
-        var queries = [
-            {
-                name: artist.ArtistName,
-                typeQuery: "Artist"
-            }
-        ];
-
-        CreateStation(queries, RunStation, DefaultErrorHandle, function() { self.isExecute(false); });
+        CreateStation([query], RunStation, DefaultErrorHandle, function () { self.isExecute(false); });
     }
 
     this.load_playlist = function () {

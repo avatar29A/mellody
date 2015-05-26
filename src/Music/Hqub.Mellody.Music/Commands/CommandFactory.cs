@@ -32,6 +32,9 @@ namespace Hqub.Mellody.Music.Commands
                 case "playArtist":
                     command = CreatePlayArtistCommand(commandNode);
                     break;
+                case "playGenre":
+                    command = CreatePlayGenreCommand(commandNode);
+                    break;
                 case "infoArtist":
                     command = CreateInfoArtistCommand(commandNode);
                     break;
@@ -55,6 +58,13 @@ namespace Hqub.Mellody.Music.Commands
             var command = new ArtistCommand();
 
             return FillArtists(node, command);
+        }
+
+        private ICommand CreatePlayGenreCommand(ParseTreeNode node)
+        {
+            var command = new GenreCommand();
+
+            return FillGenres(node, command);
         }
 
         private ICommand CreateInfoArtistCommand(ParseTreeNode node)
@@ -122,6 +132,21 @@ namespace Hqub.Mellody.Music.Commands
                 {
                     Artist = decomposeAlbumName.Item1,
                     Album = decomposeAlbumName.Item2
+                });
+            }
+
+            return command;
+        }
+
+        private ICommand FillGenres(ParseTreeNode node, ICommand command)
+        {
+            var nodeGenres = node.ChildNodes[1];
+
+            foreach (var childNode in nodeGenres.ChildNodes)
+            {
+                command.Entities.Add(new Entity
+                {
+                    Genre = childNode.Token.ValueString
                 });
             }
 

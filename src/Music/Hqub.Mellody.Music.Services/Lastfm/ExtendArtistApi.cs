@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DotLastFm.Api;
+﻿using DotLastFm.Api;
 using DotLastFm.Api.Rest;
 using DotLastFm.Models;
 using DotLastFm.Models.Wrappers;
