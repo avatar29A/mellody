@@ -20,7 +20,7 @@
     </script>
     
     <script type="text/html" id="similar-artist-tile-template">
-        <div class="tile">
+        <div class="tile margin15 nlm ntm nbm">
             <div class="tile-content image" data-bind="click: $parent.create_station_by_similar_artist">
                 <img data-bind="attr: {src: ImageUrl}" class="similar-artist-tile"/>
             </div>
@@ -113,7 +113,7 @@
             <div class="tags-panel">
                 <ul class="tags" data-bind="foreach: currentTrack().Tags">
                     <li>
-                        <a href="#" data-bind="text: $data"></a>
+                        <a href="#" data-bind="text: $data, click: $parent.create_station_by_genre"></a>
                     </li>
                 </ul>
             </div>
