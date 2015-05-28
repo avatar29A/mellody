@@ -30,7 +30,6 @@
             </div>
         </div>
     </script>
-
 }
 
 <div class="grid">
@@ -52,9 +51,21 @@
     
     <div class="row">
         <div class="span10">
-            <div id="player"></div>
+            <div class="set-player-size" data-bind="visible: isBusy()">
+                <div class="set-player-middle-size">
+                    <img src="@Url.Content("/Content/Images/busy_indicator.gif")" />
+                </div>
+                <div class="set-player-middle-size" style="margin-left: 300px; margin-top: 320px;">
+                    <p>We loading radio station for your! Please wait ;)</p>
+                </div>
+            </div>
+            
+            <div class="" data-bind="visible: !isBusy()">
+                <div id="player"></div>
 
-            <div class="row bg-gray" style="margin-top: -4px; margin-right: -10px; width: 850px;">
+            </div>
+
+            <div class="row bg-gray set-player-width" style="margin-top: -4px; margin-right: -10px; display: none;" data-bind="visible: !isBusy()">
                 <div class="span6">
                     <a href="#" data-bind="click:pause_play">
                         <img src="@Url.Content("/Content/metro-ui/icons/white/play_white.png")"
@@ -88,7 +99,11 @@
                             </td>
                             <td>
                                 <div id="volume_slider"
-                                     class="slider margin10 nlm nrm" data-role="slider" data-position="100" data-min="0" data-max="100" style="width: 80px;"></div>
+                                     class="slider margin10 nlm nrm player-volume-slider"
+                                     data-role="slider"
+                                     data-position="100"
+                                     data-min="0"
+                                     data-max="100"></div>
                             </td>
                             <td>
                                 <a href="#" data-bind="click: volume_on">
@@ -123,6 +138,7 @@
                     InitalYoutubePlayer(undefined, {
                         'onReady': function () {
                             vm.load_playlist();
+                            vm.isBusy(false);
                         },
                         'onStateChange': vm.onPlayerStateChange
                     });
@@ -149,7 +165,7 @@
                         </div>
                         
                         <!--History stations-->
-                        <div class="list-group" data-bin="playlist().HistoryStations && playlist().HistoryStations.length > 0">
+                        <div class="list-group" data-bind="visible: playlist().HistoryStations && playlist().HistoryStations.length > 0">
                             <a href="" class="group-title">Your last radio stations</a>
                             <div class="group-content" style="display: block;" data-bind="foreach: playlist().HistoryStations">
                                 <a class="list" data-bind="css: { marked: $data.Id == station_id}, click: $parent.play_station">
@@ -168,11 +184,11 @@
         </div>
     </div>
     
-    <div class="row">
+    <div class="row" data-bind="visible: !isBusy()">
         <div class="span11">
             <h2>Рекомендованные исполнители</h2>
 
-            <div class="margin-from-title" style="background: #eef5fc" data-bind="visible: !currentTrack().SimilarArtists || currentTrack().SimilarArtists.length == 0">
+            <div class="margin-from-title similar-empty-message" data-bind="visible: !currentTrack().SimilarArtists || currentTrack().SimilarArtists.length == 0">
                 <p>Рекомендации отсутсвуют.</p>
             </div>
 

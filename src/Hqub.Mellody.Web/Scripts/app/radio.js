@@ -85,6 +85,8 @@ var StationViewModel = function() {
     var self = this;
    
     this.isExecute = ko.observable(false);
+    this.isBusy = ko.observable(true);
+
     this.currentTrack = ko.observable({});
     this.playlist = ko.observable({});
 
@@ -96,6 +98,10 @@ var StationViewModel = function() {
     }
 
     this.notifySubscribers();
+
+    this.TestClick = function() {
+        self.isBusy(false);
+    }
 
     this.create_station_by_similar_artist = function (artist) {
         var selectedSimilarArtist = {
