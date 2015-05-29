@@ -41,20 +41,27 @@ namespace Hqub.Mellody.Music.Services.Implementation
             }
             catch (Exception exception)
             {
-                _logService.AddExceptionFull(string.Format("EchonestService.GetPlaylistByGenre({0})", mergeGenres), exception);
+                _logService.AddExceptionFull(string.Format("EchonestService.GetPlaylistByGenre({0})", mergeGenres),
+                    exception);
             }
 
             return EchoPlaylist.Empty();
         }
 
-        public List<string> GetSimilarGenres(string artistName, int count=5)
+        /// <summary>
+        /// Get similar genres by artist name. Information extract from echonest service.
+        /// </summary>
+        /// <param name="artistName">Artist name</param>
+        /// <param name="count">Genre count</param>
+        /// <returns>List of genre names.</returns>
+        public List<string> GetSimilarGenres(string artistName, int count = 5)
         {
             try
             {
                 var config = _configurationService.GetEchonestConfig();
 
                 var url = string.Format("{0}artist/search?api_key={1}&name={2}&format=xml&results=1", config.BaseUrl,
-                config.AccessToken, artistName);
+                    config.AccessToken, artistName);
 
                 // Search artist:
                 var response = Get<EchoArtistSearch>(url);
@@ -69,18 +76,19 @@ namespace Hqub.Mellody.Music.Services.Implementation
 
                 var termsResponse = Get<EchoArtistTerms>(url);
 
-                if(termsResponse == null)
+                if (termsResponse == null)
                     return new List<string>();
 
-                return termsResponse.Terms.Select(t=>t.Name).Take(count).ToList();
+                return termsResponse.Terms.Select(t => t.Name).Take(count).ToList();
             }
             catch (Exception exception)
             {
-                _logService.AddExceptionFull(string.Format("EchonestService.GetSimilarGenres({0})", artistName), exception);
+                _logService.AddExceptionFull(string.Format("EchonestService.GetSimilarGenres({0})", artistName),
+                    exception);
 
                 return new List<string>();
             }
-    }
+        }
 
         private T Get<T>(string url)
         {
@@ -94,7 +102,7 @@ namespace Hqub.Mellody.Music.Services.Implementation
 
         public static T XmlDeserializeFromString<T>(string objectData)
         {
-            return (T)XmlDeserializeFromString(objectData, typeof(T));
+            return (T) XmlDeserializeFromString(objectData, typeof (T));
         }
 
         public static object XmlDeserializeFromString(string objectData, Type type)
