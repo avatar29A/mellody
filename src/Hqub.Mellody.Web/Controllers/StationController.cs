@@ -23,17 +23,19 @@ namespace Hqub.Mellody.Web.Controllers
         private readonly IPlaylistService _playlistService;
         private readonly IYoutubeService _youtubeService;
         private readonly ILastfmService _lastfmService;
+        private readonly ILogService _logService;
 
         public StationController(IStationService stationService,
             IPlaylistService playlistService,
             IYoutubeService youtubeService,
             ILastfmService lastfmService,
-            ICacheService cacheService)
+            ILogService logService)
         {
             _stationService = stationService;
             _playlistService = playlistService;
             _youtubeService = youtubeService;
             _lastfmService = lastfmService;
+            _logService = logService;
         }
 
 
@@ -254,13 +256,20 @@ namespace Hqub.Mellody.Web.Controllers
 
                 track.VideoId = results[0].VideoId;
 
-                var artistInfo = _lastfmService.GetInfo(track.Artist, "ru");
-                
-                track.ArtistBio = artistInfo.Bio.Summary;
-                track.ImageUrl = GetArtistImage(artistInfo.Images);
-                track.SimilarArtists = GetSimilarArtists(artistInfo.SimilarArtists);
+                try
+                {
+                    var artistInfo = _lastfmService.GetInfo(track.Artist, "ru");
 
-                track.Tags = artistInfo.Tags.Select(t=>t.Name).ToList();
+                    track.ArtistBio = artistInfo.Bio.Summary;
+                    track.ImageUrl = GetArtistImage(artistInfo.Images);
+                    track.SimilarArtists = GetSimilarArtists(artistInfo.SimilarArtists);
+
+                    track.Tags = artistInfo.Tags.Select(t => t.Name).ToList();
+                }
+                catch (Exception exception)
+                {
+                    _logService.AddExceptionFull(string.Format("FillExtInfoSection. Track ({0})", track.FullTitle), exception);
+                }
             }
 
             return tracks;
