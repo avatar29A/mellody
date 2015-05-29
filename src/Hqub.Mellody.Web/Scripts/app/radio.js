@@ -2,11 +2,17 @@
     var self = this;
 
     this.isExecute = ko.observable(false);
-
     this.itemToAdd = ko.observable("");
-    this.mediaQueriesSupported = ko.observableArray([]);
-
     this.typeQuery = ko.observable("Artist");
+
+    this.mediaQueriesSupported = ko.observableArray([]);
+    this.historyStations = ko.observableArray([]);
+
+    // METHODS
+
+    this.initialize = function() {
+        self.getHistoryStations();
+    }
 
     this.addQuery = function () {
         if ((this.itemToAdd() != "") && (this.mediaQueriesSupported.indexOf(this.itemToAdd()) < 0)) { // Prevent blanks and duplicates
@@ -79,13 +85,34 @@
 
         CreateStation(self.mediaQueriesSupported(), RunStation, DefaultErrorHandle, function() { self.setWait(false); });
     }
+
+    this.play_station = function (data, event) {
+        goto_station(data.Id);
+    }
+
+    this.getHistoryStations = function() {
+        get('/Station/GetHistoryStations', function(data) {
+            if (data.IsError) {
+                alert(data.Error);
+                return;
+            }
+
+            self.historyStations(data.Stations);
+        });
+    }
+
+    //.ctor
+
+    this.initialize();
 }
+
+//
+// Station View Model
+// 
 
 var StationViewModel = function() {
     var self = this;
-   
-    this.isExecute = ko.observable(false);
-    this.isBusy = ko.observable(true);
+    this.isExecute = ko.observable(true);
 
     this.currentTrack = ko.observable({});
     this.playlist = ko.observable({});
@@ -98,10 +125,6 @@ var StationViewModel = function() {
     }
 
     this.notifySubscribers();
-
-    this.TestClick = function() {
-        self.isBusy(false);
-    }
 
     this.create_station_by_similar_artist = function (artist) {
         var selectedSimilarArtist = {
@@ -125,13 +148,22 @@ var StationViewModel = function() {
         if (self.isExecute())
             return;
 
-        self.isExecute(true);
+        $('#info-block').fadeOut('slow', function() {
 
-        CreateStation([query], RunStation, DefaultErrorHandle, function () { self.isExecute(false); });
+            self.isExecute(true);
+
+            CreateStation([query], RunStation, DefaultErrorHandle, function() {
+                self.isExecute(false);
+                $('#info-block').fadeIn('slow');
+            });
+        });
     }
 
     this.load_playlist = function () {
-        $('#info-block').fadeOut('slow', function() {
+        $('#info-block').fadeOut('slow', function () {
+
+            self.isExecute(true);
+
             get('/Station/Get/' + station_id, function (data) {
                 if (data.IsError || data.length == 0) {
                     alert("Station is empty :(");
@@ -141,6 +173,7 @@ var StationViewModel = function() {
                 self.playlist(data);
                 self.play(data.Tracks);
 
+                self.isExecute(false);
                 $('#info-block').fadeIn('slow');
             });
         });
@@ -161,8 +194,11 @@ var StationViewModel = function() {
     }
 
     this.play_station = function (data, event) {
-        window.location.href = '/Station/Index/' + data.Id;
+        goto_station(data.Id);
     }
+
+    //
+    // Volume functions
 
     this.volume_on = function() {
         self.volume(100);
@@ -182,6 +218,8 @@ var StationViewModel = function() {
         Player.setVolume(volume);
         $('#volume_slider').slider("value", volume);
     }
+
+    // ~ Volum functionss
 
     this.pause_play = function() {
         if (Player.getPlayerState() == YT.PlayerState.PLAYING) {
@@ -205,15 +243,19 @@ var StationViewModel = function() {
         self.currentTrack(track);
     }
 
+    this.lastState = -1;
     this.onPlayerStateChange = function (event) {
         console.log('PlayerStateChange = ' + event.data);
 
+        
         if (event.data == YT.PlayerState.CUED) {
             self.pause_play(); 
         } else if (event.data == YT.PlayerState.ENDED) {
-            self.load_playlist();
+            self.nextTrack();
         } else if (event.data == YT.PlayerState.PLAYING) {
 
+        } else if (event.data == -1 && (self.lastState == YT.PlayerState.PLAYING || self.lastState == YT.PlayerState.BUFFERING)) {
+            self.nextTrack();
         }
     }
 
@@ -221,6 +263,10 @@ var StationViewModel = function() {
         self.load_playlist();
     }
 }
+
+//
+// Init knockout.js
+//
 
 var vm = null;
 

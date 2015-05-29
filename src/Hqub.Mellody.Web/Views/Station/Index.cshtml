@@ -51,7 +51,7 @@
     
     <div class="row">
         <div class="span10">
-            <div class="set-player-size" data-bind="visible: isBusy()">
+            <div class="set-player-size" data-bind="visible: isExecute()">
                 <div class="set-player-middle-size">
                     <img src="@Url.Content("/Content/Images/busy_indicator.gif")" />
                 </div>
@@ -60,12 +60,14 @@
                 </div>
             </div>
             
-            <div class="" data-bind="visible: !isBusy()">
+            <div class="" data-bind="visible: !isExecute()">
                 <div id="player"></div>
 
             </div>
 
-            <div class="row bg-gray set-player-width" style="margin-top: -4px; margin-right: -10px; display: none;" data-bind="visible: !isBusy()">
+            <div class="row bg-gray set-player-width"
+                 style="margin-top: -4px; margin-right: -10px; display: none;"
+                 data-bind="visible: !isExecute()">
                 <div class="span6">
                     <a href="#" data-bind="click:pause_play">
                         <img src="@Url.Content("/Content/metro-ui/icons/white/play_white.png")"
@@ -115,7 +117,7 @@
                 </div>
             </div>
             
-            <div id="info-block" class="row">
+            <div id="info-block" class="row" data-bind="visible: !isExecute()">
                 <div class="span11">
                     <h2 data-bind="text: currentTrack().FullTitle"></h2>
 
@@ -125,7 +127,7 @@
                 </div>
             </div>
             
-            <div class="tags-panel">
+            <div class="tags-panel" data-bind="visible: !isExecute()">
                 <ul class="tags" data-bind="foreach: currentTrack().Tags">
                     <li>
                         <a href="#" data-bind="text: $data, click: $parent.create_station_by_genre"></a>
@@ -138,7 +140,6 @@
                     InitalYoutubePlayer(undefined, {
                         'onReady': function () {
                             vm.load_playlist();
-                            vm.isBusy(false);
                         },
                         'onStateChange': vm.onPlayerStateChange
                     });
@@ -184,7 +185,7 @@
         </div>
     </div>
     
-    <div class="row" data-bind="visible: !isBusy()">
+    <div class="row" data-bind="visible: !isExecute()">
         <div class="span11">
             <h2>Рекомендованные исполнители</h2>
 

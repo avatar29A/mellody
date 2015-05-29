@@ -179,4 +179,6 @@ function replace_image_src (replace_from, replace_to, control_id) {
     $(control_id).attr('src', $(control_id).attr('src').replace(replace_from, replace_to));
 }
 
-
+function goto_station(stationId) {
+    window.location.href = '/Station/Index/' + stationId;
+}

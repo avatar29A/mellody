@@ -11,6 +11,7 @@ using Hqub.Mellody.Music.Store.Models;
 using Hqub.Mellody.Poco;
 using Hqub.Mellody.Web.Extensions;
 using Hqub.Mellody.Web.Models.Response;
+using NLog.Fluent;
 
 namespace Hqub.Mellody.Web.Controllers
 {
@@ -106,6 +107,30 @@ namespace Hqub.Mellody.Web.Controllers
                     IsError = true,
                     Message = "Internal server error.",
                     StatusCode = 500
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        /// <summary>
+        /// Return history stations
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult GetHistoryStations()
+        {
+            try
+            {
+                var stations = GetFromSession<List<StationDTO>>(Keys.HistoryStations) ?? new List<StationDTO>();
+
+                return Json(new GetHistoryStationsResponse(stations), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception exception)
+            {
+                Logger.AddExceptionFull("StationController.GetStationHistory", exception);
+
+                return Json(new GetHistoryStationsResponse(new List<StationDTO>())
+                {
+                    IsError = true
                 }, JsonRequestBehavior.AllowGet);
             }
         }

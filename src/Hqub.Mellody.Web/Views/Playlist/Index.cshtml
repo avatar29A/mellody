@@ -133,6 +133,24 @@
             </div>
         </div>
     </div>
+    
+    <div class="row" data-bind="visible: historyStations().length">
+        <h2>Last stations</h2>
+
+        <table class="table hovered border">
+            <tbody data-bind="foreach: historyStations">
+                <tr>
+                    <td><a href="#" data-bind="click: $parent.play_station">
+                            <span class="icon-play-alt" style="margin-right: 5px;"></span>
+                        </a>
+                        <span data-bind="text: Name"></span>
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 
