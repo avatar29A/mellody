@@ -254,7 +254,7 @@ namespace Hqub.Mellody.Web.Controllers
                 if (results.Count == 0)
                     continue;
 
-                track.VideoId = results[0].VideoId;
+                track.VideoId = GetMaximalSimiliarVideo(track.FullTitle, results);
 
                 try
                 {
@@ -273,6 +273,15 @@ namespace Hqub.Mellody.Web.Controllers
             }
 
             return tracks;
+        }
+
+        private string GetMaximalSimiliarVideo(string title, IEnumerable<YoutubeVideoDTO> videos)
+        {
+            var video =
+                videos.FirstOrDefault(
+                    v => v.Title.ToLower().Equals(title.ToLower()));
+
+            return video != null ? video.VideoId : string.Empty;
         }
 
 
