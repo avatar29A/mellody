@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Xml.Serialization;
 using Hqub.Mellody.Music.Services.Echonest;
@@ -45,6 +46,41 @@ namespace Hqub.Mellody.Music.Services.Implementation
 
             return EchoPlaylist.Empty();
         }
+
+        public List<string> GetSimilarGenres(string artistName, int count=5)
+        {
+            try
+            {
+                var config = _configurationService.GetEchonestConfig();
+
+                var url = string.Format("{0}artist/search?api_key={1}&name={2}&format=xml&results=1", config.BaseUrl,
+                config.AccessToken, artistName);
+
+                // Search artist:
+                var response = Get<EchoArtistSearch>(url);
+                if (response == null || response.Artists == null || response.Artists.Count == 0)
+                    return new List<string>();
+
+                var artist = response.Artists.First();
+
+                // Get similar tags:
+                url = string.Format("{0}artist/terms?api_key={1}&id={2}&format=xml", config.BaseUrl, config.AccessToken,
+                    artist.Id);
+
+                var termsResponse = Get<EchoArtistTerms>(url);
+
+                if(termsResponse == null)
+                    return new List<string>();
+
+                return termsResponse.Terms.Select(t=>t.Name).Take(count).ToList();
+            }
+            catch (Exception exception)
+            {
+                _logService.AddExceptionFull(string.Format("EchonestService.GetSimilarGenres({0})", artistName), exception);
+
+                return new List<string>();
+            }
+    }
 
         private T Get<T>(string url)
         {

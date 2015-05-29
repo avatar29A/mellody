@@ -7,6 +7,7 @@ using AutoMapper;
 using DotLastFm.Models;
 using Hqub.Mellody.Music.Services;
 using Hqub.Mellody.Music.Services.Exceptions;
+using Hqub.Mellody.Music.Services.Interfaces;
 using Hqub.Mellody.Music.Store.Models;
 using Hqub.Mellody.Poco;
 using Hqub.Mellody.Web.Extensions;
@@ -23,18 +24,21 @@ namespace Hqub.Mellody.Web.Controllers
         private readonly IPlaylistService _playlistService;
         private readonly IYoutubeService _youtubeService;
         private readonly ILastfmService _lastfmService;
+        private readonly IEchonestService _echonestService;
         private readonly ILogService _logService;
 
         public StationController(IStationService stationService,
             IPlaylistService playlistService,
             IYoutubeService youtubeService,
             ILastfmService lastfmService,
+            IEchonestService echonestService,
             ILogService logService)
         {
             _stationService = stationService;
             _playlistService = playlistService;
             _youtubeService = youtubeService;
             _lastfmService = lastfmService;
+            _echonestService = echonestService;
             _logService = logService;
         }
 
@@ -264,7 +268,8 @@ namespace Hqub.Mellody.Web.Controllers
                     track.ImageUrl = GetArtistImage(artistInfo.Images);
                     track.SimilarArtists = GetSimilarArtists(artistInfo.SimilarArtists);
 
-                    track.Tags = artistInfo.Tags.Select(t => t.Name).ToList();
+                    // Get similar tags from Echonest service:
+                    track.Tags = _echonestService.GetSimilarGenres(track.Artist);
                 }
                 catch (Exception exception)
                 {

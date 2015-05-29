@@ -28,8 +28,8 @@ namespace Hqub.Mellody.Music.Services
             });
 
             var searchListRequest = youtube.Search.List("snippet");
+            searchListRequest.Type = "video";
             searchListRequest.Q = query;
-            searchListRequest.Order = SearchResource.ListRequest.OrderEnum.Relevance;
             searchListRequest.VideoDuration = SearchResource.ListRequest.VideoDurationEnum.Medium;
 
             searchListRequest.MaxResults = _config.MaxResults;

@@ -6,5 +6,6 @@ namespace Hqub.Mellody.Music.Services.Interfaces
     public interface IEchonestService
     {
         EchoPlaylist GetPlaylistByGenre(IEnumerable<string> genres, int count);
+        List<string> GetSimilarGenres(string artistName, int count = 5);
     }
 }
