@@ -261,10 +261,10 @@ var StationViewModel = function() {
 
         } else if (event.data == -1) {
             setTimeout(function() {
-                if (self.lastState == -1) {
+                if (Player.getPlayerState() == -1) {
                     self.nextTrack();
                 }
-            }, 5000);
+            }, 10000);
         }
 
         self.lastState = event.data;
