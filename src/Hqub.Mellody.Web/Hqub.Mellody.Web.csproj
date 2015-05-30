@@ -241,6 +241,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\busy2.gif" />
     <Content Include="Content\Images\busy_indicator.gif" />
     <Content Include="Content\metro-ui\css\iconFont.min.css" />
     <Content Include="Content\metro-ui\css\metro-bootstrap-responsive.css" />

@@ -185,6 +185,12 @@ var StationViewModel = function() {
             return this.VideoId;
         }).get();
 
+        
+        if ($.grep(videos, function(el) { return el != ""; }).length == 0) {
+            self.nextTrack();
+            return;
+        }
+
         self.setCurrentTrack(tracks[0]);
         Player.cuePlaylist(videos);
     }
@@ -247,16 +253,21 @@ var StationViewModel = function() {
     this.onPlayerStateChange = function (event) {
         console.log('PlayerStateChange = ' + event.data);
 
-        
         if (event.data == YT.PlayerState.CUED) {
             self.pause_play(); 
         } else if (event.data == YT.PlayerState.ENDED) {
             self.nextTrack();
         } else if (event.data == YT.PlayerState.PLAYING) {
 
-        } else if (event.data == -1 && (self.lastState == YT.PlayerState.PLAYING || self.lastState == YT.PlayerState.BUFFERING)) {
-            self.nextTrack();
+        } else if (event.data == -1) {
+            setTimeout(function() {
+                if (self.lastState == -1) {
+                    self.nextTrack();
+                }
+            }, 5000);
         }
+
+        self.lastState = event.data;
     }
 
     this.nextTrack = function() {

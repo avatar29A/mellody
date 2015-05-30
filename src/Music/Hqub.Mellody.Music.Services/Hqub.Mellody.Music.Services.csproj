@@ -127,6 +127,7 @@
     <Compile Include="Echonest\EchoTerm.cs" />
     <Compile Include="Echonest\EchoTrack.cs" />
     <Compile Include="Helpers\HashAlgHelper.cs" />
+    <Compile Include="Helpers\LevenshteinAlgHelper.cs" />
     <Compile Include="Helpers\PlaylistHelper.cs" />
     <Compile Include="Helpers\StationHelper.cs" />
     <Compile Include="Implementation\AccauntService.cs" />

@@ -38,7 +38,10 @@ namespace Hqub.Mellody.Music.Services
 
             return (from searchResult in searchListResponse.Items
                 where searchResult.Id.Kind == "youtube#video"
-                select new YoutubeVideoDTO(searchResult.Snippet.Title, searchResult.Id.VideoId)).ToList();
+                select
+                    new YoutubeVideoDTO(searchResult.Snippet.Title, searchResult.Id.VideoId,
+                        Helpers.LevenshteinAlgHelper.LevenshteinDistance(query.ToLower(),
+                            searchResult.Snippet.Title.ToLower()))).ToList();
         }
     }
 }
