@@ -27,6 +27,18 @@ namespace Hqub.Mellody.Music.Helpers
         }
 
         /// <summary>
+        /// Split track name
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        public static string[] SplitTitle(string query)
+        {
+            var complexName = query.Split('-');
+
+            return complexName.Select(n => n.Trim()).ToArray();
+        }
+
+        /// <summary>
         /// Remove all specific symbols.
         /// </summary>
         /// <param name="name">Input text</param>

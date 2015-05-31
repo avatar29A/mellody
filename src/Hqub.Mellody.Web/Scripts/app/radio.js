@@ -117,6 +117,8 @@ var StationViewModel = function() {
     this.currentTrack = ko.observable({});
     this.playlist = ko.observable({});
 
+    this.trycounter = 5;
+
     this.notifySubscribers = function() {
         // Настраиваем регулятор громкости:
         $("#volume_slider").on("changed", function (e, val) {
@@ -172,9 +174,6 @@ var StationViewModel = function() {
 
                 self.playlist(data);
                 self.play(data.Tracks);
-
-                self.isExecute(false);
-                $('#info-block').fadeIn('slow');
             });
         });
     }
@@ -187,12 +186,20 @@ var StationViewModel = function() {
 
         
         if ($.grep(videos, function(el) { return el != ""; }).length == 0) {
+            if (++self.trycounter >= 5) {
+                alert("I can't find tracks for this station. Please try another station.");
+                window.location = '/Playlist';
+                return;
+            }
             self.nextTrack();
             return;
         }
 
         self.setCurrentTrack(tracks[0]);
         Player.cuePlaylist(videos);
+
+        self.isExecute(false);
+        $('#info-block').fadeIn('slow');
     }
 
     this.play_track = function(data, event) {
@@ -249,7 +256,7 @@ var StationViewModel = function() {
         self.currentTrack(track);
     }
 
-    this.lastState = -1;
+    this.playerAgentRunning = false;
     this.onPlayerStateChange = function (event) {
         console.log('PlayerStateChange = ' + event.data);
 
@@ -260,14 +267,15 @@ var StationViewModel = function() {
         } else if (event.data == YT.PlayerState.PLAYING) {
 
         } else if (event.data == -1) {
-            setTimeout(function() {
-                if (Player.getPlayerState() == -1) {
-                    self.nextTrack();
-                }
-            }, 10000);
+            if (!self.playerAgentRunning) {
+                setTimeout(function () {
+                    self.playerAgentRunning = false;
+                    if (Player.getPlayerState() == -1) {
+                        self.nextTrack();
+                    }
+                }, 10000);
+            }
         }
-
-        self.lastState = event.data;
     }
 
     this.nextTrack = function() {

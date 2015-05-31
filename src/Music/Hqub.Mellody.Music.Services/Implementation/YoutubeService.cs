@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Google.Apis.Services;
 using Google.Apis.YouTube.v3;
@@ -40,8 +41,48 @@ namespace Hqub.Mellody.Music.Services
                 where searchResult.Id.Kind == "youtube#video"
                 select
                     new YoutubeVideoDTO(searchResult.Snippet.Title, searchResult.Id.VideoId,
-                        Helpers.LevenshteinAlgHelper.LevenshteinDistance(query.ToLower(),
-                            searchResult.Snippet.Title.ToLower()))).ToList();
+                        CalcRank(query, searchResult.Snippet.Title))).ToList();
+        }
+
+        private int CalcRank(string query, string title)
+        {
+            var splitTrackName = Helpers.PlaylistHelper.SplitTitle(query);
+            var artistName = splitTrackName[0].Trim().ToLower();
+            var trackName = splitTrackName[1].Trim().ToLower();
+            var clearQuery = query.Trim().ToLower();
+
+            var splitYoutubeTrackName = Helpers.PlaylistHelper.SplitTitle(title);
+
+            var rank = 0;
+
+            if (splitTrackName.Length == 2 && splitYoutubeTrackName.Length == 2)
+            {
+                if (String.Equals(splitTrackName[0].Trim(), splitYoutubeTrackName[0].Trim(),
+                    StringComparison.CurrentCultureIgnoreCase))
+                {
+                    rank += 70;
+                }
+
+                if (String.Equals(splitTrackName[1].Trim(), splitYoutubeTrackName[1].Trim(),
+                    StringComparison.CurrentCultureIgnoreCase))
+                {
+                    rank += 30;
+                }
+            }
+            else
+            {
+                if (clearQuery.Contains(artistName))
+                {
+                    rank += 30;
+                }
+                
+                if(clearQuery.Contains(trackName))
+                {
+                    rank += 70;
+                }
+            }
+
+            return rank;
         }
     }
 }

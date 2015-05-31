@@ -282,8 +282,9 @@ namespace Hqub.Mellody.Web.Controllers
 
         private string GetMaximalSimiliarVideo(IEnumerable<YoutubeVideoDTO> videos)
         {
-            var video =
-                videos.OrderBy(v => v.Rank).First();
+            var video = videos.OrderByDescending(v => v.Rank).First();
+            if (video.Rank != 100)
+                return string.Empty;
 
             return video.VideoId;
         }

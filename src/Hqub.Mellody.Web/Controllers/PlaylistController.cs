@@ -12,14 +12,6 @@ namespace Hqub.Mellody.Web.Controllers
 {
     public class PlaylistController : Controller
     {
-
-        public PlaylistController(IPlaylistService playlistService,
-            IStationService stationService,
-            ICacheService cacheService)
-        {
-           
-        }
-
         // GET: Radio
         public ActionResult Index()
         {
