@@ -63,7 +63,7 @@ namespace Hqub.Mellody.Music.Helpers
         public static string ConvertQueryToString(QueryEntity query)
         {
             var joinQuery = string.Format("{0}{1}",
-                Enum.GetName(typeof(TypeQuery), query.TypeQuery), ClearName(query.Name, query.TypeQuery));
+                Enum.GetName(typeof (TypeQuery), query.TypeQuery), ClearName(query.Name, query.TypeQuery));
 
             return joinQuery;
         }
@@ -72,7 +72,5 @@ namespace Hqub.Mellody.Music.Helpers
         {
             return Regex.Replace(name, "[^\\w\\d]", string.Empty).Trim().ToLower();
         }
-
-       
     }
 }

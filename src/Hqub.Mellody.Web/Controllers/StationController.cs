@@ -208,7 +208,7 @@ namespace Hqub.Mellody.Web.Controllers
         {
             var lastListenTracks = GetFromSession<List<TrackDTO>>(Keys.HistorySongs) ?? new List<TrackDTO>();
 
-            lastListenTracks.InsertRange(0, tracks);
+            lastListenTracks.InsertRange(0, tracks.Where(t => !string.IsNullOrEmpty(t.VideoId)));
 
             Session[Keys.HistorySongs] = lastListenTracks.Take(5).ToList();
 

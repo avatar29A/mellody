@@ -1,4 +1,6 @@
-﻿var PlaylistViewModel = function () {
+﻿var MAX_TRY_COUNT = 20;
+
+var PlaylistViewModel = function () {
     var self = this;
 
     this.isExecute = ko.observable(false);
@@ -117,7 +119,7 @@ var StationViewModel = function() {
     this.currentTrack = ko.observable({});
     this.playlist = ko.observable({});
 
-    this.trycounter = 5;
+    this.trycounter = 0;
 
     this.notifySubscribers = function() {
         // Настраиваем регулятор громкости:
@@ -186,7 +188,7 @@ var StationViewModel = function() {
 
         
         if ($.grep(videos, function(el) { return el != ""; }).length == 0) {
-            if (++self.trycounter >= 5) {
+            if (++self.trycounter >= MAX_TRY_COUNT) {
                 alert("I can't find tracks for this station. Please try another station.");
                 window.location = '/Playlist';
                 return;

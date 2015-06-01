@@ -49,7 +49,7 @@ namespace Hqub.Mellody.Music.Services
             var splitTrackName = Helpers.PlaylistHelper.SplitTitle(query);
             var artistName = splitTrackName[0].Trim().ToLower();
             var trackName = splitTrackName[1].Trim().ToLower();
-            var clearQuery = query.Trim().ToLower();
+            var clearTitle = title.Trim().ToLower();
 
             var splitYoutubeTrackName = Helpers.PlaylistHelper.SplitTitle(title);
 
@@ -71,12 +71,12 @@ namespace Hqub.Mellody.Music.Services
             }
             else
             {
-                if (clearQuery.Contains(artistName))
+                if (clearTitle.Contains(artistName))
                 {
                     rank += 30;
                 }
-                
-                if(clearQuery.Contains(trackName))
+
+                if (clearTitle.Contains(trackName))
                 {
                     rank += 70;
                 }

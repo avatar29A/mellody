@@ -166,7 +166,7 @@ namespace Hqub.Mellody.Music.Services
                         Id = Guid.NewGuid(),
                         MbId = Guid.Parse(releaseInfo.Recording.Id),
                         Artist = album.Artist,
-                        Title = album.Album,
+                        Title = releaseInfo.Recording.Title,
                         Duration = releaseInfo.Recording.Length,
                         Position = releaseInfo.Position
                     }).ToList());
@@ -232,7 +232,7 @@ namespace Hqub.Mellody.Music.Services
             return tracks;
         }
 
-        private void LogException(string methodName, List<Entity> entities, Exception exception)
+        private void LogException(string methodName, IEnumerable<Entity> entities, Exception exception)
         {
             var builder = new StringBuilder(string.Format("PlaylistService.{0}", methodName));
             foreach (var entity1 in entities)
