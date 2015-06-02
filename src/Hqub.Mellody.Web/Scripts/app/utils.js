@@ -158,6 +158,26 @@ function Show(title, message) {
 // ************************
 
 //
+// Playlist utils
+
+function searchFormatResult(item) {
+    var urlImage = item.image ? item.image : '/Content/Images/singer.png';
+
+    var markup = "<div><img width='24px'" + "src='" + urlImage + "'/><span style='margin-left:5px; text-align: center'>" + item.text + "</span></div>";
+    return markup;
+}
+
+function searchFormatSelection(item) {
+    var urlImage = item.image ? item.image : '/Content/Images/search.png';
+
+    var artistName = item.artist ? item.artist + ' - ' : '';
+
+    return "<div><img style='margin-top:2px;'  width='24px' height='24px'" + "src='" + urlImage + "'/><span style='margin-left:10px; text-align: center'>" + artistName + item.text + "</span></div>";
+}
+
+
+
+//
 // Station utils
 
 function replace_links_on_lastfm() {

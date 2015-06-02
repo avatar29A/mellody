@@ -217,6 +217,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PlaylistController.cs" />
     <Compile Include="Controllers\StationController.cs" />
@@ -341,6 +342,7 @@
     <Content Include="Content\metro-ui\icons\white\unlike_white.png" />
     <Content Include="Content\metro-ui\icons\white\unlike_white_red.png" />
     <Content Include="Content\metro-ui\icons\white\user_listen_white.png" />
+    <Content Include="Content\select2.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -373,11 +375,21 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\knockout-3.3.0.js" />
+    <Content Include="Scripts\lastfm\json2.js" />
+    <Content Include="Scripts\lastfm\lastfm.api.cache.js" />
+    <Content Include="Scripts\lastfm\lastfm.api.js" />
+    <Content Include="Scripts\lastfm\lastfm.api.md5.js" />
+    <Content Include="Scripts\lastfm\lastfm.wrapper.js" />
     <Content Include="Scripts\metro-ui\jquery.ui.widget.js" />
     <Content Include="Scripts\metro-ui\metro.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\select2\i18n\en.js" />
+    <Content Include="Scripts\select2\i18n\eu.js" />
+    <Content Include="Scripts\select2\i18n\ru.js" />
+    <Content Include="Scripts\select2\i18n\uk.js" />
+    <Content Include="Scripts\select2\select2.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

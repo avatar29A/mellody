@@ -12,6 +12,7 @@
 @section scripts
 {
     @Scripts.Render("~/bundles/app")
+    @Scripts.Render("~/bundles/select2")
 
     <script type="text/javascript">
         InitlalizePlaylistVM();
@@ -25,18 +26,18 @@
                 <legend>Create your playlist</legend>
                 <div>
                     <div class="input-control input-lg text" data-role="input-control">
-                        <input type="text" placeholder="type query" 
-                               data-bind="value:itemToAdd, valueUpdate:'afterkeydown', attr: { placeholder: placeholder}" />
-                        <button class="btn-clear" tabindex="-1" type="button"></button>
+                        <select class="query-input" style="width: 100%;">
+                        </select>
                     </div>
                 </div>
-                <div>
+              
+                <div style="margin-top: 10px;">
                     <div class="input-control radio default-style" data-role="input-control">
                         <label>
                             <input type="radio"
-                                   data-bind="checked: typeQuery" 
-                                   name="queryType" 
-                                   checked="" 
+                                   data-bind="checked: typeQuery, click: typeQueryChanged"
+                                   name="queryType"
+                                   checked=""
                                    value="Artist">
                             <span class="check"></span>
                             artist
@@ -46,7 +47,7 @@
                     <div class="input-control radio default-style margin20 nbm ntm nrm" data-role="input-control">
                         <label>
                             <input type="radio"
-                                   data-bind="checked: typeQuery"
+                                   data-bind="checked: typeQuery, click: typeQueryChanged"
                                    name="queryType"
                                    checked=""
                                    value="Album">
@@ -55,41 +56,14 @@
                         </label>
                     </div>
                     
-                    <div class="input-control radio default-style margin20 nbm ntm nrm" data-role="input-control">
-                        <label>
-                            <input type="radio"
-                                   data-bind="checked: typeQuery"
-                                   name="queryType"
-                                   checked=""
-                                   value="Genre">
-                            <span class="check"></span>
-                            genre
-                        </label>
-                    </div>
-
-                    @*                    <div class="input-control radio  default-style margin20 nbm ntm" data-role="input-control">*@
-@*                        <label>*@
-@*                            <input type="radio"*@
-@*                                   data-bind="checked: typeQuery"*@
-@*                                   name="queryType"*@
-@*                                   value="Query">*@
-@*                            <span class="check"></span>*@
-@*                            query*@
-@*                        </label>*@
-@*                    </div>*@
-
                     <div class="place-right clearfix">
-                        <button class="button primary" type="button" data-bind="click:checkQuery">
-                            <i class="icon-checkmark"></i>
-                            CheckPlaylist query
-                        </button>
-
                         <button class="button success" type="submit">
                             <i class="icon-plus-2"></i>
                             Add query
                         </button>
                     </div>
                 </div>
+                
             </fieldset>
         </form>     
     </div>
@@ -105,12 +79,11 @@
             <table class="table hovered border">
                 <tbody data-bind="foreach: mediaQueriesSupported">
                     <tr>
+                        <td><img width='24px' height='24px' data-bind="attr:{src: image}"/></td>
                         <td><span data-bind="text: name"></span></td>
                         <td><span data-bind="text: typeQuery"></span></td>
                         <td>
                             <div class="place-right clearfix margin15 nlm nbm ntm">
-                                <a href="#" data-bind="click: $root.copyQuery"><span class="icon-copy"></span></a>
-                                <a href="#" data-bind="click: $root.editQuery"><span class="icon-pencil"></span></a>
                                 <a href="#" data-bind="click: $root.removeQuery"><span class="icon-remove"></span></a>
                             </div>
                         </td>

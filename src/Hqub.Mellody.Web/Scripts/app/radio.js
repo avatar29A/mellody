@@ -4,7 +4,7 @@ var PlaylistViewModel = function () {
     var self = this;
 
     this.isExecute = ko.observable(false);
-    this.itemToAdd = ko.observable("");
+    this.itemToAdd = ko.observable({});
     this.typeQuery = ko.observable("Artist");
 
     this.mediaQueriesSupported = ko.observableArray([]);
@@ -14,22 +14,33 @@ var PlaylistViewModel = function () {
 
     this.initialize = function() {
         self.getHistoryStations();
+        self.setupMusicSearchInput(".query-input");
     }
 
     this.addQuery = function () {
-        if ((this.itemToAdd() != "") && (this.mediaQueriesSupported.indexOf(this.itemToAdd()) < 0)) { // Prevent blanks and duplicates
+        if ((this.itemToAdd() != {}) && (this.mediaQueriesSupported.indexOf(this.itemToAdd()) < 0)) { // Prevent blanks and duplicates
 
             if (this.mediaQueriesSupported().length == 5) {
                 Show("you reached limit in beta version", "Number of requests is limited to five.");
                 return;
             }
 
+            var name;
+            if (self.typeQuery() == 'Album') {
+                name = self.itemToAdd().artist + ' - ' + self.itemToAdd().text;
+            }else {
+                name = self.itemToAdd().text;
+            }
+
             this.mediaQueriesSupported.push({
-                name: this.itemToAdd(),
-                typeQuery: this.typeQuery()
+                name: name,
+                typeQuery: self.typeQuery(),
+                mbid: self.itemToAdd().id,
+                image: self.itemToAdd().image
             });
         }
-        this.itemToAdd("");
+        self.itemToAdd({});
+        self.clearInputField();
     };
 
     this.placeholder = ko.computed(function() {
@@ -45,6 +56,11 @@ var PlaylistViewModel = function () {
         }
     });
 
+    this.typeQueryChanged = function (data, event) {
+        self.setupMusicSearchInput(".query-input");
+        return true;
+    }
+
     //
     // Function for working with query list
 
@@ -53,18 +69,9 @@ var PlaylistViewModel = function () {
         alert("selected type query: " + this.typeQuery());
     }
 
-    // 
-    // Copy text query
-    this.copyQuery = function (query) {
-        self.typeQuery(query.typeQuery);
-        self.itemToAdd(query.name);
-    };
-
-    // Copy text query for edit. It is also remove current query.
-    this.editQuery = function(query) {
-        self.copyQuery(query);
-        self.removeQuery(query);
-    };
+    this.clearInputField = function() {
+        $('.query-input').val(null).trigger('change');
+    }
 
     // Remove query
     this.removeQuery = function (query) {
@@ -103,8 +110,53 @@ var PlaylistViewModel = function () {
         });
     }
 
-    //.ctor
+    this.setupMusicSearchInput = function (id) {
+        var apiMethod = self.typeQuery() == 'Artist' ? 'artist.search' : 'album.search';
 
+        //Настраиваем редактор запросов: music-search-input
+        var control = $(id);
+        control.select2({
+            minimumInputLength: 3,
+            placeholder: "Example: Ozzy Osbourne",
+                ajax: {
+                url: "http://ws.audioscrobbler.com/2.0/?method=" + apiMethod,
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        artist: params.term, // search term
+                        album: params.term,
+                        api_key: '41c8ac8ec4db9fd204021a72a9469b8b',
+                        format: 'json',
+                        limit: 10
+                    };
+                },
+                processResults: function(data) {
+                    return {
+                        results: self.searchProcess(self.typeQuery() == 'Artist' ?
+                                        data.results.artistmatches.artist :
+                                        data.results.albummatches.album)
+                    }
+                },
+                cache: true
+            },
+            escapeMarkup: function (markup) { return markup; },
+            templateResult: searchFormatResult,
+            templateSelection: searchFormatSelection
+        });
+
+        control.on("select2:select", function (e) {
+            self.itemToAdd(e.params.data);
+        });
+    }
+
+    this.searchProcess = function(entities) {
+        return  $(entities).map(function(idx, entity) {
+            return { id: entity.mbid, text: entity.name, image: entity.image[0]['#text'], artist: entity.artist }
+        });
+    }
+
+    //.ctor
     this.initialize();
 }
 
@@ -300,4 +352,3 @@ function InitlalizeStationVM() {
     vm = new StationViewModel();
     ko.applyBindings(vm);
 }
-
