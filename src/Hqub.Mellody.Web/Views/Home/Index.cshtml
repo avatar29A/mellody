@@ -6,20 +6,20 @@
 {
     <div class="clearfix">
         <a class="place-left" href="#" title="">
-            <h1>Mellody Platform</h1>
+            <h1>Mellody.FM</h1>
         </a>
     </div>
     
-@*<div class="row">*@
-@*    <nav class="horizontal-menu">*@
-@*        <ul>*@
-@*            <li><a href="@Url.Action("Index", "Playlist")">Music</a></li>*@
-@*            <li><a href="#">Cloud</a></li>*@
-@*            <li><a href="http://musicbrainz.org">Library</a></li>*@
-@*            <li><a href="#">Developers</a></li>*@
-@*        </ul>*@
-@*    </nav>*@
-@*</div>*@
+<div class="row">
+    <nav class="horizontal-menu">
+        <ul>
+            <li><a href="@Url.Action("Index", "Playlist")">Radio</a></li>
+            <li><a href="@Url.Action("Index", "Playlist")">Playlist</a></li>
+            <li><a href="#">Cloud</a></li>
+            <li><a href="#">Account</a></li>
+        </ul>
+    </nav>
+</div>
 }
 
 <div class="grid">
@@ -54,25 +54,23 @@
         
         <div class="margin20 nlm nrm">
             <p>
-                <b>Mellody Platform</b> - уникальный ресурс, который предоставит вам возможность создавать миксы из различных групп, жанров и отдельных песен.
+                <b>Mellody Platform</b> - is a unique resource that will give you the ability to create mixes of different groups, genres and individual songs. 
             </p>
         </div>
     </div>
-@*    <div class="row clearfix">*@
-@*        <div class="place-right">*@
-@*            <button class="command-button success" onclick="location.href = '@Url.Action("Index", "Radio")'">*@
-@*                <i class="icon-music on-left"></i>*@
-@*                Create music mix*@
-@*                <small>combine your like artist</small>*@
-@*            </button>*@
-@*        </div>*@
-@*    </div>*@
+    <div class="row clearfix">
+        <div class="place-right">
+            <button class="command-button success" onclick="location.href = '@Url.Action("Index", "Playlist")'">
+                <i class="icon-music on-left"></i>
+                Create music mix
+                <small>combine your like artist</small>
+            </button>
+        </div>
+    </div>
     
-    <h2>Features</h2>
-
     <div class="row">
         <div class="span4">
-            <h2>Music</h2>
+            <h2>Artists</h2>
             <p>sdf dsf dsf fds dfsfdfdf fdsfsd fdfdfdsfdsf fdsfdsf fdsfdsf sfdsfdsf</p>
         
             <div class="row clearfix">
@@ -84,7 +82,7 @@
         </div>
         
         <div class="span4">
-            <h2>Cloud</h2>
+            <h2>Albums</h2>
             <p>sdf dsf dsf fds dfsfdfdf fdsfsd fdfdfdsfdsf fdsfdsf fdsfdsf sfdsfdsf</p>
         
             <div class="row clearfix">
@@ -96,7 +94,7 @@
         </div>
         
         <div class="span4">
-            <h2>Library</h2>
+            <h2>Tracks</h2>
             <p>
                 MusicBrainz is an open music encyclopedia that collects music metadata and makes it available to the public.
 

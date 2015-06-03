@@ -1,5 +1,82 @@
 ﻿var MAX_TRY_COUNT = 20;
 
+var MusicSearchInputViewModel = function(controlId, addCallback) {
+    var self = this;
+
+    this.add = addCallback;
+    this.controlId = controlId;
+    this.currentType = '';
+
+
+    this.init = function (currentType) {
+
+        self.currentType = currentType;
+        var apiMethod = '';
+        if (self.currentType == 'Artist') {
+            apiMethod = 'artist.search';
+        } else if (self.currentType == 'Album') {
+            apiMethod = 'album.search';
+        } else {
+            apiMethod = 'track.search';
+        }
+
+        //Настраиваем редактор запросов: music-search-input
+        var control = $(self.controlId);
+        control.select2({
+            minimumInputLength: 3,
+            placeholder: "Example: Ozzy Osbourne",
+            ajax: {
+                url: "http://ws.audioscrobbler.com/2.0/?method=" + apiMethod,
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        artist: params.term, // search term
+                        album: params.term,
+                        track: params.term,
+                        api_key: '41c8ac8ec4db9fd204021a72a9469b8b',
+                        format: 'json',
+                        limit: 10
+                    };
+                },
+                processResults: function (data) {
+                    var r = undefined;
+                    if (self.currentType == 'Artist') {
+                        r = data.results.artistmatches.artist;
+                    } else if (self.currentType == 'Album') {
+                        r = data.results.albummatches.album;
+                    } else {
+                        r = data.results.trackmatches.track;
+                    }
+
+                    return {
+                        results: self.searchProcess(r)
+                    }
+                },
+                cache: true
+            },
+            escapeMarkup: function (markup) { return markup; },
+            templateResult: searchFormatResult,
+            templateSelection: searchFormatSelection
+        });
+
+        this.searchProcess = function (entities) {
+            return $(entities).map(function (idx, entity) {
+                var image = '';
+                if (entity.image && entity.image.length > 0) {
+                    image = entity.image[0]['#text'];
+                }
+
+                return { id: entity.mbid, text: entity.name, image: image, artist: entity.artist }
+            });
+        }
+
+        control.on("select2:select", function (e) {
+            self.add(e.params.data);
+        });
+    }
+}
+
 var PlaylistViewModel = function () {
     var self = this;
 
@@ -9,12 +86,13 @@ var PlaylistViewModel = function () {
 
     this.mediaQueriesSupported = ko.observableArray([]);
     this.historyStations = ko.observableArray([]);
+    this.musicSearchInputVM = new MusicSearchInputViewModel('.query-input', self.itemToAdd);
 
     // METHODS
 
     this.initialize = function() {
         self.getHistoryStations();
-        self.setupMusicSearchInput(".query-input");
+        self.musicSearchInputVM.init(self.typeQuery());
     }
 
     this.addQuery = function () {
@@ -26,7 +104,7 @@ var PlaylistViewModel = function () {
             }
 
             var name;
-            if (self.typeQuery() == 'Album') {
+            if (self.typeQuery() == 'Album' || self.typeQuery() == 'Track') {
                 name = self.itemToAdd().artist + ' - ' + self.itemToAdd().text;
             }else {
                 name = self.itemToAdd().text;
@@ -57,7 +135,7 @@ var PlaylistViewModel = function () {
     });
 
     this.typeQueryChanged = function (data, event) {
-        self.setupMusicSearchInput(".query-input");
+        self.musicSearchInputVM.init();
         return true;
     }
 
@@ -107,52 +185,6 @@ var PlaylistViewModel = function () {
             }
 
             self.historyStations(data.Stations);
-        });
-    }
-
-    this.setupMusicSearchInput = function (id) {
-        var apiMethod = self.typeQuery() == 'Artist' ? 'artist.search' : 'album.search';
-
-        //Настраиваем редактор запросов: music-search-input
-        var control = $(id);
-        control.select2({
-            minimumInputLength: 3,
-            placeholder: "Example: Ozzy Osbourne",
-                ajax: {
-                url: "http://ws.audioscrobbler.com/2.0/?method=" + apiMethod,
-                dataType: 'json',
-                delay: 250,
-                data: function (params) {
-                    return {
-                        artist: params.term, // search term
-                        album: params.term,
-                        api_key: '41c8ac8ec4db9fd204021a72a9469b8b',
-                        format: 'json',
-                        limit: 10
-                    };
-                },
-                processResults: function(data) {
-                    return {
-                        results: self.searchProcess(self.typeQuery() == 'Artist' ?
-                                        data.results.artistmatches.artist :
-                                        data.results.albummatches.album)
-                    }
-                },
-                cache: true
-            },
-            escapeMarkup: function (markup) { return markup; },
-            templateResult: searchFormatResult,
-            templateSelection: searchFormatSelection
-        });
-
-        control.on("select2:select", function (e) {
-            self.itemToAdd(e.params.data);
-        });
-    }
-
-    this.searchProcess = function(entities) {
-        return  $(entities).map(function(idx, entity) {
-            return { id: entity.mbid, text: entity.name, image: entity.image[0]['#text'], artist: entity.artist }
         });
     }
 
