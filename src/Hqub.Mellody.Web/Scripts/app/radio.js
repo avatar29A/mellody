@@ -61,11 +61,17 @@ var MusicSearchInputViewModel = function(controlId, addCallback) {
         });
 
         this.searchProcess = function (entities) {
+
             return $(entities).map(function (idx, entity) {
                 var image = '';
                 if (entity.image && entity.image.length > 0) {
                     image = entity.image[0]['#text'];
+                } else {
+                    image = '/Content/Images/note.png';
                 }
+
+                if (!entity.mbid)
+                    entity.mbid = guid();
 
                 return { id: entity.mbid, text: entity.name, image: image, artist: entity.artist }
             });
@@ -135,7 +141,7 @@ var PlaylistViewModel = function () {
     });
 
     this.typeQueryChanged = function (data, event) {
-        self.musicSearchInputVM.init();
+        self.musicSearchInputVM.init(self.typeQuery());
         return true;
     }
 

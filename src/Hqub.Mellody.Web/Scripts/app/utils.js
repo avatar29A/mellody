@@ -202,3 +202,13 @@ function replace_image_src (replace_from, replace_to, control_id) {
 function goto_station(stationId) {
     window.location.href = '/Station/Index/' + stationId;
 }
+
+function guid() {
+    function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+          .toString(16)
+          .substring(1);
+    }
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+      s4() + '-' + s4() + s4() + s4();
+}

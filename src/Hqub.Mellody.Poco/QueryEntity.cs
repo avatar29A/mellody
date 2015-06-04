@@ -22,6 +22,9 @@ namespace Hqub.Mellody.Poco
         [JsonProperty("name")]
         public string Name { get; set; }
 
+        [JsonProperty("mbid")]
+        public string MusicBrainzId { get; set; }
+
         [JsonProperty("typeQuery")]
         public TypeQuery TypeQuery { get; set; }
     }

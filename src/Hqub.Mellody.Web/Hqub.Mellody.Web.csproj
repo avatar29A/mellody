@@ -50,9 +50,8 @@
     <Reference Include="DelegateDecompiler">
       <HintPath>..\..\packages\DelegateDecompiler.0.6.0.0\lib\net40-Client\DelegateDecompiler.dll</HintPath>
     </Reference>
-    <Reference Include="dotLastFm, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\dotLastFm.1.0.4.0\lib\Net40\dotLastFm.dll</HintPath>
+    <Reference Include="Hqub.Lastfm">
+      <HintPath>..\..\packages\Hqub.Last.fm.1.0.0\lib\net45\Hqub.Lastfm.dll</HintPath>
     </Reference>
     <Reference Include="Hqub.MusicBrainz.API, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -74,6 +73,9 @@
     <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention">
       <HintPath>..\..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
     </Reference>
+    <Reference Include="Mono.HttpUtility">
+      <HintPath>..\..\packages\Mono.HttpUtility.1.0.0.1\lib\net40\Mono.HttpUtility.dll</HintPath>
+    </Reference>
     <Reference Include="Mono.Reflection">
       <HintPath>..\..\packages\Mono.Reflection.1.0.0.0\lib\Mono.Reflection.dll</HintPath>
     </Reference>
@@ -82,9 +84,6 @@
     </Reference>
     <Reference Include="PerpetuumSoft.Knockout">
       <HintPath>..\..\packages\PerpetuumSoft.Knockout.0.5.7.2\lib\net40\PerpetuumSoft.Knockout.dll</HintPath>
-    </Reference>
-    <Reference Include="RestSharp">
-      <HintPath>..\..\packages\RestSharp.105.1.0\lib\net45\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -391,7 +390,9 @@
     <Content Include="Scripts\select2\i18n\uk.js" />
     <Content Include="Scripts\select2\select2.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
