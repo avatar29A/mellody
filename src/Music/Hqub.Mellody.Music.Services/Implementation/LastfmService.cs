@@ -32,5 +32,30 @@ namespace Hqub.Mellody.Music.Services
 
             return artist;
         }
+
+        public List<Track> GetArtistTracks(string mbid)
+        {
+            var artist = GetInfoByMbId(mbid);
+
+            var trackSearch = Track.Search(artist.Name, _session);
+
+            var perPage = trackSearch.GetItemsPerPage();
+            var resultCount = trackSearch.GetResultCount();
+
+            var trackList = new List<Track>();
+            for (int i = 1; i <= resultCount/perPage; i++)
+            {
+                trackList.AddRange(trackSearch.GetPage(i));
+            }
+
+            return trackList;
+        }
+
+        public List<Track> GetAlbumTracks(string albumId)
+        {
+            var album = Album.GetByMBID(albumId, _session);
+
+            return album.GetTracks().ToList();
+        }
     }
 }
