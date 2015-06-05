@@ -50,6 +50,10 @@
     <Reference Include="DelegateDecompiler">
       <HintPath>..\..\packages\DelegateDecompiler.0.6.0.0\lib\net40-Client\DelegateDecompiler.dll</HintPath>
     </Reference>
+    <Reference Include="dotLastFm, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\dotLastFm.1.0.4.0\lib\Net40\dotLastFm.dll</HintPath>
+    </Reference>
     <Reference Include="Hqub.Lastfm">
       <HintPath>..\..\packages\Hqub.Last.fm.1.0.0\lib\net45\Hqub.Lastfm.dll</HintPath>
     </Reference>
@@ -84,6 +88,9 @@
     </Reference>
     <Reference Include="PerpetuumSoft.Knockout">
       <HintPath>..\..\packages\PerpetuumSoft.Knockout.0.5.7.2\lib\net40\PerpetuumSoft.Knockout.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>..\..\packages\RestSharp.105.1.0\lib\net45\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

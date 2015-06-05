@@ -4,14 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using AutoMapper;
+using DotLastFm.Models;
 using Hqub.Mellody.Music.Services;
 using Hqub.Mellody.Music.Services.Exceptions;
 using Hqub.Mellody.Music.Services.Interfaces;
 using Hqub.Mellody.Poco;
 using Hqub.Mellody.Web.Extensions;
 using Hqub.Mellody.Web.Models.Response;
-using Lastfm.Services;
 using NLog.Fluent;
+using Artist = Lastfm.Services.Artist;
+using ImageSize = Lastfm.Services.ImageSize;
 using Playlist = Hqub.Mellody.Music.Store.Models.Playlist;
 
 namespace Hqub.Mellody.Web.Controllers
@@ -262,11 +264,11 @@ namespace Hqub.Mellody.Web.Controllers
 
                 try
                 {
-                    var artist = _lastfmService.GetInfo(track.Artist);
+                    var artistInfo = _lastfmService.GetInfoFull(track.Artist, "ru");
 
-                    track.ArtistBio = artist.Bio.GetSummary();
-                    track.ImageUrl = artist.GetImageURL(ImageSize.Medium);
-                    track.SimilarArtists = GetSimilarArtists(artist.GetSimilar(5));
+                    track.ArtistBio = artistInfo.Bio.Summary;
+                    track.ImageUrl = GetArtistImage(artistInfo.Images);
+                    track.SimilarArtists = GetSimilarArtists(artistInfo.SimilarArtists);
 
                     // Get similar tags from Echonest service:
                     track.Tags = _echonestService.GetSimilarGenres(track.Artist);
@@ -295,10 +297,10 @@ namespace Hqub.Mellody.Web.Controllers
         /// </summary>
         /// <param name="images"></param>
         /// <returns></returns>
-//        private string GetArtistImage(IEnumerable<Image> images)
-//        {
-//            return images.First(img => img.Size == ImageSize.ExtraLarge).Value;
-//        }
+        private string GetArtistImage(IEnumerable<Image> images)
+        {
+            return images.First(img => img.Size == DotLastFm.Models.ImageSize.ExtraLarge).Value;
+        } 
 
 
         /// <summary>
@@ -306,12 +308,12 @@ namespace Hqub.Mellody.Web.Controllers
         /// </summary>
         /// <param name="similarArtists"></param>
         /// <returns></returns>
-        private List<ArtistDTO> GetSimilarArtists(IEnumerable<Artist> similarArtists)
+        private List<ArtistDTO> GetSimilarArtists(IEnumerable<ArtistSimilarArtist> similarArtists)
         {
             return new List<ArtistDTO>(similarArtists.Select(a => new ArtistDTO
             {
                 ArtistName = a.Name,
-                ImageUrl = a.GetImageURL(ImageSize.Medium)
+                ImageUrl = GetArtistImage(a.Images)
             }));
         }
 

@@ -10,6 +10,7 @@ namespace Hqub.Mellody.Poco
         Artist,
         Album,
         Genre,
+        Track,
         Query
     }
 
@@ -23,7 +24,10 @@ namespace Hqub.Mellody.Poco
         public string Name { get; set; }
 
         [JsonProperty("mbid")]
-        public string MusicBrainzId { get; set; }
+        public string MbId { get; set; }
+
+        [JsonProperty("image")]
+        public string Image { get; set; }
 
         [JsonProperty("typeQuery")]
         public TypeQuery TypeQuery { get; set; }

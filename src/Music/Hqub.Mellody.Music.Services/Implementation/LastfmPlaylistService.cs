@@ -55,6 +55,10 @@ namespace Hqub.Mellody.Music.Services.Implementation
 
                 {
                     TypeQuery.Genre, GetGenreTracks
+                },
+
+                {
+                    TypeQuery.Track, GetTracks
                 }
             };
         }
@@ -106,7 +110,7 @@ namespace Hqub.Mellody.Music.Services.Implementation
 
             try
             {
-                var lastfmTracks = _lastfmService.GetArtistTracks(entity.MusicBrainzId);
+                var lastfmTracks = _lastfmService.GetArtistTracks(entity.MbId);
 
                 tracks = lastfmTracks.Select(ConvertLastFmTrack).ToList();
             }
@@ -124,7 +128,7 @@ namespace Hqub.Mellody.Music.Services.Implementation
 
             try
             {
-                var albumTracks = _lastfmService.GetAlbumTracks(entity.MusicBrainzId);
+                var albumTracks = _lastfmService.GetAlbumTracks(entity.MbId);
 
                 tracks.AddRange(albumTracks.Select(ConvertLastFmTrack));
             }
@@ -173,8 +177,6 @@ namespace Hqub.Mellody.Music.Services.Implementation
             {
                 Artist = track.Artist.Name,
                 Title = track.Title,
-                Duration = (int) track.GetDuration().TotalMinutes,
-                MbId = Guid.Parse(track.GetMBID()),
                 Id = Guid.NewGuid()
 
             };

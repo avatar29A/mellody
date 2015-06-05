@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
-using Lastfm.Services;
+using DotLastFm.Models;
+using Artist = Lastfm.Services.Artist;
+using Track = Lastfm.Services.Track;
 
 namespace Hqub.Mellody.Music.Services
 {
@@ -11,6 +13,9 @@ namespace Hqub.Mellody.Music.Services
         /// <param name="mbId"></param>
         /// <returns></returns>
         Artist GetInfo(string artistName);
+
+        ArtistWithDetails GetInfoFull(string artistName, string lang = "en");
+
 
         Artist GetInfoByMbId(string mbid);
 
@@ -27,7 +32,5 @@ namespace Hqub.Mellody.Music.Services
         /// <param name="albumId">MBID album</param>
         /// <returns>list of tracks</returns>
         List<Track> GetAlbumTracks(string albumId);
-
-
     }
 }
