@@ -11,9 +11,6 @@ using Hqub.Mellody.Music.Services.Interfaces;
 using Hqub.Mellody.Poco;
 using Hqub.Mellody.Web.Extensions;
 using Hqub.Mellody.Web.Models.Response;
-using NLog.Fluent;
-using Artist = Lastfm.Services.Artist;
-using ImageSize = Lastfm.Services.ImageSize;
 using Playlist = Hqub.Mellody.Music.Store.Models.Playlist;
 
 namespace Hqub.Mellody.Web.Controllers
@@ -25,6 +22,7 @@ namespace Hqub.Mellody.Web.Controllers
         private readonly IStationService _stationService;
         private readonly IPlaylistService _playlistService;
         private readonly IYoutubeService _youtubeService;
+        private readonly IVkontakteService _vkontakteService;
         private readonly ILastfmService _lastfmService;
         private readonly IEchonestService _echonestService;
         private readonly ILogService _logService;
@@ -32,6 +30,7 @@ namespace Hqub.Mellody.Web.Controllers
         public StationController(IStationService stationService,
             IPlaylistService playlistService,
             IYoutubeService youtubeService,
+            IVkontakteService vkontakteService,
             ILastfmService lastfmService,
             IEchonestService echonestService,
             ILogService logService)
@@ -39,6 +38,7 @@ namespace Hqub.Mellody.Web.Controllers
             _stationService = stationService;
             _playlistService = playlistService;
             _youtubeService = youtubeService;
+            _vkontakteService = vkontakteService;
             _lastfmService = lastfmService;
             _echonestService = echonestService;
             _logService = logService;
@@ -64,14 +64,15 @@ namespace Hqub.Mellody.Web.Controllers
         /// Return all tracks by station id.
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="source"></param>
         /// <returns></returns>
         [HttpGet]
-        public JsonResult Get(Guid id)
+        public JsonResult Get(Guid id, string source)
         {
             try
             {
                 const int countTrackPerRequest = 1;
-                var stationName = string.Format("station_{0}", id);
+                var stationName = string.Format("station_{1}_{0}", id, source);
 
                 List<TrackDTO> tracksDTO;
 
@@ -88,7 +89,7 @@ namespace Hqub.Mellody.Web.Controllers
                 // Remove first 'countTrackPerRequest' tracks from playlist.
                 Session[stationName] = tracksDTO.Skip(countTrackPerRequest).ToList();
 
-                var portionTracks = FillExtInfoSection(tracksDTO.Take(countTrackPerRequest).ToList());
+                var portionTracks = FillExtInfoSection(tracksDTO.Take(countTrackPerRequest).ToList(), GetSourceByString(source));
                 // Update last listen tracks:
                 var historyTracks = SetLastListenTracks(portionTracks);
                 var historyStations = SetLastStations(new StationDTO
@@ -251,12 +252,16 @@ namespace Hqub.Mellody.Web.Controllers
         /// - Youtube video ID
         /// </summary>
         /// <param name="tracks"></param>
+        /// <param name="sourceType"></param>
         /// <returns></returns>
-        private List<TrackDTO> FillExtInfoSection(List<TrackDTO> tracks)
+        private List<TrackDTO> FillExtInfoSection(List<TrackDTO> tracks, SourceTypeEnum sourceType)
         {
             foreach (var track in tracks)
             {
-                var results = _youtubeService.Search(track.ToString());
+                var results = sourceType == SourceTypeEnum.Youtube
+                    ? _youtubeService.Search(track.ToString())
+                    : _vkontakteService.SearchTracks(track.ToString());
+
                 if (results.Count == 0)
                     continue;
 
@@ -293,6 +298,14 @@ namespace Hqub.Mellody.Web.Controllers
             return track.Rank != 100 ? null : track;
         }
 
+        private SourceTypeEnum GetSourceByString(string source)
+        {
+            var sourceType = (SourceTypeEnum)Enum.Parse(
+                                          typeof(SourceTypeEnum), source, true);
+
+            return sourceType;
+        }
+
 
         /// <summary>
         /// Return url image
@@ -301,7 +314,7 @@ namespace Hqub.Mellody.Web.Controllers
         /// <returns></returns>
         private string GetArtistImage(IEnumerable<Image> images)
         {
-            return images.First(img => img.Size == DotLastFm.Models.ImageSize.ExtraLarge).Value;
+            return images.First(img => img.Size == ImageSize.ExtraLarge).Value;
         } 
 
 

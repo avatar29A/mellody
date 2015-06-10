@@ -259,7 +259,7 @@ var StationViewModel = function(player) {
 
             self.isExecute(true);
 
-            get('/Station/Get/' + station_id, function (data) {
+            get('/Station/Get/?id=' + station_id + '&source=' + self.player.name, function (data) {
                 if (data.IsError || data.length == 0) {
                     alert("Station is empty :(");
                     return;
@@ -272,12 +272,10 @@ var StationViewModel = function(player) {
     }
 
     this.run = function (tracks) {
-        var videos = $(tracks).map(function () {
-            return this.ExternalId;
-        }).get();
+        var track = tracks[0];
 
-
-        if ($.grep(videos, function (el) { return el != ""; }).length == 0) {
+        if (!track || (track.ExternalId == "" && player.name === "Youtube") ||
+                        (track.Url == "" && player.name === "Vkontakte")) {
             if (++self.trycounter >= MAX_TRY_COUNT) {
                 alert("I can't find tracks for this station. Please try another station.");
                 window.location = '/Playlist';
@@ -287,10 +285,11 @@ var StationViewModel = function(player) {
             return;
         }
 
-        self.currentTrack(tracks[0]);
+        self.currentTrack(track);
+        self.player.cue(track);
 
-        self.player.cue(videos);
         self.isExecute(false);
+
         $('#info-block').fadeIn('slow');
     }
 
@@ -358,12 +357,15 @@ var StationViewModel = function(player) {
         self.load_playlist();
     }
 
-    this.changePlayer = function(playerName) {
-        if (playerName == 'vk') {
-            this.player = new VkPlayer();
+    this.changePlayer = function (playerName) {
+        self.player.pause();
+        if (playerName == 'Vkontakte') {
+            self.player = new VkPlayer();
         }else {
-            this.player = new YoutubePlayer();
+            self.player = new YoutubePlayer();
         }
+
+        self.load_playlist();
     }
 }
 

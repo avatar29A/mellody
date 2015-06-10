@@ -64,9 +64,6 @@
             <div class="" data-bind="visible: !isExecute()">
                 <div id="player"></div>
                 
-                <div id="jquery_jplayer_1" style="width: 0; height: 0;">
-
-                </div>
             </div>
 
             <div class="row bg-gray set-player-width"
@@ -147,6 +144,8 @@
                         },
                         'onStateChange': vm.onPlayerStateChange
                     });
+
+                    InitialJPlayer();
                 }
             </script>
         </div>
@@ -188,8 +187,8 @@
                         <div class="margin20 nlm nrm nbm">
                             <h2>Music source:</h2>
                             <div class="button-set" data-role="button-group">
-                                <button class="active" data-bind="click: function(data, event) { changePlayer('youtube') }">Youtube</button>
-                                <button data-bind="click: function(data, event) { changePlayer('vk') }">Vkontakte</button>
+                                <button class="active" data-bind="click: function(data, event) { changePlayer('Youtube') }">Youtube</button>
+                                <button data-bind="click: function(data, event) { changePlayer('Vkontakte') }">Vkontakte</button>
                             </div>
                         </div>
                     </div>
@@ -210,6 +209,10 @@
 
             </div>
         </div>
+    </div>
+    
+    <div id="jquery_jplayer_1" style="width: 0px; height: 0px;">
+
     </div>
 
 </div>

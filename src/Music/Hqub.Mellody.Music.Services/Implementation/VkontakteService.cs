@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Hqub.Mellody.Music.Services.Interfaces;
 using Hqub.Mellody.Poco;
 using Hqub.Mellowave.Vkontakte.API.Factories;
@@ -27,12 +24,14 @@ namespace Hqub.Mellody.Music.Services.Implementation
             var audioApi = _api.GetAudioProduct();
             var response = audioApi.Search(query, 10);
 
+            if(response == null)
+                return new List<SearchTrackDTO>();
+
             return (from track in response.Tracks
                 select
                     new SearchTrackDTO(track.ToString(), track.ComplexId, track.Url,
                         RankHelper.Calc(query, track.ToString()))).ToList();
         }
-
 
         private string GetToken()
         {

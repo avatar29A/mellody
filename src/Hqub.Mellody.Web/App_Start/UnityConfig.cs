@@ -44,6 +44,7 @@ namespace Hqub.Mellody.Web.App_Start
             container.RegisterType<IStationService, StationService>();
             container.RegisterType<ICacheService, CacheService>();
             container.RegisterType<IAccountService, AccauntService>();
+            container.RegisterType<IVkontakteService, VkontakteService>();
             container.RegisterType<ILogService, LogService>();
             container.RegisterType<IConfigurationService, ConfigurationService>();
             container.RegisterType<IYoutubeService, YoutubeService>();
