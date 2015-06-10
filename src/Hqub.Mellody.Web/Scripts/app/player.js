@@ -30,3 +30,74 @@ function InitalYoutubePlayer(settings, events) {
 
     return Player;
 }
+
+function YoutubePlayer() {
+ 
+    this.isPlaying = function() {
+        return Player.getPlayerState() == YT.PlayerState.PLAYING;
+    }
+
+    this.cue = function(tracks) {
+        Player.cuePlaylist(tracks);
+    }
+
+    this.pause = function() {
+        Player.pauseVideo();
+    }
+
+    this.play = function() {
+        Player.playVideo();
+    }
+
+    this.setVolume = function(val) {
+        Player.unMute();
+        Player.setVolume(val);
+    }
+
+    this.mute = function() {
+        Player.mute();
+    }
+
+    this.unmute = function() {
+        Player.unMute();
+    }
+
+    this.isMuted = function() {
+        return Player.isMuted();
+    }
+}
+
+function VkPlayer() {
+    this.isPlaying = function () {
+        return Player.getPlayerState() == YT.PlayerState.PLAYING;
+    }
+
+    this.cue = function (tracks) {
+        Player.cuePlaylist(tracks);
+    }
+
+    this.pause = function () {
+        Player.pauseVideo();
+    }
+
+    this.play = function () {
+        Player.playVideo();
+    }
+
+    this.setVolume = function (val) {
+        Player.unMute();
+        Player.setVolume(val);
+    }
+
+    this.mute = function () {
+        Player.mute();
+    }
+
+    this.unmute = function () {
+        Player.unMute();
+    }
+
+    this.isMuted = function () {
+        return Player.isMuted();
+    }
+}

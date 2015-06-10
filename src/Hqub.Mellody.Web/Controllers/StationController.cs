@@ -210,7 +210,7 @@ namespace Hqub.Mellody.Web.Controllers
         {
             var lastListenTracks = GetFromSession<List<TrackDTO>>(Keys.HistorySongs) ?? new List<TrackDTO>();
 
-            lastListenTracks.InsertRange(0, tracks.Where(t => !string.IsNullOrEmpty(t.VideoId)));
+            lastListenTracks.InsertRange(0, tracks.Where(t => !string.IsNullOrEmpty(t.ExternalId)));
 
             Session[Keys.HistorySongs] = lastListenTracks.Take(5).ToList();
 
@@ -260,7 +260,12 @@ namespace Hqub.Mellody.Web.Controllers
                 if (results.Count == 0)
                     continue;
 
-                track.VideoId = GetMaximalSimiliarVideo(results);
+                var searchTrack = GetMaximalSimiliarTrack(results);
+                if (searchTrack != null)
+                {
+                    track.ExternalId = searchTrack.Id;
+                    track.Url = searchTrack.Url;
+                }
 
                 try
                 {
@@ -282,13 +287,10 @@ namespace Hqub.Mellody.Web.Controllers
             return tracks;
         }
 
-        private string GetMaximalSimiliarVideo(IEnumerable<YoutubeVideoDTO> videos)
+        private SearchTrackDTO GetMaximalSimiliarTrack(IEnumerable<SearchTrackDTO> videos)
         {
-            var video = videos.OrderByDescending(v => v.Rank).First();
-            if (video.Rank != 100)
-                return string.Empty;
-
-            return video.VideoId;
+            var track = videos.OrderByDescending(v => v.Rank).First();
+            return track.Rank != 100 ? null : track;
         }
 
 

@@ -17,6 +17,7 @@ namespace Hqub.Mellody.Poco
         public string Artist { get; set; }
         public int Duration { get; set; }
         public int Quality { get; set; }
+        public int Rank { get; set; }
 
         /// <summary>
         /// Url for artist photo
@@ -33,8 +34,19 @@ namespace Hqub.Mellody.Poco
         /// </summary>
         public string ArtistBio { get; set; }
 
-        public string VideoId { get; set; }
+        /// <summary>
+        /// Youtube ID, VK ID
+        /// </summary>
+        public string ExternalId { get; set; }
 
+        /// <summary>
+        /// Direct link for track
+        /// </summary>
+        public string Url { get; set; }
+
+        /// <summary>
+        /// List of similar artist (info taken from last.fm)
+        /// </summary>
         public List<ArtistDTO> SimilarArtists { get; set; }
 
         public string FullTitle { get { return ToString(); } }

@@ -13,10 +13,11 @@
 @section scripts
 {
     @Scripts.Render("~/bundles/app")
+    @Scripts.Render("~/bundles/jplayer")
     <script src="https://www.youtube.com/iframe_api?showinfo=0"></script>
     <script type="text/javascript">
         var station_id = '@Model.Id';
-        InitlalizeStationVM();
+        InitlalizeStationVM(new YoutubePlayer());
     </script>
     
     <script type="text/html" id="similar-artist-tile-template">
@@ -35,7 +36,7 @@
 <div class="grid">
     <div class="row">
         <div class="span10">
-            <h2 data-bind="text: playlist().StationName"></h2>
+            <h2 data-bind="text: playlist().StationName"></h2>            
         </div>
 
         <div class="clearfix">
@@ -62,7 +63,10 @@
             
             <div class="" data-bind="visible: !isExecute()">
                 <div id="player"></div>
+                
+                <div id="jquery_jplayer_1" style="width: 0; height: 0;">
 
+                </div>
             </div>
 
             <div class="row bg-gray set-player-width"
@@ -147,11 +151,12 @@
             </script>
         </div>
         
+        <!---Side panel-->
         <div>
             <div class="clearfix">
                 <div class="place-right">
-                    <div class="listview-outlook" data-role="listview" style="width: 230px;">
-                        
+                    <div class="listview-outlook" data-role="listview" style="width: 230px;" data-bind="visible: !isExecute()">
+
                         <!---Hisotry tracks-->
                         <div class="list-group" data-bind="visible: playlist().HistoryTracks && playlist().HistoryTracks.length > 0">
                             <a href="" class="group-title">Your recently listened to songs</a>
@@ -164,7 +169,7 @@
                                 </a>
                             </div>
                         </div>
-                        
+
                         <!--History stations-->
                         <div class="list-group" data-bind="visible: playlist().HistoryStations && playlist().HistoryStations.length > 0">
                             <a href="" class="group-title">Your last radio stations</a>
@@ -177,6 +182,14 @@
                                         </span>
                                     </div>
                                 </a>
+                            </div>
+                        </div>
+
+                        <div class="margin20 nlm nrm nbm">
+                            <h2>Music source:</h2>
+                            <div class="button-set" data-role="button-group">
+                                <button class="active" data-bind="click: function(data, event) { changePlayer('youtube') }">Youtube</button>
+                                <button data-bind="click: function(data, event) { changePlayer('vk') }">Vkontakte</button>
                             </div>
                         </div>
                     </div>
@@ -198,4 +211,5 @@
             </div>
         </div>
     </div>
+
 </div>

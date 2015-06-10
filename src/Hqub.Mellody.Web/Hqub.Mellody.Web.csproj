@@ -373,6 +373,10 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jplayer\add-on\jplayer.playlist.min.js" />
+    <Content Include="Scripts\jplayer\add-on\jquery.jplayer.inspector.js" />
+    <Content Include="Scripts\jplayer\Jplayer.swf" />
+    <Content Include="Scripts\jplayer\jquery.jplayer.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />

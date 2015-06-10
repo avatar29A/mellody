@@ -5,6 +5,14 @@ namespace Hqub.Mellody.Web.Services
 {
     public class ConfigurationService : IConfigurationService
     {
+        public PythonConfigureSection GetVkontakteAuthConfig()
+        {
+            var config = (PythonConfigureSection)
+               System.Configuration.ConfigurationManager.GetSection("mellodySectionGroup/authSection");
+
+            return config;
+        }
+
         public LastfmConfigureSection GetLastfmConfig()
         {
             var config = (LastfmConfigureSection)

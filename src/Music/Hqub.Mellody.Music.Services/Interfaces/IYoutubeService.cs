@@ -5,6 +5,6 @@ namespace Hqub.Mellody.Music.Services
 {
     public interface IYoutubeService
     {
-        List<YoutubeVideoDTO> Search(string query);
+        List<SearchTrackDTO> Search(string query);
     }
 }

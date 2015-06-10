@@ -202,9 +202,10 @@ var PlaylistViewModel = function () {
 // Station View Model
 // 
 
-var StationViewModel = function() {
+var StationViewModel = function(player) {
     var self = this;
     this.isExecute = ko.observable(true);
+    this.player = player;
 
     this.currentTrack = ko.observable({});
     this.playlist = ko.observable({});
@@ -265,19 +266,18 @@ var StationViewModel = function() {
                 }
 
                 self.playlist(data);
-                self.play(data.Tracks);
+                self.run(data.Tracks);
             });
         });
     }
 
-    // play current playlist:
-    this.play = function(tracks) {
-        var videos = $(tracks).map(function() {
-            return this.VideoId;
+    this.run = function (tracks) {
+        var videos = $(tracks).map(function () {
+            return this.ExternalId;
         }).get();
 
-        
-        if ($.grep(videos, function(el) { return el != ""; }).length == 0) {
+
+        if ($.grep(videos, function (el) { return el != ""; }).length == 0) {
             if (++self.trycounter >= MAX_TRY_COUNT) {
                 alert("I can't find tracks for this station. Please try another station.");
                 window.location = '/Playlist';
@@ -287,18 +287,18 @@ var StationViewModel = function() {
             return;
         }
 
-        self.setCurrentTrack(tracks[0]);
-        Player.cuePlaylist(videos);
+        self.currentTrack(tracks[0]);
 
+        self.player.cue(videos);
         self.isExecute(false);
         $('#info-block').fadeIn('slow');
     }
 
-    this.play_track = function(data, event) {
-        self.play([data]);
+    this.play_track = function(data) {
+        self.run([data]);
     }
 
-    this.play_station = function (data, event) {
+    this.play_station = function (data) {
         goto_station(data.Id);
     }
 
@@ -310,8 +310,8 @@ var StationViewModel = function() {
     }
 
     this.volume_off = function() {
-        if (Player.isMuted()) {
-            Player.unMute();
+        if (self.player.isMuted()) {
+            self.player.unmute();
             return;
         }
 
@@ -319,45 +319,28 @@ var StationViewModel = function() {
     }
 
     this.volume = function(volume) {
-        Player.unMute();
-        Player.setVolume(volume);
+        self.player.setVolume(volume);
         $('#volume_slider').slider("value", volume);
     }
 
-    // ~ Volum functionss
+    // ~ Volum functions
 
     this.pause_play = function() {
-        if (Player.getPlayerState() == YT.PlayerState.PLAYING) {
+        if (self.player.isPlaying()) {
             replace_image_src('pause_white.png', 'play_white.png', '.play-pause-control');
-            Player.pauseVideo();
+            self.player.pause();
         } else {
             replace_image_src('play_white.png', 'pause_white.png', '.play-pause-control');
-            Player.playVideo();
+            self.player.play();
         }
-    }
-
-    this.like = function() {
-        alert("For work this button need login.");
-    }
-
-    this.ban = function() {
-        alert("For work this button need login.");
-    }
-
-    this.setCurrentTrack = function(track) {
-        self.currentTrack(track);
     }
 
     this.playerAgentRunning = false;
     this.onPlayerStateChange = function (event) {
-        console.log('PlayerStateChange = ' + event.data);
-
-        if (event.data == YT.PlayerState.CUED) {
+       if (event.data == YT.PlayerState.CUED) {
             self.pause_play(); 
         } else if (event.data == YT.PlayerState.ENDED) {
             self.nextTrack();
-        } else if (event.data == YT.PlayerState.PLAYING) {
-
         } else if (event.data == -1) {
             if (!self.playerAgentRunning) {
                 setTimeout(function () {
@@ -370,8 +353,17 @@ var StationViewModel = function() {
         }
     }
 
-    this.nextTrack = function() {
+    this.nextTrack = function () {
+        self.player.pause();
         self.load_playlist();
+    }
+
+    this.changePlayer = function(playerName) {
+        if (playerName == 'vk') {
+            this.player = new VkPlayer();
+        }else {
+            this.player = new YoutubePlayer();
+        }
     }
 }
 
@@ -386,7 +378,7 @@ function InitlalizePlaylistVM() {
     ko.applyBindings(vm);
 }
 
-function InitlalizeStationVM() {
-    vm = new StationViewModel();
+function InitlalizeStationVM(player) {
+    vm = new StationViewModel(player);
     ko.applyBindings(vm);
 }

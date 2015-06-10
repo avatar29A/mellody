@@ -135,6 +135,7 @@
     <Compile Include="Helpers\HashAlgHelper.cs" />
     <Compile Include="Helpers\LevenshteinAlgHelper.cs" />
     <Compile Include="Helpers\PlaylistHelper.cs" />
+    <Compile Include="Helpers\RankHelper.cs" />
     <Compile Include="Helpers\StationHelper.cs" />
     <Compile Include="Implementation\AccauntService.cs" />
     <Compile Include="Implementation\CacheService.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="Implementation\EchonestService.cs" />
     <Compile Include="Implementation\LastfmPlaylistService.cs" />
     <Compile Include="Implementation\LastfmService.cs" />
+    <Compile Include="Implementation\VkontakteService.cs" />
     <Compile Include="Implementation\YoutubeService.cs" />
     <Compile Include="Interfaces\IAccountService.cs" />
     <Compile Include="Interfaces\ICacheService.cs" />
@@ -152,6 +154,7 @@
     <Compile Include="Interfaces\IPlaylistService.cs" />
     <Compile Include="Interfaces\IStationService.cs" />
     <Compile Include="Implementation\PlaylistService.cs" />
+    <Compile Include="Interfaces\IVkontakteService.cs" />
     <Compile Include="Interfaces\IYoutubeService.cs" />
     <Compile Include="LastfmExt\ExtendArtistApi.cs" />
     <Compile Include="LastfmExt\LastfmConfig.cs" />
@@ -162,6 +165,10 @@
     <ProjectReference Include="..\..\Hqub.Mellody.Poco\Hqub.Mellody.Poco.csproj">
       <Project>{cda42fe1-a32f-4195-9eab-b69c47870e99}</Project>
       <Name>Hqub.Mellody.Poco</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\vkapi\Hqub.Mellowave.Vkontakte.API\Hqub.Mellowave.Vkontakte.API.csproj">
+      <Project>{2731a412-d568-4c1c-b407-406dfe69ef4d}</Project>
+      <Name>Hqub.Mellowave.Vkontakte.API</Name>
     </ProjectReference>
     <ProjectReference Include="..\Hqub.Mellody.Music.Store\Hqub.Mellody.Music.Store.csproj">
       <Project>{65d5324a-5b10-43a7-9c80-741eb7b5a738}</Project>

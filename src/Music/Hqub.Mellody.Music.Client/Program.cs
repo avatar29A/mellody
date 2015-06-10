@@ -24,7 +24,7 @@ namespace Hqub.Mellody.Music.Client
 //            CreateTracks();
 
 
-//            MellodyBotStart();
+            MellodyBotStart();
 //            TestGrammar();
 //            GetMyAudioRecords();
 //            SearchScorpions();
@@ -37,6 +37,11 @@ namespace Hqub.Mellody.Music.Client
 
 
             Console.ReadKey();
+        }
+
+        private static void ExportTrackListFromCloudServices()
+        {
+            var configure = new ConfigureService();
         }
 
         private static void TestEchonestStaticPlaylist()
@@ -60,7 +65,6 @@ namespace Hqub.Mellody.Music.Client
         {
             return Regex.Replace(name, "[^\\w\\d]", string.Empty).Trim().ToLower();
         }
-
 
         private static void UnhandledExceptionTrapper(object sender, UnhandledExceptionEventArgs e)
         {
@@ -105,7 +109,6 @@ namespace Hqub.Mellody.Music.Client
             Console.ResetColor();
         }
         
-
         public static void TestGrammar()
         {
             var fabrica = new CommandFactory();
@@ -181,7 +184,6 @@ namespace Hqub.Mellody.Music.Client
 
             Console.WriteLine("Message send with ID: {0}", response);
         }
-
 
         public static void GetMyAudioRecords()
         {
@@ -269,9 +271,9 @@ namespace Hqub.Mellody.Music.Client
 
         public static string GetToken()
         {
-            var authConfigure = Music.Helpers.ConfigureHelper.GetAuthConfigure();
+            var authConfigure = Helpers.ConfigureHelper.GetAuthConfigure();
 
-            var r = Music.Utilities.PythonInvoker.Execute(authConfigure.PythonPath, new List<string>
+            var r = Utilities.PythonInvoker.Execute(authConfigure.PythonPath, new List<string>
             {
                 authConfigure.ScriptName,
                 authConfigure.AppId,

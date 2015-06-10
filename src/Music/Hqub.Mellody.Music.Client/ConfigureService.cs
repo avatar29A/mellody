@@ -4,6 +4,11 @@ namespace Hqub.Mellody.Music.Client
 {
     public class ConfigureService : Services.IConfigurationService
     {
+        public PythonConfigureSection GetVkontakteAuthConfig()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public LastfmConfigureSection GetLastfmConfig()
         {
             var config = (LastfmConfigureSection)

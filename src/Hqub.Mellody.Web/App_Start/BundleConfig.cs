@@ -49,6 +49,9 @@ namespace Hqub.Mellody.Web
             bundles.Add(new ScriptBundle("~/bundles/select2")
                 .Include("~/Scripts/select2/select2.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/jplayer")
+                .Include("~/Scripts/jplayer/jquery.jplayer.min.js"));
+
 #if DEBUG
             BundleTable.EnableOptimizations = false;
 #else
